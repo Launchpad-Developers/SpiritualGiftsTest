@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="SpiritualGiftsTest.Views.Settings.SettingsPage"
+             xmlns:c="clr-namespace:SpiritualGiftsTest.Controls;assembly=SpiritualGiftsTest.Maui"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:cmp="clr-namespace:Microsoft.Maui.Controls.Compatibility;assembly=Microsoft.Maui.Controls"
+             ios:NavigationPage.HideNavigationBarSeparator="true"
+             NavigationPage.HasBackButton="False"
+             FlowDirection="{Binding FlowDirection}">
+    
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">
+            <ImageButton x:Name="BackArrow"
+                         HorizontalOptions="Start"
+                         VerticalOptions="CenterAndExpand"
+                         WidthRequest="50"
+                         HeightRequest="25"
+                         BackgroundColor="Transparent"
+                         Source="{StaticResource BackArrow}"
+                         Command="{Binding NavButtonCommand}" />
+            <c:TitleLabel NewStyle="{StaticResource NavTitleLabelStyle}"
+                          HorizontalOptions="Fill"
+                          FlowDirection="{Binding FlowDirection}"
+                          LabelText="{Binding PageTopic}" />
+            <ImageButton x:Name="BackArrowRight"
+                         HorizontalOptions="End"
+                         VerticalOptions="CenterAndExpand"
+                         WidthRequest="50"
+                         HeightRequest="25"
+                         BackgroundColor="Transparent"
+                         IsVisible="False"
+                         IsEnabled="False"
+                         Source="{StaticResource BackArrowRight}"
+                         Command="{Binding NavButtonCommand}" />
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>            
+            <Style TargetType="ListView">
+                <Setter Property="SeparatorColor" Value="Transparent" />
+                <Setter Property="SeparatorVisibility" Value="None" />
+                <Setter Property="RowHeight" Value="35" />
+                <Setter Property="HasUnevenRows" Value="True" />
+                <Setter Property="SeparatorVisibility" Value="Default" />
+                <Setter Property="SeparatorColor" Value="LightGray" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="Gray" />
+            </Style>
+            <Style TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+            </Style>
+            <Style TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="Padding" Value="20, 10" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <cmp:RelativeLayout>
+            
+            <Image Source="mainpagebackground"
+                   VerticalOptions="FillAndExpand"
+                   HorizontalOptions="FillAndExpand"
+                   Aspect="Fill"
+                   cmp:RelativeLayout.XConstraint="0"
+                   cmp:RelativeLayout.YConstraint="0"
+                   cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                   cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}" />
+
+            <ScrollView cmp:RelativeLayout.XConstraint="0"
+                        cmp:RelativeLayout.YConstraint="40"
+                        cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                        cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-40}">
+
+                <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Margin="0,100,0,0">
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding ParallelMode}"
+                               HorizontalOptions="StartAndExpand"
+                               TextColor="Black"
+                               Margin="{OnIdiom Phone='30,0', Tablet='60,0'}"
+                               IsEnabled="{Binding IsTablet}" />
+                        <Switch x:Name="ParallelMode"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                Margin="{OnIdiom Phone='30,0', Tablet='60,0'}"
+                                IsToggled="{Binding IsParallel, Mode=TwoWay}"
+                                IsEnabled="{Binding IsTablet}" />
+                    </StackLayout>
+                    <Label Text="{Binding TabletRequired}"
+                           TextColor="Red"
+                           FontSize="Micro"
+                           Margin="{OnIdiom Phone='30,-10,30,50', Tablet='60,-10,60,100'}"
+                           IsVisible="{Binding IsTablet, Converter={StaticResource NegatedConverter}}" />
+                    <BoxView HeightRequest="0.5" HorizontalOptions="FillAndExpand" Margin="0" />
+
+                    <c:ASLabelCell x:Name="StudentLanguage"
+                                   Title="{Binding PrimaryLanguageTitle}"
+                                   Detail="{Binding SelectedLanguage.CodeOptionTranslation}"
+                                   Tapped="PrimaryLanguageTapped" />
+                    <BoxView HeightRequest="0.5" HorizontalOptions="FillAndExpand" Margin="0" IsVisible="{Binding IsParallel}" />
+
+                    <c:ASLabelCell x:Name="TeacherLanguage"
+                                   Title="{Binding ParallelLanguageTitle}"
+                                   Detail="{Binding SelectedParallelLanguage.CodeOptionTranslation}"
+                                   IsVisible="{Binding IsParallel}" 
+                                   Tapped="ParallelLanguageTapped" />
+
+                </StackLayout>
+            </ScrollView>
+
+            <ContentView x:Name="actIndBackground"
+                         BackgroundColor="#222222" Opacity="0.65"
+                         cmp:RelativeLayout.XConstraint="0"
+                         cmp:RelativeLayout.YConstraint="0"
+                         cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                         cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                         IsVisible="{Binding IsLoading}">
+            </ContentView>
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding IsLoading}"
+                         cmp:RelativeLayout.WidthConstraint="300"
+                         cmp:RelativeLayout.HeightConstraint="100"
+                         cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-150}"
+                         cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-50}">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
+            
+            <Picker x:Name="PrimaryLanguagePicker"
+                    Title="{Binding PrimaryLanguageTitle}"
+                    SelectedItem="{Binding SelectedPrimaryLanguage}"
+                    ItemsSource="{Binding PrimaryLanguageOptions}"
+                    IsVisible="false"
+                    ItemDisplayBinding="{Binding CodeOptionTranslation}"
+                    ios:Picker.UpdateMode="WhenFinished" />
+            
+            <Picker x:Name="ParallelLanguagePicker"
+                    Title="{Binding ParallelLanguageTitle}"
+                    SelectedItem="{Binding SelectedParallelLanguage}"
+                    ItemsSource="{Binding ParallelLanguageOptions}"
+                    IsVisible="false"
+                    ItemDisplayBinding="{Binding CodeOptionTranslation}"
+                    ios:Picker.UpdateMode="WhenFinished" />
+
+        </cmp:RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

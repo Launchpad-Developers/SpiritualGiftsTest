@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpiritualGiftsTest.Views.Welcome.WelcomePage"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:cmp="clr-namespace:Microsoft.Maui.Controls.Compatibility;assembly=Microsoft.Maui.Controls"
+             ios:NavigationPage.HideNavigationBarSeparator="true"
+             FlowDirection="{Binding FlowDirection}">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" FlowDirection="LeftToRight" BackgroundColor="Transparent">
+            <ImageButton HorizontalOptions="Start"
+                         VerticalOptions="CenterAndExpand"
+                         WidthRequest="50"
+                         HeightRequest="25"
+                         BackgroundColor="Transparent"
+                         IsVisible="{Binding ShowControls}"
+                         Source="{StaticResource Settings}"
+                         Command="{Binding OpenSettings}"/>
+            <c:TitleLabel NewStyle="{StaticResource NavTitleLabelStyle}"
+                          HorizontalOptions="FillAndExpand"
+                          LabelText="{Binding PageTopic}"
+                          FlowDirection="{Binding FlowDirection}" />
+            <ImageButton HorizontalOptions="End"
+                         VerticalOptions="CenterAndExpand"
+                         BackgroundColor="Transparent"
+                         WidthRequest="50"
+                         HeightRequest="25"
+                         IsVisible="{Binding ShowControls}"
+                         Source="{StaticResource Info}"
+                         Command="{Binding OpenInfo}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <cmp:RelativeLayout>
+
+            <Image Source="mainpagebackground"
+                   VerticalOptions="FillAndExpand"
+                   HorizontalOptions="FillAndExpand"
+                   Aspect="Fill"
+                   cmp:RelativeLayout.XConstraint="0"
+                   cmp:RelativeLayout.YConstraint="0"
+                   cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                   cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}" />
+
+            <c:ScriptureView x:Name="scriptureView"
+                             VerseSource="{Binding VerseSource}"
+                             cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.3}"
+                             IsVisible="{Binding ShowControls}" />
+
+            <c:NavButton Command="{Binding NavButtonCommand}"
+                         HorizontalOptions="Center"
+                         NextPage="{Binding NextPage}"
+                         cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.85}"
+                         cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-100}"
+                         IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}" />
+
+            <ContentView x:Name="loadingBackground"
+                         BackgroundColor="#222222" Opacity="0.65"
+                         cmp:RelativeLayout.XConstraint="0"
+                         cmp:RelativeLayout.YConstraint="0"
+                         cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                         cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                         IsVisible="{Binding IsLoading}">
+            </ContentView>
+
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding IsLoading}"
+                         cmp:RelativeLayout.WidthConstraint="300"
+                         cmp:RelativeLayout.HeightConstraint="100"
+                         cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-150}"
+                         cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-50}">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
+
+            <ContentView x:Name="instructableBackground"
+                         BackgroundColor="#222222" Opacity="0.85"
+                         cmp:RelativeLayout.XConstraint="0"
+                         cmp:RelativeLayout.YConstraint="0"
+                         cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                         cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                         IsVisible="{Binding ShowInstructable}">
+            </ContentView>
+
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding ShowInstructable}"
+                         cmp:RelativeLayout.WidthConstraint="{OnIdiom Phone='300', Tablet='500'}"
+                         cmp:RelativeLayout.HeightConstraint="{OnIdiom Phone='500', Tablet='700'}"
+                         cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant={OnIdiom Phone='-150', Tablet='-250'}}"
+                         cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant={OnIdiom Phone='-250', Tablet='-150'}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="33*" />
+                        <ColumnDefinition Width="34*" />
+                        <ColumnDefinition Width="33*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding TapTo}"
+                           Style="{StaticResource InstructableLabelStyle}"
+                           Grid.Row="0"/>
+
+                    <StackLayout Grid.Row="1"
+                                 Grid.Column="0"
+                                 Margin="10,0,0,0" 
+                                 HorizontalOptions="Start" 
+                                 Orientation="Horizontal" 
+                                 HeightRequest="96">
+                        <Image Source="{StaticResource NavLeftWhite}"
+                               HeightRequest="{OnIdiom Phone='75', Tablet='150'}"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               Aspect="AspectFit" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="1"
+                                 Grid.Column="1"
+                                 HorizontalOptions="Center" 
+                                 Orientation="Horizontal" 
+                                 HeightRequest="96">
+                        <Image Source="{StaticResource Swipe}"
+                               HeightRequest="{OnIdiom Phone='50', Tablet='100'}"
+                               Margin="0,25,0,0"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"
+                               Aspect="AspectFit" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="1"
+                                 Grid.Column="2"
+                                 Margin="0,0,10,0" 
+                                 HorizontalOptions="End" 
+                                 Orientation="Horizontal" 
+                                 HeightRequest="96">
+                        <Image Source="{StaticResource NavRightWhite}"
+                               HeightRequest="{OnIdiom Phone='75', Tablet='150'}"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"
+                               Aspect="AspectFit" />
+                    </StackLayout>
+
+                    <Label Text="{Binding Navigate}"
+                           Style="{StaticResource InstructableLabelStyle}" 
+                           Grid.Row="2" />
+                    <c:ConfirmButton Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+                                     Command="{Binding ConfirmCommand}"
+                                     NextPage="{Binding NextPage}"/>
+                </Grid>
+            </StackLayout>
+        </cmp:RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>
