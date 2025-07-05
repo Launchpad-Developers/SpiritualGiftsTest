@@ -3,7 +3,7 @@ using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.Views.Reporting;
 
-public class ReportingViewModel : BaseViewModel
+public partial class ReportingViewModel : BaseViewModel
 {
     public ReportingViewModel(
         IAggregatedServices aggregatedServices,

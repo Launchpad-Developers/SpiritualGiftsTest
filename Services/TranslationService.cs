@@ -1,4 +1,5 @@
-﻿using SpiritualGiftsTest.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SpiritualGiftsTest.Helpers;
 using SpiritualGiftsTest.Models;
 
 namespace SpiritualGiftsTest.Services;
@@ -34,7 +35,7 @@ public interface ITranslationService
     Task<bool> SetParallelLanguageForCode(TranslationOptionModel current);
 }
 
-public class TranslationService : ITranslationService
+public partial class TranslationService : ObservableObject, ITranslationService
 {
     private IDatabaseService _databaseService { get; }
     private readonly IPreferences _prefs;
@@ -74,11 +75,17 @@ public class TranslationService : ITranslationService
     }
 
 
-    public TranslationModel PrimaryLanguage { get; private set; }
-    public TranslationModel ParallelLanguage { get; private set; }
+    [ObservableProperty]
+    private TranslationModel primaryLanguage = new();
 
-    public IEnumerable<TranslationOptionModel> PrimaryTranslationOptions { get; private set; }
-    public IEnumerable<TranslationOptionModel> ParallelTranslationOptions { get; private set; }
+    [ObservableProperty]
+    private TranslationModel parallelLanguage = new();
+
+    [ObservableProperty]
+    private IEnumerable<TranslationOptionModel> primaryTranslationOptions = new List<TranslationOptionModel>();
+
+    [ObservableProperty]
+    private IEnumerable<TranslationOptionModel> parallelTranslationOptions = new List<TranslationOptionModel>();
 
     public async Task<bool> SetPrimaryLanguageForCode(TranslationOptionModel current)
     {
@@ -105,12 +112,20 @@ public class TranslationService : ITranslationService
 
     public async Task<bool> InitializeLanguages()
     {
-        PrimaryLanguage = await _databaseService.GetTranslationForCode(PrimaryLanguageCode);
-        ParallelLanguage = await _databaseService.GetTranslationForCode(ParallelLanguageCode);
+        var primaryLanguage = await _databaseService.GetTranslationForCode(PrimaryLanguageCode);
+        var parallelLanguage = await _databaseService.GetTranslationForCode(ParallelLanguageCode);
+
+        if (primaryLanguage == null || parallelLanguage == null)
+        {
+            return false; // Handle null cases explicitly
+        }
+
+        PrimaryLanguage = primaryLanguage;
+        ParallelLanguage = parallelLanguage;
 
         PrimaryTranslationOptions = _databaseService.GetCurrentTranslationOptions(PrimaryLanguageCode);
         ParallelTranslationOptions = _databaseService.GetCurrentTranslationOptions(ParallelLanguageCode);
 
-        return PrimaryLanguage != null;
+        return true;
     }
 }

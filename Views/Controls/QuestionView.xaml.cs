@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using SpiritualGiftsTest.ViewModels;
+﻿using SpiritualGiftsTest.Models;
 
 namespace SpiritualGiftsTest.Views.Controls
 {

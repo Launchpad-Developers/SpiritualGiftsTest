@@ -8,8 +8,8 @@
     <!-- single tap recognizer wired to your Command DP -->
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer
-        Command="{Binding Command, Source={x:Reference Self}}"
-        CommandParameter="{Binding ., Source={x:Reference Self}}" />
+            Command="{Binding Command, Source={x:Reference Self}}"
+            CommandParameter="{Binding ., Source={x:Reference Self}}" />
     </ContentView.GestureRecognizers>
 
     <Grid
@@ -57,7 +57,7 @@
             VerticalOptions="Center"
             HorizontalOptions="End"
             FontSize="{OnIdiom Phone=14, Tablet=20}"
-        LineBreakMode="WordWrap" />
+            LineBreakMode="WordWrap" />
 
         <!-- Chevron, hidden in read‐only mode -->
         <ImageButton

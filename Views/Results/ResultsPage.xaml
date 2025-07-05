@@ -8,6 +8,7 @@
     xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     ios:NavigationPage.HideNavigationBarSeparator="true"
+    x:DataType="vm:ResultsViewModel"
     NavigationPage.HasBackButton="False"
     FlowDirection="{Binding FlowDirection}">
 

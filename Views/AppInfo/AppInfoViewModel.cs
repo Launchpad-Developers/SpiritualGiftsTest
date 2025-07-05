@@ -1,23 +1,23 @@
-﻿using SpiritualGiftsTest.Services;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.AppInfo;
 
-public class AppInfoViewModel : BaseViewModel
+public partial class AppInfoViewModel : BaseViewModel
 {
     public AppInfoViewModel(
         IAggregatedServices aggregatedServices,
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
-		EmailCommand = new Command<string>(OnEmailCommand);
-
         Initialize();
     }
 
-	public ICommand EmailCommand { get; }
-    
-    private async void OnEmailCommand(string emailAddress)
+
+    [RelayCommand]
+    private async Task OnEmailCommandAsync(string emailAddress)
 	{
         try
         {
@@ -61,52 +61,24 @@ public class AppInfoViewModel : BaseViewModel
 		    }
     }
 
-    private string _createdBy = string.Empty;
-    public string CreatedBy
-    {
-        get => _createdBy;
-        set { _createdBy = value; OnPropertyChanged(nameof(CreatedBy)); }
-    }
+    [ObservableProperty]
+    private string createdBy = string.Empty;
 
-    private string _revLong = string.Empty;
-    public string RevLong
-    {
-        get => _revLong;
-        set { _revLong = value; OnPropertyChanged(nameof(RevLong)); }
-    }
+    [ObservableProperty]
+    private string revLong = string.Empty;
 
-    private string _revLongEmail = string.Empty;
-    public string RevLongEmail
-    {
-        get => _revLongEmail;
-        set { _revLongEmail = value; OnPropertyChanged(nameof(RevLongEmail)); }
-    }
+    [ObservableProperty]
+    private string revLongEmail = string.Empty;
 
-    private string _developedBy = string.Empty;
-    public string DevelopedBy
-    {
-        get => _developedBy;
-        set { _developedBy = value; OnPropertyChanged(nameof(DevelopedBy)); }
-    }
+    [ObservableProperty]
+    private string developedBy = string.Empty;
 
-    private string _revSmith = string.Empty;
-    public string RevSmith
-    {
-        get => _revSmith;
-        set { _revSmith = value; OnPropertyChanged(nameof(RevSmith)); }
-    }
+    [ObservableProperty]
+    private string revSmith = string.Empty;
 
-    private string _revSmithEmail = string.Empty;
-    public string RevSmithEmail
-    {
-        get => _revSmithEmail;
-        set { _revSmithEmail = value; OnPropertyChanged(nameof(RevSmithEmail)); }
-    }
+    [ObservableProperty]
+    private string revSmithEmail = string.Empty;
 
-    private string _launchpad = string.Empty;
-    public string Launchpad
-    {
-        get => _launchpad;
-        set { _launchpad = value; OnPropertyChanged(nameof(Launchpad)); }
-    }
+    [ObservableProperty]
+    private string launchpad = string.Empty;
 }

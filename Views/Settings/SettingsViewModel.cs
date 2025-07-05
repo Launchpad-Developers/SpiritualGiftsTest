@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsTest.Messages;
 using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
@@ -6,7 +7,7 @@ using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.Views.Settings;
 
-public class SettingsViewModel : BaseViewModel
+public partial class SettingsViewModel : BaseViewModel
 {
     public SettingsViewModel(
         IAggregatedServices aggregatedServices,
@@ -16,76 +17,49 @@ public class SettingsViewModel : BaseViewModel
         InitializeData();
     }
 
-    private string _header = string.Empty;
-    public string Header
-    {
-        get => _header;
-        set { _header = value; OnPropertyChanged(nameof(Header)); }
-    }
+    [ObservableProperty]
+    private string header = string.Empty;
+
+    [ObservableProperty]
+    private string tabletRequired = string.Empty;
+
+    [ObservableProperty]
+    private string parallelMode = string.Empty;
+
+    [ObservableProperty]
+    private string primaryLanguageTitle = string.Empty;
+
+    [ObservableProperty]
+    private string parallelLanguageTitle = string.Empty;
+
+    [ObservableProperty]
+    private TranslationOptionModel selectedLanguage = new();
+
+    [ObservableProperty]
+    private TranslationOptionModel selectedParallelLanguage = new();
 
     public List<TranslationOptionModel> PrimaryLanguageOptions { get; set; }
         = new List<TranslationOptionModel>();
-
-    private TranslationOptionModel _selectedPrimaryLanguage = default!;
-    public TranslationOptionModel SelectedPrimaryLanguage
-    {
-        get => _selectedPrimaryLanguage;
-        set
-        {
-            if (value == null || _selectedPrimaryLanguage == value) return;
-            _selectedPrimaryLanguage = value;
-            LanguageChanged();
-        }
-    }
-
     public List<TranslationOptionModel> ParallelLanguageOptions { get; set; }
         = new List<TranslationOptionModel>();
 
-    private TranslationOptionModel _selectedParallelLanguage = default!;
-    public TranslationOptionModel SelectedParallelLanguage
+    partial void OnSelectedLanguageChanged(TranslationOptionModel value)
     {
-        get => _selectedParallelLanguage;
-        set
-        {
-            if (value == null || _selectedParallelLanguage == value) return;
-            _selectedParallelLanguage = value;
-            ParallelLanguageChanged();
-        }
+        if (value == null) return;
+        LanguageChanged();
     }
 
-    private string _tabletRequired = string.Empty;
-    public string TabletRequired
+    partial void OnSelectedParallelLanguageChanged(TranslationOptionModel value)
     {
-        get { return _tabletRequired; }
-        set { _tabletRequired = value; OnPropertyChanged(nameof(TabletRequired)); }
-    }
-
-    private string _parallelMode = string.Empty;
-    public string ParallelMode
-    {
-        get { return _parallelMode; }
-        set { _parallelMode = value; OnPropertyChanged(nameof(ParallelMode)); }
-    }
-
-    private string _primaryLanguageTitle = string.Empty;
-    public string PrimaryLanguageTitle
-    {
-        get { return _primaryLanguageTitle; }
-        set { _primaryLanguageTitle = value; OnPropertyChanged(nameof(PrimaryLanguageTitle)); }
-    }
-
-    private string _parallelLanguageTitle = string.Empty;
-    public string ParallelLanguageTitle
-    {
-        get { return _parallelLanguageTitle; }
-        set { _parallelLanguageTitle = value; OnPropertyChanged(nameof(ParallelLanguageTitle)); }
+        if (value == null) return;
+        ParallelLanguageChanged();
     }
 
     private async void LanguageChanged()
     {
-        await TranslationService.SetPrimaryLanguageForCode(SelectedPrimaryLanguage);
+        await TranslationService.SetPrimaryLanguageForCode(SelectedLanguage);
 
-        WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(SelectedPrimaryLanguage));
+        WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(SelectedLanguage));
 
         await NavBack();
     }
@@ -116,7 +90,7 @@ public class SettingsViewModel : BaseViewModel
             if (option.CodeOption == TranslationService.PrimaryLanguageCode)
             {
                 option.Selected = true;
-                _selectedPrimaryLanguage = option;
+                SelectedLanguage = option;
             }
             
             PrimaryLanguageOptions.Add(option);
@@ -128,7 +102,7 @@ public class SettingsViewModel : BaseViewModel
             if (option.CodeOption == TranslationService.ParallelLanguageCode)
             {
                 option.Selected = true;
-                _selectedParallelLanguage = option;
+                SelectedParallelLanguage = option;
             }
 
             ParallelLanguageOptions.Add(option);
@@ -136,7 +110,7 @@ public class SettingsViewModel : BaseViewModel
 
         OnPropertyChanged(nameof(PrimaryLanguageOptions));
         OnPropertyChanged(nameof(ParallelLanguageOptions));
-        OnPropertyChanged(nameof(SelectedPrimaryLanguage));
+        OnPropertyChanged(nameof(SelectedLanguage));
         OnPropertyChanged(nameof(SelectedParallelLanguage));
 
         ParallelMode = lang.ParallelMode;

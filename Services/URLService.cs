@@ -1,4 +1,5 @@
-﻿using SpiritualGiftsTest.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Utilities;
 using System.Net;
 
@@ -6,13 +7,13 @@ namespace SpiritualGiftsTest.Services;
 
 public interface IURLService
 {
-    Task<string> GetFullDatabaseJson();
-    Task<string> GetRemoteDatabaseInfoJson();
-    Task<string> GetAllLanguageJson();
-    Task<string> GetLanguageCodeJson();
+    Task<string?> GetFullDatabaseJson();
+    Task<string?> GetRemoteDatabaseInfoJson();
+    Task<string?> GetAllLanguageJson();
+    Task<string?> GetLanguageCodeJson();
 }
 
-public class URLService : IURLService
+public partial class URLService : ObservableObject, IURLService
 {
     private HttpClient client { get; set; }
 
@@ -24,14 +25,11 @@ public class URLService : IURLService
         }
     }
 
+    //TODO Move to constants or secrets file
     public string BaseURL { get { return "https://only-one-name-2-default-rtdb.firebaseio.com/"; } }
 
-    private List<TranslationOptionModel> _languageCodes;
-	public List<TranslationOptionModel> LanguageCodes
-    {
-        get { return _languageCodes; }
-        private set { _languageCodes = value; }
-    }
+    [ObservableProperty]
+    private List<TranslationOptionModel> _languageCodes = new();
 
     public URLService()
     {
@@ -44,53 +42,53 @@ public class URLService : IURLService
         var access = Connectivity.Current.NetworkAccess;
 
         if (access != NetworkAccess.Internet)
-            return new Tuple<string, TitledException>(null, new TitledException("Error", "No Connection")); 
-        
+            return new Tuple<string, TitledException>(string.Empty, new TitledException("Error", "No Connection"));
+
         HttpResponseMessage response = await client.GetAsync(uri);
 
         if (response.IsSuccessStatusCode)
         {
             if (response.StatusCode <= 0)
             {
-                return new Tuple<string, TitledException>(null, new TitledException("Error", "Connection Lost"));                 
+                return new Tuple<string, TitledException>(string.Empty, new TitledException("Error", "Connection Lost"));
             }
             else if (response.StatusCode != HttpStatusCode.InternalServerError && response.StatusCode != HttpStatusCode.OK)
             {
                 var text = response.Content.ToString();
                 if (!string.IsNullOrEmpty(text))
                 {
-                    return new Tuple<string, TitledException>(null, new TitledException("Response Failed", $"{ response.StatusCode } - { text }"));
+                    return new Tuple<string, TitledException>(string.Empty, new TitledException("Response Failed", $"{response.StatusCode} - {text}"));
                 }
                 else
                 {
-                    return new Tuple<string, TitledException>(null, new TitledException("Error", "Connection Lost"));
+                    return new Tuple<string, TitledException>(string.Empty, new TitledException("Error", "Connection Lost"));
                 }
             }
             else if (response.StatusCode != HttpStatusCode.OK)
             {
-                return new Tuple<string, TitledException>(null, new TitledException("Error", "Connection Lost"));
+                return new Tuple<string, TitledException>(string.Empty, new TitledException("Error", "Connection Lost"));
             }
             else //Winner winner chicken dinner!
             {
-                var responseContent = response.Content.ReadAsStringAsync();
+                var responseContent = await response.Content.ReadAsStringAsync(); // Fix: Ensure responseContent is awaited and properly assigned.
 
-                if (String.IsNullOrEmpty(responseContent.ToString()) || responseContent.ToString().Contains("Error"))
+                if (string.IsNullOrEmpty(responseContent) || responseContent.Contains("Error")) // Fix: Use the awaited responseContent directly.
                 {
-                    return new Tuple<string, TitledException>(null, new TitledException("Error", $"Status Code: { response.StatusCode }\nContent:{ responseContent }"));
+                    return new Tuple<string, TitledException>(string.Empty, new TitledException("Error", $"Status Code: {response.StatusCode}\nContent:{responseContent}"));
                 }
                 else
                 {
-                    return new Tuple<string, TitledException>(responseContent.Result, null);
+                    return new Tuple<string, TitledException>(responseContent, default!);
                 }
             }
         }
         else
         {
-            return new Tuple<string, TitledException>(null, new TitledException("Error", $"Status Code: { response.StatusCode }\nContent:{ response.Content }"));
+            return new Tuple<string, TitledException>(string.Empty, new TitledException("Error", $"Status Code: {response.StatusCode}\nContent:{response.Content}"));
         }
     }
 
-	public async Task<string> GetFullDatabaseJson()
+	public async Task<string?> GetFullDatabaseJson()
     {
         var uri = new Uri($"{ BaseURL }.json");
         Tuple<string, TitledException> raw = await PostAuthorizedRequest(uri);
@@ -101,7 +99,7 @@ public class URLService : IURLService
 			return raw.Item1;
     }
 
-	public async Task<string> GetRemoteDatabaseInfoJson()
+	public async Task<string?> GetRemoteDatabaseInfoJson()
 	{
         var uri = new Uri($"{ BaseURL }DatabaseInfo/.json");
         Tuple<string, TitledException> raw = await PostAuthorizedRequest(uri);
@@ -112,7 +110,7 @@ public class URLService : IURLService
             return raw.Item1;
 	}
 
-	public async Task<string> GetAllLanguageJson()
+	public async Task<string?> GetAllLanguageJson()
 	{
 		var uri = new Uri($"{ BaseURL }Translations/.json");
         Tuple<string, TitledException> raw = await PostAuthorizedRequest(uri);
@@ -123,7 +121,7 @@ public class URLService : IURLService
 			return raw.Item1;
     }
 
-	public async Task<string> GetLanguageCodeJson()
+	public async Task<string?> GetLanguageCodeJson()
 	{
         var uri = new Uri($"{ BaseURL }TranslationOptions/.json");
         Tuple<string, TitledException> raw = await PostAuthorizedRequest(uri);
@@ -133,16 +131,4 @@ public class URLService : IURLService
 		else
 			return raw.Item1;
     }
-
-    //Unused
-	private async Task<string> GetLanguage(TranslationOptionModel option)
-    {
-        var uri = new Uri($"{ BaseURL }Languages/{ option }/.json");
-			Tuple<string, TitledException> raw = await PostAuthorizedRequest(uri);
-
-        if (raw.Item2 != null)
-            return null;
-        else
-            return raw.Item1;
-	}
 }

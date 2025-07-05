@@ -7,6 +7,7 @@
     xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Welcome;assembly=SpiritualGiftsTest"
     xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
     NavigationPage.HasBackButton="False"
+    x:DataType="vm:WelcomeViewModel"
     FlowDirection="{Binding FlowDirection}">
 
     <NavigationPage.TitleView>

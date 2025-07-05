@@ -3,7 +3,7 @@ using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.Views.Send;
 
-public class SendViewModel : BaseViewModel
+public partial class SendViewModel : BaseViewModel
 {
     public SendViewModel(
         IAggregatedServices aggregatedServices,

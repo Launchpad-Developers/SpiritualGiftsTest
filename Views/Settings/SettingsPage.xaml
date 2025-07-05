@@ -8,6 +8,7 @@
     xmlns:shared="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
     xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Settings;assembly=SpiritualGiftsTest"
     ios:NavigationPage.HideNavigationBarSeparator="true"
+    x:DataType="vm:SettingsViewModel"
     NavigationPage.HasBackButton="False"
     FlowDirection="{Binding FlowDirection}">
 

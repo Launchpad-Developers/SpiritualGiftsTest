@@ -6,6 +6,7 @@
     xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
     xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.AppInfo;assembly=SpiritualGiftsTest"
     xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    x:DataType="vm:AppInfoViewModel"
     NavigationPage.HasBackButton="False"
     FlowDirection="{Binding FlowDirection}">
 

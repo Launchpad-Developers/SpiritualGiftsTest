@@ -12,7 +12,7 @@ internal class TranslateExtension : IMarkupExtension
 
     private static readonly Lazy<ResourceManager> resmgr = new Lazy<ResourceManager>(() => new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly));
 
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
 
     public object ProvideValue(IServiceProvider serviceProvider)
     {

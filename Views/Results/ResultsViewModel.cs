@@ -3,7 +3,7 @@ using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.Views.Results;
 
-public class ResultsViewModel : BaseViewModel
+public partial class ResultsViewModel : BaseViewModel
 {
     public ResultsViewModel(
         IAggregatedServices aggregatedServices,

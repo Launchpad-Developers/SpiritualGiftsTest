@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsTest.Messages;
+using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 using System.Collections.ObjectModel;
@@ -7,30 +10,14 @@ using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.Welcome;
 
-public class WelcomeViewModel : BaseViewModel
+public partial class WelcomeViewModel : BaseViewModel
 {
-   
-
-
-    public ICommand GetStartedCommand { get; }
-
-    private void OnGetStarted()
-    {
-        // TODO: navigate to your next page, e.g.:
-        // await Application.Current.MainPage.Navigation.PushAsync(
-        //     new ContentPage() { Title = "Next" });
-    }
-
     private bool _databaseOK;
 
     public WelcomeViewModel(
         IAggregatedServices aggregatedServices, 
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
-        OpenInfo = new Command(OnOpenInfo);
-        OpenSettings = new Command(OnOpenSettings);
-        RetryUpdate = new Command(OnRetryUpdate);
-
         Languages = new ObservableCollection<string>();
 
         Title = "Welcome to the Spiritual Gifts Test";
@@ -41,83 +28,51 @@ public class WelcomeViewModel : BaseViewModel
             InitializePageAsync();
         });
 
-        _verseSource = new Tuple<string, string>(string.Empty, string.Empty);
-        _languages = new ObservableCollection<string>();
-
-        GetStartedCommand = new Command(OnGetStarted);
+        //Question = new Tuple<string, string>(string.Empty, string.Empty);
+        Languages = new ObservableCollection<string>();
 
         InitializePageAsync();
     }
 
-    public ICommand OpenInfo { get; }
-    public ICommand OpenSettings { get; }
-    public ICommand RetryUpdate { get; }
+    [ObservableProperty]
+    private string errorMessage = string.Empty;
 
-    private string _errorMessage = string.Empty;
-    public string ErrorMessage
+    [ObservableProperty]
+    private string tapTo = string.Empty;
+
+    [ObservableProperty]
+    private string navigate = string.Empty;
+
+    [ObservableProperty]
+    private string nextPage = string.Empty;
+
+    [ObservableProperty]
+    private QuestionViewModel question = new();
+
+    [ObservableProperty]
+    private ObservableCollection<string> languages = new();
+
+    [RelayCommand]
+    private void GetStarted()
     {
-        get { return _errorMessage; }
-        set { _errorMessage = value; OnPropertyChanged(nameof(ErrorMessage)); }
+        // TODO: navigate to your next page, e.g.:
+        // await Application.Current.MainPage.Navigation.PushAsync(
+        //     new ContentPage() { Title = "Next" });
     }
 
-    private bool _errorVisible;
-    public bool ErrorVisible
-    {
-        get { return _errorVisible; }
-        set { _errorVisible = value; OnPropertyChanged(nameof(ErrorVisible)); OnPropertyChanged(nameof(ShowControls)); }
-    }
-
-    public bool ShowControls
-    {
-        get { return !ErrorVisible && !IsLoading; }
-    }
-
-    private string _tapTo = string.Empty;
-    public string TapTo
-    {
-        get { return _tapTo; }
-        set { _tapTo = value; OnPropertyChanged(nameof(TapTo)); }
-    }
-
-    private string _navigate = string.Empty;
-    public string Navigate
-    {
-        get { return _navigate; }
-        set { _navigate = value; OnPropertyChanged(nameof(Navigate)); }
-    }
-
-    private string _nextPage = string.Empty;
-    public string NextPage
-    {
-        get { return _nextPage; }
-        set { _nextPage = value; OnPropertyChanged(nameof(NextPage)); }
-    }
-
-    private Tuple<string, string> _verseSource;
-    public Tuple<string, string> VerseSource
-    {
-        get { return _verseSource; }
-        set { _verseSource = value; OnPropertyChanged(nameof(VerseSource)); }
-    }
-
-    private ObservableCollection<string> _languages;
-    public ObservableCollection<string> Languages
-    {
-        get { return _languages; }
-        set { _languages = value; OnPropertyChanged(nameof(Languages)); }
-    }
-
-    private async void OnOpenInfo()
+    [RelayCommand]
+    private async Task OpenInfoAsync()
     {
         if (!IsLoading)
             await NavigationService.NavigateAsync("AppInfo");
     }
 
-    private async void OnOpenSettings()
+    [RelayCommand]
+    private async Task OpenSettingsAsync()
     {
         if (ErrorVisible)
         {
-            await NotifyUserAsync("Network Error", "Your device is not connected to the internet.  Language updates are not currently available.", "OK");
+            await NotifyUserAsync("Network Error", "Your device is not connected to the internet. Language updates are not currently available.", "OK");
             return;
         }
 
@@ -128,7 +83,8 @@ public class WelcomeViewModel : BaseViewModel
         }
     }
 
-    private void OnRetryUpdate()
+    [RelayCommand]
+    private void RetryUpdate()
     {
         InitializePageAsync();
     }
@@ -158,7 +114,7 @@ public class WelcomeViewModel : BaseViewModel
             FlowDirection = lang.LanguageTextDirection.Equals("RL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             LoadingText = lang.Loading;
             PageTopic = lang.BibleStudyTitle;
-            VerseSource = new Tuple<string, string>(lang.Acts412, lang.Acts412v);
+            //VerseSource = new Tuple<string, string>(lang.Acts412, lang.Acts412v);
             NavButtonText = lang.NavButtonBegin;
             _databaseOK = true;
             ConfirmButtonText = lang.GotIt;
