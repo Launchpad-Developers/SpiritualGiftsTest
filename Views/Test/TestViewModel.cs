@@ -1,25 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
-using SpiritualGiftsTest.Interfaces;
-using SpiritualGiftsTest.Models;
+﻿using SpiritualGiftsTest.Models;
+using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
+using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.Test;
 
 public class TestNavParameter
 {
     public int TargetPage { get; set; }
-    public string TargetPageTopic { get; set; }
+    public string TargetPageTopic { get; set; } = string.Empty;
 }
 
 public class TestViewModel : BaseViewModel
 {
-    protected string NextPage { get; set; }
+    protected string NextPage { get; set; } = string.Empty;
     public int PageNumber { get; set; }
 
-    public Dictionary<int, ContentView> ContentViews { get; set; }
+    public Dictionary<int, ContentView> ContentViews { get; set; } = new();
 
-    public TestViewModel(IAggregatedServices aggregatedServices) : base(aggregatedServices)
+    public TestViewModel(
+        IAggregatedServices aggregatedServices,
+        IPreferences preferences) : base(aggregatedServices, preferences)
     {
         LeaveStudyCommand = new Command(OnLeaveStudyCommand);
         NavigatedCommand = new Command<TestNavParameter>(OnNavigatedCommand);
@@ -32,7 +33,12 @@ public class TestViewModel : BaseViewModel
 
     private async void OnLeaveStudyCommand()
     {
-        var result = await Application.Current.MainPage.DisplayAlert(PrimaryLanguageTranslation.Quit, PrimaryLanguageTranslation.AreYouSure, PrimaryLanguageTranslation.Yes, PrimaryLanguageTranslation.No);
+        var result = await ConfirmUserAsync(
+            PrimaryLanguageTranslation.Quit,
+            PrimaryLanguageTranslation.AreYouSure,
+            PrimaryLanguageTranslation.Yes,
+            PrimaryLanguageTranslation.No);
+
         if (result)
             await NavBack();
     }
@@ -54,7 +60,7 @@ public class TestViewModel : BaseViewModel
         LoadingText = PrimaryLanguageTranslation.Loading;
     }
 
-    private TranslationModel _primaryLanguageTranslation;
+    private TranslationModel _primaryLanguageTranslation = new();
     public TranslationModel PrimaryLanguageTranslation
     {
         get { return _primaryLanguageTranslation; }
@@ -75,7 +81,7 @@ public class TestViewModel : BaseViewModel
         set { _showForwardNav = value; OnPropertyChanged(nameof(ShowForwardNav)); }
     }
 
-    private string _SpiritualGiftsTest;
+    private string _SpiritualGiftsTest = string.Empty;
     public string SpiritualGiftsTest
     {
         get { return _SpiritualGiftsTest; }

@@ -2,7 +2,7 @@
 <Application 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:c="clr-namespace:SpiritualGiftsTest.Controls;assembly=SpiritualGiftsTest.Maui"
+    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
     xmlns:converters="clr-namespace:SpiritualGiftsTest.Converters"
     xmlns:fonts="clr-namespace:SpiritualGiftsTest.Helpers.FontAwesome"
     x:Class="SpiritualGiftsTest.App">
@@ -136,7 +136,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="Margin" Value="20,0" />
             </Style>
             <Style x:Key="AppInfoLabel" TargetType="{x:Type Label}">
@@ -185,15 +185,15 @@
                 <Setter Property="FontSize" Value="36" />
                 <Setter Property="Grid.ColumnSpan" Value="3" />
             </Style>
-            <Style TargetType="c:RoundedLabel">
+            <Style TargetType="Label">
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="Margin" Value="0,0,0,20" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="CurvedBackgroundColor" Value="{StaticResource DarkGray}" />
-                <Setter Property="CornerRadius" Value="15" />
+                <!--<Setter Property="CurvedBackgroundColor" Value="{StaticResource DarkGray}" />
+                <Setter Property="CornerRadius" Value="15" />-->
                 <Setter Property="HeightRequest" Value="30" />
                 <Setter Property="WidthRequest" Value="175" />
             </Style>
@@ -208,19 +208,16 @@
                 <On Platform="Android" Value="100" />
             </OnPlatform>
 
-            <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="{StaticResource PageBody}" />
-            </Style>
-
             <Style TargetType="BoxView" x:Key="BottomSpacerStyle">
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryLight}" />
                 <Setter Property="VerticalOptions" Value="End" />
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HeightRequest" Value="50" />
                 <Setter Property="WidthRequest" Value="5" />
             </Style>
 
             <converters:NegatedConverter x:Key="NegatedConverter" />
+            <converters:RadiusToShapeConverter x:Key="RadiusToShape" />
 
         </ResourceDictionary>
     </Application.Resources>

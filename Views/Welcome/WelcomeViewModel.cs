@@ -1,5 +1,6 @@
-﻿using SpiritualGiftsTest.Interfaces;
-using SpiritualGiftsTest.Views.Settings;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsTest.Messages;
+using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -8,12 +9,8 @@ namespace SpiritualGiftsTest.Views.Welcome;
 
 public class WelcomeViewModel : BaseViewModel
 {
-    private string _title = "Welcome to the Spiritual Gifts Test";
-    public string Title
-    {
-        get => _title;
-        set => SetProperty(ref _title, value);
-    }
+   
+
 
     public ICommand GetStartedCommand { get; }
 
@@ -26,7 +23,9 @@ public class WelcomeViewModel : BaseViewModel
 
     private bool _databaseOK;
 
-    public WelcomeViewModel(IAggregatedServices aggregatedServices) : base(aggregatedServices)
+    public WelcomeViewModel(
+        IAggregatedServices aggregatedServices, 
+        IPreferences preferences) : base(aggregatedServices, preferences)
     {
         OpenInfo = new Command(OnOpenInfo);
         OpenSettings = new Command(OnOpenSettings);
@@ -34,10 +33,18 @@ public class WelcomeViewModel : BaseViewModel
 
         Languages = new ObservableCollection<string>();
 
-        MessagingCenter.Subscribe<SettingsViewModel>(this, "LanguageChanged", (sender) => {
+        Title = "Welcome to the Spiritual Gifts Test";
+
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
+        {
             _databaseOK = false;
             InitializePageAsync();
         });
+
+        _verseSource = new Tuple<string, string>(string.Empty, string.Empty);
+        _languages = new ObservableCollection<string>();
+
+        GetStartedCommand = new Command(OnGetStarted);
 
         InitializePageAsync();
     }
@@ -46,7 +53,7 @@ public class WelcomeViewModel : BaseViewModel
     public ICommand OpenSettings { get; }
     public ICommand RetryUpdate { get; }
 
-    private string _errorMessage;
+    private string _errorMessage = string.Empty;
     public string ErrorMessage
     {
         get { return _errorMessage; }
@@ -65,21 +72,21 @@ public class WelcomeViewModel : BaseViewModel
         get { return !ErrorVisible && !IsLoading; }
     }
 
-    private string _tapTo;
+    private string _tapTo = string.Empty;
     public string TapTo
     {
         get { return _tapTo; }
         set { _tapTo = value; OnPropertyChanged(nameof(TapTo)); }
     }
 
-    private string _navigate;
+    private string _navigate = string.Empty;
     public string Navigate
     {
         get { return _navigate; }
         set { _navigate = value; OnPropertyChanged(nameof(Navigate)); }
     }
 
-    private string _nextPage;
+    private string _nextPage = string.Empty;
     public string NextPage
     {
         get { return _nextPage; }
@@ -110,7 +117,7 @@ public class WelcomeViewModel : BaseViewModel
     {
         if (ErrorVisible)
         {
-            NotifyUserAsync("Network Error", "Your device is not connected to the internet.  Language updates are not currently available.", "OK");
+            await NotifyUserAsync("Network Error", "Your device is not connected to the internet.  Language updates are not currently available.", "OK");
             return;
         }
 
@@ -141,7 +148,7 @@ public class WelcomeViewModel : BaseViewModel
 
         if (lang == null)
         {
-            PageTopic = "Only One Name";
+            PageTopic = "Spiritual Gifts Test";
             ErrorMessage = "No Internet Connection \nNo Translations Available";
             NavButtonText = "Retry";
             ErrorVisible = true;

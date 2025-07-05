@@ -1,17 +1,22 @@
-﻿using SpiritualGiftsTest.Interfaces;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsTest.Messages;
 using SpiritualGiftsTest.Models;
+using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.Views.Settings;
 
 public class SettingsViewModel : BaseViewModel
 {
-    public SettingsViewModel(IAggregatedServices aggregatedServices) : base(aggregatedServices)
+    public SettingsViewModel(
+        IAggregatedServices aggregatedServices,
+        IPreferences preferences) 
+        : base(aggregatedServices, preferences)
     {
         InitializeData();
     }
 
-    private string _header;
+    private string _header = string.Empty;
     public string Header
     {
         get => _header;
@@ -19,7 +24,9 @@ public class SettingsViewModel : BaseViewModel
     }
 
     public List<TranslationOptionModel> PrimaryLanguageOptions { get; set; }
-    private TranslationOptionModel _selectedPrimaryLanguage;
+        = new List<TranslationOptionModel>();
+
+    private TranslationOptionModel _selectedPrimaryLanguage = default!;
     public TranslationOptionModel SelectedPrimaryLanguage
     {
         get => _selectedPrimaryLanguage;
@@ -32,7 +39,9 @@ public class SettingsViewModel : BaseViewModel
     }
 
     public List<TranslationOptionModel> ParallelLanguageOptions { get; set; }
-    private TranslationOptionModel _selectedParallelLanguage;
+        = new List<TranslationOptionModel>();
+
+    private TranslationOptionModel _selectedParallelLanguage = default!;
     public TranslationOptionModel SelectedParallelLanguage
     {
         get => _selectedParallelLanguage;
@@ -44,28 +53,28 @@ public class SettingsViewModel : BaseViewModel
         }
     }
 
-    private string _tabletRequired;
+    private string _tabletRequired = string.Empty;
     public string TabletRequired
     {
         get { return _tabletRequired; }
         set { _tabletRequired = value; OnPropertyChanged(nameof(TabletRequired)); }
     }
 
-    private string _parallelMode;
+    private string _parallelMode = string.Empty;
     public string ParallelMode
     {
         get { return _parallelMode; }
         set { _parallelMode = value; OnPropertyChanged(nameof(ParallelMode)); }
     }
 
-    private string _primaryLanguageTitle;
+    private string _primaryLanguageTitle = string.Empty;
     public string PrimaryLanguageTitle
     {
         get { return _primaryLanguageTitle; }
         set { _primaryLanguageTitle = value; OnPropertyChanged(nameof(PrimaryLanguageTitle)); }
     }
 
-    private string _parallelLanguageTitle;
+    private string _parallelLanguageTitle = string.Empty;
     public string ParallelLanguageTitle
     {
         get { return _parallelLanguageTitle; }
@@ -75,7 +84,9 @@ public class SettingsViewModel : BaseViewModel
     private async void LanguageChanged()
     {
         await TranslationService.SetPrimaryLanguageForCode(SelectedPrimaryLanguage);
-        MessagingCenter.Send(this, "LanguageChanged");
+
+        WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(SelectedPrimaryLanguage));
+
         await NavBack();
     }
 

@@ -1,13 +1,11 @@
 ﻿using SpiritualGiftsTest.Views.Shared;
 
-namespace SpiritualGiftsTest.Views.Welcome
+namespace SpiritualGiftsTest.Views.Welcome;
+
+public partial class WelcomePage : BasePage
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class WelcomePage : BasePage
+    public WelcomePage(WelcomeViewModel vm) : base(vm)
     {
-        public WelcomePage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

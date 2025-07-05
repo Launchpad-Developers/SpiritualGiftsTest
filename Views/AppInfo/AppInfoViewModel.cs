@@ -1,4 +1,4 @@
-﻿using SpiritualGiftsTest.Interfaces;
+﻿using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 using System.Windows.Input;
 
@@ -6,7 +6,9 @@ namespace SpiritualGiftsTest.Views.AppInfo;
 
 public class AppInfoViewModel : BaseViewModel
 {
-    public AppInfoViewModel(IAggregatedServices aggregatedServices) : base(aggregatedServices)
+    public AppInfoViewModel(
+        IAggregatedServices aggregatedServices,
+        IPreferences preferences) : base(aggregatedServices, preferences)
     {
 		EmailCommand = new Command<string>(OnEmailCommand);
 
@@ -21,8 +23,8 @@ public class AppInfoViewModel : BaseViewModel
         {
             var message = new EmailMessage
             {
-                Subject = "Only One Name",
-                Body = "Information for Only One Name Bible study.",
+                Subject = "Spiritual Gifts Test",
+                Body = "Information for Spiritual Gifts Test.",
                 To = new List<string>() { emailAddress }
             };
             await Email.ComposeAsync(message);
@@ -30,12 +32,14 @@ public class AppInfoViewModel : BaseViewModel
         catch (FeatureNotSupportedException fnsEx)
         {
             Analytics.TrackEvent("EmailNotSupported", new Dictionary<string, string>() { { "Message", fnsEx.Message } });
-            await Application.Current.MainPage.DisplayAlert("Email Error", "Email is not supported on this device.", "OK");
+
+            await NotifyUserAsync("Email Error", "Email is not supported on this device.", "OK");
         }
         catch (Exception ex)
         {
             Analytics.TrackEvent("EmailError", new Dictionary<string, string>() { { "Message", ex.Message } });
-            await Application.Current.MainPage.DisplayAlert("Email Error", ex.Message, "OK");
+
+            await NotifyUserAsync("Email Error", ex.Message, "OK");
         }
     }
 
@@ -45,64 +49,64 @@ public class AppInfoViewModel : BaseViewModel
 
 			if (lang != null)
 			{
-            PageTopic = lang.SpiritualGiftsTestTitle;
-            CreatedBy = lang.CreatedBy;
-            RevLong = lang.RevLong;
-            RevLongEmail = lang.RevLongEmail;
-            DevelopedBy = lang.DevelopedBy;
-            RevSmith = lang.RevSmith;
-            RevSmithEmail = lang.RevSmithEmail;
-            AppSmiths = lang.AppsmithsLLC;
-            FlowDirection = lang.LanguageTextDirection.Equals("RL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-		}
+                PageTopic = lang.SpiritualGiftsTestTitle;
+                CreatedBy = lang.CreatedBy;
+                RevLong = lang.RevLong;
+                RevLongEmail = lang.RevLongEmail;
+                DevelopedBy = lang.DevelopedBy;
+                RevSmith = lang.RevSmith;
+                RevSmithEmail = lang.RevSmithEmail;
+                Launchpad = lang.AppsmithsLLC;
+                FlowDirection = lang.LanguageTextDirection.Equals("RL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+		    }
     }
 
-    private string _createdBy;
+    private string _createdBy = string.Empty;
     public string CreatedBy
     {
         get => _createdBy;
         set { _createdBy = value; OnPropertyChanged(nameof(CreatedBy)); }
     }
 
-    private string _revLong;
+    private string _revLong = string.Empty;
     public string RevLong
     {
         get => _revLong;
         set { _revLong = value; OnPropertyChanged(nameof(RevLong)); }
     }
 
-    private string _revLongEmail;
+    private string _revLongEmail = string.Empty;
     public string RevLongEmail
     {
         get => _revLongEmail;
         set { _revLongEmail = value; OnPropertyChanged(nameof(RevLongEmail)); }
     }
 
-    private string _developedBy;
+    private string _developedBy = string.Empty;
     public string DevelopedBy
     {
         get => _developedBy;
         set { _developedBy = value; OnPropertyChanged(nameof(DevelopedBy)); }
     }
 
-    private string _revSmith;
+    private string _revSmith = string.Empty;
     public string RevSmith
     {
         get => _revSmith;
         set { _revSmith = value; OnPropertyChanged(nameof(RevSmith)); }
     }
 
-    private string _revSmithEmail;
+    private string _revSmithEmail = string.Empty;
     public string RevSmithEmail
     {
         get => _revSmithEmail;
         set { _revSmithEmail = value; OnPropertyChanged(nameof(RevSmithEmail)); }
     }
 
-    private string _appsmiths;
-    public string AppSmiths
+    private string _launchpad = string.Empty;
+    public string Launchpad
     {
-        get => _appsmiths;
-        set { _appsmiths = value; OnPropertyChanged(nameof(AppSmiths)); }
+        get => _launchpad;
+        set { _launchpad = value; OnPropertyChanged(nameof(Launchpad)); }
     }
 }

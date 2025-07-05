@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpiritualGiftsTest.Views.Controls.TitleLabel">
+    <ContentView.Content>
+        <Grid>
+            <Label x:Name="titleLabel" FontFamily="{StaticResource Title}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

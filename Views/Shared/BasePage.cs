@@ -1,14 +1,14 @@
 ﻿namespace SpiritualGiftsTest.Views.Shared;
 
-public abstract class BasePage<TViewModel> : ContentPage
-    where TViewModel : BaseViewModel
+public partial class BasePage : ContentPage
 {
-    protected TViewModel ViewModel { get; }
+    protected BaseViewModel ViewModel { get; }
 
-    protected BasePage(TViewModel viewModel)
+    protected BasePage(BaseViewModel viewModel)
     {
         ViewModel = viewModel;
         BindingContext = viewModel;
     }
 }
+
 

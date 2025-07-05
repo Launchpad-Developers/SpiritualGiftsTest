@@ -1,14 +1,23 @@
-﻿namespace SpiritualGiftsTest;
+﻿using SpiritualGiftsTest.Resources;
+using SpiritualGiftsTest.Views.Welcome;
+
+namespace SpiritualGiftsTest;
 
 public partial class App : Application
 {
-    public App()
+    public App(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        AppResources.Culture = CrossMultilingual.Current.DeviceCultureInfo;
 
-        var navPage = new NavigationPage(new Views.Welcome.WelcomePage());
-        MainPage = navPage;
+        Services = serviceProvider;
+    }
+    public IServiceProvider Services { get; }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        var welcomePage = Services.GetRequiredService<WelcomePage>();
+        var navPage = new NavigationPage(welcomePage);
+        return new Window(navPage);
     }
 
     protected override void OnStart()

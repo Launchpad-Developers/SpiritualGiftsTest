@@ -1,11 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SpiritualGiftsTest.Interfaces;
 using SpiritualGiftsTest.Models;
 using SQLite;
 using System.Text.RegularExpressions;
 
 namespace SpiritualGiftsTest.Services;
+public interface IDatabaseService
+{
+    Task<TranslationModel> GetTranslationForCode(string code);
+    IEnumerable<TranslationOptionModel> GetCurrentTranslationOptions(string languageCode);
+}
 
 public class DatabaseService : IDatabaseService
 {

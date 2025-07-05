@@ -1,10 +1,16 @@
-﻿using SpiritualGiftsTest.Interfaces;
-using SpiritualGiftsTest.Models;
+﻿using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Utilities;
-using Plugin.Connectivity;
 using System.Net;
 
 namespace SpiritualGiftsTest.Services;
+
+public interface IURLService
+{
+    Task<string> GetFullDatabaseJson();
+    Task<string> GetRemoteDatabaseInfoJson();
+    Task<string> GetAllLanguageJson();
+    Task<string> GetLanguageCodeJson();
+}
 
 public class URLService : IURLService
 {
@@ -35,7 +41,9 @@ public class URLService : IURLService
 
     private async Task<Tuple<string, TitledException>> PostAuthorizedRequest(Uri uri)
     {
-		if (!CrossConnectivity.Current.IsConnected)
+        var access = Connectivity.Current.NetworkAccess;
+
+        if (access != NetworkAccess.Internet)
             return new Tuple<string, TitledException>(null, new TitledException("Error", "No Connection")); 
         
         HttpResponseMessage response = await client.GetAsync(uri);

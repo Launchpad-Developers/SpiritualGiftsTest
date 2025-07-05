@@ -1,4 +1,4 @@
-using Plugin.Multilingual;
+using SpiritualGiftsTest.Resources;
 using System.Reflection;
 using System.Resources;
 
@@ -16,7 +16,7 @@ internal class TranslateExtension : IMarkupExtension
 
     public object ProvideValue(IServiceProvider serviceProvider)
     {
-        var ci = CrossMultilingual.Current.CurrentCultureInfo;
+        var ci = AppResources.Culture;
 
         var translation = resmgr.Value.GetString(Text, ci);
 

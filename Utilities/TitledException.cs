@@ -1,5 +1,4 @@
-﻿using System;
-namespace SpiritualGiftsTest.Utilities;
+﻿namespace SpiritualGiftsTest.Utilities;
 
 public class TitledException : Exception
 {

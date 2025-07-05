@@ -1,108 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="SpiritualGiftsTest.Views.Test.TestPage"
-             xmlns:cmp="clr-namespace:Microsoft.Maui.Controls.Compatibility;assembly=Microsoft.Maui.Controls"
-             xmlns:c="clr-namespace:SpiritualGiftsTest.Controls;assembly=SpiritualGiftsTest.Maui"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-             ios:NavigationPage.HideNavigationBarSeparator="true"
-             NavigationPage.HasBackButton="False"
-             FlowDirection="{Binding FlowDirection}">
-    
+<?xml version="1.0" encoding="UTF-8" ?>
+<views:BasePage  
+    x:Class="SpiritualGiftsTest.Views.Test.TestPage"  
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+    xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"  
+    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Settings;assembly=SpiritualGiftsTest"  
+    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:NavigationPage.HideNavigationBarSeparator="true"  
+    NavigationPage.HasBackButton="False"  
+    FlowDirection="{Binding FlowDirection}">
+
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">
-            <ImageButton x:Name="BackArrow"
-                         HorizontalOptions="Start"
-                         VerticalOptions="CenterAndExpand"
-                         WidthRequest="50"
-                         HeightRequest="25"
-                         BackgroundColor="Transparent"
-                         Source="{StaticResource BackArrow}"
-                         Command="{Binding NavButtonCommand}" />
-            <c:TitleLabel NewStyle="{StaticResource NavTitleLabelStyle}"
-                          HorizontalOptions="Fill"
-                          FlowDirection="{Binding FlowDirection}"
-                          LabelText="{Binding PageTopic}" />
-            <ImageButton x:Name="BackArrowRight"
-                         HorizontalOptions="End"
-                         VerticalOptions="CenterAndExpand"
-                         WidthRequest="50"
-                         HeightRequest="25"
-                         IsVisible="False"
-                         IsEnabled="False"
-                         BackgroundColor="Transparent"
-                         Source="{StaticResource BackArrowRight}"
-                         Command="{Binding NavButtonCommand}" />
+            <ImageButton 
+                x:Name="BackArrow"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                WidthRequest="50"
+                HeightRequest="25"
+                BackgroundColor="Transparent"
+                Source="{StaticResource BackArrow}"
+                Command="{Binding NavButtonCommand}" />
+            <c:TitleLabel 
+                NewStyle="{StaticResource NavTitleLabelStyle}"
+                HorizontalOptions="Fill"
+                FlowDirection="{Binding FlowDirection}"
+                LabelText="{Binding PageTopic}" />
+            <ImageButton 
+                x:Name="BackArrowRight"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                WidthRequest="50"
+                HeightRequest="25"
+                IsVisible="False"
+                IsEnabled="False"
+                BackgroundColor="Transparent"
+                Source="{StaticResource BackArrowRight}"
+                Command="{Binding NavButtonCommand}" />
         </StackLayout>
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
-        <AbsoluteLayout x:Name="MainLayout"
-                        HorizontalOptions="StartAndExpand"
-                        VerticalOptions="StartAndExpand"
-                        Margin="0">
+        <Grid 
+            x:Name="MainLayout"
+            RowDefinitions="*,Auto">
 
-            <Image x:Name="BackgroundImage"
-                   Source="mainpagebackground"
-                   VerticalOptions="FillAndExpand"
-                   HorizontalOptions="FillAndExpand"
-                   Aspect="Fill"
-                   AbsoluteLayout.LayoutFlags="All"
-                   AbsoluteLayout.LayoutBounds="0,0,1,1" />
+            <!-- Background Image spans all rows -->
+            <Image 
+                x:Name="BackgroundImage"
+                Source="mainpagebackground"
+                Aspect="Fill"
+                Grid.RowSpan="2"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill" />
 
-            <cmp:RelativeLayout x:Name="NavLayout"
-                            IsVisible="False"
-                            AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds="0,0.9,1,0.1">
+            <!-- Navigation Layout -->
+            <Grid 
+                x:Name="NavLayout"
+                IsVisible="False"
+                Grid.Row="1"
+                ColumnDefinitions="Auto,*,Auto"
+                Padding="10"
+                BackgroundColor="Transparent">
 
-                <c:RoundedLabel x:Name="Pager"
-                                Text="{Binding PageOf}"
-                                Opacity="0.25"
-                                WidthRequest="150"
-                                HeightRequest="{OnIdiom Phone='30', Tablet='40'}"
-                                CornerRadius="{OnIdiom Phone='15', Tablet='20'}"
-                                cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.9, Constant={OnIdiom Phone=-15, Tablet=-20}}"
-                                cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-75}"/>
-                        
-                <c:ASImageButton x:Name="LeftButton"
-                                 WidthRequest="{OnIdiom Phone='50', Tablet='70'}"
-                                 HeightRequest="{OnIdiom Phone='50', Tablet='70'}"
-                                 CornerRadius="{OnIdiom Phone='25', Tablet='35'}"
-                                 Source="{StaticResource NavLeft}"
-                                 BackgroundColor="Transparent"
-                                 Clicked="ClickedLastPage"
-                                 Padding="10"
-                                 cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.9, Constant={OnIdiom Phone=-25, Tablet=-35}}"
-                                 cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.05}"/>
-            
-                <c:ASImageButton x:Name="RightButton"
-                                 WidthRequest="{OnIdiom Phone='50', Tablet='70'}"
-                                 HeightRequest="{OnIdiom Phone='50', Tablet='70'}"
-                                 CornerRadius="{OnIdiom Phone='25', Tablet='35'}"
-                                 Source="{StaticResource NavRight}"
-                                 BackgroundColor="Transparent"
-                                 Clicked="ClickedNextPage"
-                                 Padding="10"
-                                 cmp:RelativeLayout.YConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.9, Constant={OnIdiom Phone=-25, Tablet=-35}}"
-                                 cmp:RelativeLayout.XConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.95, Constant={OnIdiom Phone=-50, Tablet=-70}}"/>
+                <!-- Left Button -->
+                <ImageButton 
+                    Grid.Column="0"
+                    x:Name="LeftButton"
+                    WidthRequest="{OnIdiom Phone='50', Tablet='70'}"
+                    HeightRequest="{OnIdiom Phone='50', Tablet='70'}"
+                    CornerRadius="{OnIdiom Phone='25', Tablet='35'}"
+                    Source="{StaticResource NavLeft}"
+                    BackgroundColor="Transparent"
+                    Padding="10"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="Previous" />
 
-            </cmp:RelativeLayout>
-            
-            <ContentView x:Name="loadingBackground"
-                         BackgroundColor="#222222" Opacity="0.65"
-                         AbsoluteLayout.LayoutFlags="All"
-                         AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                <!-- Pager -->
+                <Border 
+                    Grid.Column="1"
+                    WidthRequest="150"
+                    HeightRequest="{OnIdiom Phone=30, Tablet=40}"
+                    Stroke="Gray"
+                    StrokeThickness="1"
+                    StrokeShape="{RoundRectangle CornerRadius={OnIdiom Phone=15, Tablet=20}}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Label 
+                        Text="{Binding PageOf}"
+                        Opacity="0.25"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                </Border>
 
-            <StackLayout x:Name="loadingMessage"
-                         Orientation="Vertical"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center"
-                         AbsoluteLayout.LayoutFlags="All"
-                         AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <!-- Right Button -->
+                <ImageButton 
+                    Grid.Column="2"
+                    x:Name="RightButton"
+                    WidthRequest="{OnIdiom Phone='50', Tablet='70'}"
+                    HeightRequest="{OnIdiom Phone='50', Tablet='70'}"
+                    CornerRadius="{OnIdiom Phone='25', Tablet='35'}"
+                    Source="{StaticResource NavRight}"
+                    BackgroundColor="Transparent"
+                    Padding="10"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="Next" />
+
+            </Grid>
+
+            <!-- Loading overlay background (covers entire Grid) -->
+            <ContentView 
+                x:Name="loadingBackground"
+                BackgroundColor="#222222"
+                Opacity="0.65"
+                IsVisible="True"
+                Grid.RowSpan="2" />
+
+            <!-- Loading message centered (covers entire Grid) -->
+            <StackLayout 
+                x:Name="loadingMessage"
+                Orientation="Vertical"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Grid.RowSpan="2">
                 <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
-                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+                <Label 
+                    Text="{Binding LoadingText}" 
+                    HorizontalOptions="Center" 
+                    TextColor="{StaticResource WhiteSmoke}" />
             </StackLayout>
 
-        </AbsoluteLayout>
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+
+</views:BasePage>

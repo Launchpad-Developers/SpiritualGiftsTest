@@ -1,5 +1,4 @@
-using System.Threading.Tasks;
-using SpiritualGiftsTest.Interfaces;
+using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.ViewModels;
@@ -7,7 +6,10 @@ namespace SpiritualGiftsTest.ViewModels;
 
 public class SplashScreenViewModel : BaseViewModel
 {
-    public SplashScreenViewModel(IAggregatedServices aggregatedServices) : base(aggregatedServices)
+    public SplashScreenViewModel(
+        IAggregatedServices aggregatedServices, 
+        IPreferences preferences) 
+            : base(aggregatedServices, preferences)
     {
     }
 

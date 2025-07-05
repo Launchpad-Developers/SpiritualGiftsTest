@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage
+    x:Class="SpiritualGiftsTest.Views.Send.SendPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
+    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Send;assembly=SpiritualGiftsTest"  
+    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:NavigationPage.HideNavigationBarSeparator="true"
+    NavigationPage.HasBackButton="False"
+    FlowDirection="{Binding FlowDirection}">
+
+    <!-- …your page layout here… -->
+
+</views:BasePage>

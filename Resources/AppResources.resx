@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="LoadingText" xml:space="preserve">
+        <value>Loading...</value>
+        <comment>The loading text</comment>
+    </data>
+    <data name="SpiritualGiftsTestTitle" xml:space="preserve">
+        <value>Spiritual Gifts Test</value>
+        <comment>The title of the Main Page</comment>
+    </data>
+    <!--#if (!Empty) -->
+    <data name="BibleStudyTitle" xml:space="preserve">
+        <value>Spiritual Gifts Test</value>
+    </data>
+    <data name="NavButtonBegin" xml:space="preserve">
+        <value>BEGIN</value>
+    </data>
+    <data name="NavButtonContinue" xml:space="preserve">
+        <value>CONTINUE</value>
+    </data>
+    <data name="NavButtonFinish" xml:space="preserve">
+        <value>FINISH</value>
+    </data>
+    
+    <data name="CreatedBy" xml:space="preserve">
+        <value>Created by
+        Rev. John Bonner Long</value>
+    </data>
+    <data name="DevelopedBy" xml:space="preserve">
+        <value>Developed by
+        Rev. Will Smith
+        Appsmiths, LLC</value>
+    </data>
+    <data name="SelectLanguage" xml:space="preserve">
+        <value>Please Select Language</value>
+    </data>
+    <data name="English" xml:space="preserve">
+        <value>English</value>
+    </data>
+    <data name="Tongan" xml:space="preserve">
+        <value>Tongan</value>
+    </data>
+    <data name="Spanish" xml:space="preserve">
+        <value>Spanish</value>
+    </data>
+    <data name="Fijian" xml:space="preserve">
+        <value>Fijian</value>
+    </data>
+    
+    <data name="Acts412" xml:space="preserve">
+        <value>Acts 4:12</value>
+    </data>
+    <data name="Acts412v" xml:space="preserve">
+        <value>Neither is there salvation in any other; for there is none other name under heaven given among men, whereby we must be saved.</value>
+    </data>
+
+    <data name="EnglishCode" xml:space="preserve">
+        <value></value>
+    </data>
+    <data name="TonganCode" xml:space="preserve">
+        <value>Tongan</value>
+    </data>
+    <data name="SpanishCode" xml:space="preserve">
+        <value>Spanish</value>
+    </data>
+    <data name="FijianCode" xml:space="preserve">
+        <value>Fijian</value>
+    </data>
+
+    <!--#endif -->
+</root>

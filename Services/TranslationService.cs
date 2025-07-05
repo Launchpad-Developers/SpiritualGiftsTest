@@ -1,74 +1,84 @@
-﻿using Plugin.Settings.Abstractions;
-using Plugin.Settings;
-using SpiritualGiftsTest.Interfaces;
-using System.Threading.Tasks;
+﻿using SpiritualGiftsTest.Helpers;
 using SpiritualGiftsTest.Models;
-using System.Collections.Generic;
-using SpiritualGiftsTest.Helpers;
-using System.Linq;
 
 namespace SpiritualGiftsTest.Services;
+
+public interface ITranslationService
+{
+    TranslationModel PrimaryLanguage { get; }
+    TranslationModel ParallelLanguage { get; }
+
+    IEnumerable<TranslationOptionModel> PrimaryTranslationOptions { get; }
+    IEnumerable<TranslationOptionModel> ParallelTranslationOptions { get; }
+
+    string PrimaryLanguageCode { get; }
+    string ParallelLanguageCode { get; }
+
+    /// <summary>
+    /// Initializes the translation.
+    /// This should only be called when app first starts or if the Primary language changes.
+    /// </summary>
+    /// <returns>True if translation could be set, false otherwise.</returns>
+    Task<bool> InitializeLanguages();
+
+    /// <summary>
+    /// Sets the current translation.
+    /// </summary>
+    /// <returns>True if translation could be set, false otherwise.</returns>        
+    Task<bool> SetPrimaryLanguageForCode(TranslationOptionModel current);
+
+    /// <summary>
+    /// Sets the current translation.
+    /// </summary>
+    /// <returns>True if translation could be set, false otherwise.</returns>        
+    Task<bool> SetParallelLanguageForCode(TranslationOptionModel current);
+}
 
 public class TranslationService : ITranslationService
 {
     private IDatabaseService _databaseService { get; }
-    public TranslationService(IDatabaseService databaseService)
+    private readonly IPreferences _prefs;
+
+    private const string DefaultLang = AppConstants.DefaultLanguage;
+
+    public TranslationService(
+        IDatabaseService databaseService,
+        IPreferences preferences)
     {
         _databaseService = databaseService;
+        _prefs = preferences;
     }
 
-	private static ISettings AppSettings => CrossSettings.Current;
     public string PrimaryLanguageCode
     {
-        get => AppSettings.GetValueOrDefault(nameof(PrimaryLanguageCode), AppConstants.DefaultLanguage);
-        private set => AppSettings.AddOrUpdateValue(nameof(PrimaryLanguageCode), value);
+        get => _prefs.Get(nameof(PrimaryLanguageCode), DefaultLang);
+        private set => _prefs.Set(nameof(PrimaryLanguageCode), value);
     }
 
-    public static string PrimaryLanguageName
+    public string PrimaryLanguageName
     {
-        get => AppSettings.GetValueOrDefault(nameof(PrimaryLanguageName), AppConstants.DefaultLanguage);
-        private set => AppSettings.AddOrUpdateValue(nameof(PrimaryLanguageName), value);
+        get => _prefs.Get(nameof(PrimaryLanguageName), DefaultLang);
+        private set => _prefs.Set(nameof(PrimaryLanguageName), value);
     }
 
     public string ParallelLanguageCode
     {
-        get => AppSettings.GetValueOrDefault(nameof(ParallelLanguageCode), AppConstants.DefaultLanguage);
-        private set => AppSettings.AddOrUpdateValue(nameof(ParallelLanguageCode), value);
+        get => _prefs.Get(nameof(ParallelLanguageCode), DefaultLang);
+        private set => _prefs.Set(nameof(ParallelLanguageCode), value);
     }
 
-    public static string ParallelLanguageName
+    public string ParallelLanguageName
     {
-        get => AppSettings.GetValueOrDefault(nameof(ParallelLanguageName), AppConstants.DefaultLanguage);
-        private set => AppSettings.AddOrUpdateValue(nameof(ParallelLanguageName), value);
+        get => _prefs.Get(nameof(ParallelLanguageName), DefaultLang);
+        private set => _prefs.Set(nameof(ParallelLanguageName), value);
     }
 
-    private TranslationModel _primaryLanguage;
-    public TranslationModel PrimaryLanguage 
-    { 
-        get { return _primaryLanguage; }
-        private set { _primaryLanguage = value; }
-    }
 
-    private TranslationModel _parallelLanguage;
-    public TranslationModel ParallelLanguage
-    {
-        get { return _parallelLanguage; }
-        private set { _parallelLanguage = value; }
-    }
+    public TranslationModel PrimaryLanguage { get; private set; }
+    public TranslationModel ParallelLanguage { get; private set; }
 
-    private IEnumerable<TranslationOptionModel> _primaryTranslationOptions;
-	public IEnumerable<TranslationOptionModel> PrimaryTranslationOptions
-	{
-		get { return _primaryTranslationOptions; }
-		private set { _primaryTranslationOptions = value; }
-    }
-
-    private IEnumerable<TranslationOptionModel> _parallelTranslationOptions;
-    public IEnumerable<TranslationOptionModel> ParallelTranslationOptions
-    {
-        get { return _parallelTranslationOptions; }
-        private set { _parallelTranslationOptions = value; }
-    }
+    public IEnumerable<TranslationOptionModel> PrimaryTranslationOptions { get; private set; }
+    public IEnumerable<TranslationOptionModel> ParallelTranslationOptions { get; private set; }
 
     public async Task<bool> SetPrimaryLanguageForCode(TranslationOptionModel current)
     {
@@ -76,7 +86,6 @@ public class TranslationService : ITranslationService
 
         PrimaryLanguageCode = current.CodeOption;
         PrimaryLanguageName = current.CodeOptionTranslation;
-
         return await InitializeLanguages();
     }
 
@@ -85,22 +94,23 @@ public class TranslationService : ITranslationService
         if (current == null) return false;
 
         ParallelLanguageCode = current.CodeOption;
-        ParallelLanguageName = PrimaryTranslationOptions.Where(x => x.Code == current.Code).Select(x => x.CodeOptionTranslation).FirstOrDefault();
+        // find the translation text from the primary options
+        ParallelLanguageName = PrimaryTranslationOptions
+            .FirstOrDefault(x => x.Code == current.Code)?
+            .CodeOptionTranslation
+            ?? DefaultLang;
 
         return await InitializeLanguages();
     }
 
     public async Task<bool> InitializeLanguages()
-    {         
-		var language = await _databaseService.GetTranslationForCode(PrimaryLanguageCode);
-		PrimaryLanguage = language;
-
-        var parallelLanguage = await _databaseService.GetTranslationForCode(ParallelLanguageCode);
-        ParallelLanguage = parallelLanguage;
+    {
+        PrimaryLanguage = await _databaseService.GetTranslationForCode(PrimaryLanguageCode);
+        ParallelLanguage = await _databaseService.GetTranslationForCode(ParallelLanguageCode);
 
         PrimaryTranslationOptions = _databaseService.GetCurrentTranslationOptions(PrimaryLanguageCode);
         ParallelTranslationOptions = _databaseService.GetCurrentTranslationOptions(ParallelLanguageCode);
 
-        return (PrimaryLanguage != null);
+        return PrimaryLanguage != null;
     }
 }

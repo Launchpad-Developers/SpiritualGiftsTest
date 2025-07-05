@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView 
+    x:Class="SpiritualGiftsTest.Views.Controls.QuestionView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:enums="clr-namespace:SpiritualGiftsTest.Enums"
+    xmlns:m="clr-namespace:SpiritualGiftsTest.Models;assembly=SpiritualGiftsTest">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="Verse" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Start" />
+                <Setter Property="VerticalTextAlignment"   Value="End" />
+                <Setter Property="TextColor"               Value="Black" />
+                <Setter Property="FontSize"                Value="20" />
+            </Style>
+            <Style x:Key="VerseReference" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="End" />
+                <Setter Property="VerticalTextAlignment"   Value="Start" />
+                <Setter Property="TextColor"               Value="Black" />
+                <Setter Property="FontAttributes"          Value="Bold"  />
+                <Setter Property="Margin"                  Value="0,0,2,0" />
+                <Setter Property="FontSize"                Value="18" />
+            </Style>
+            <!-- Platform-specific font families -->
+            <OnPlatform x:TypeArguments="x:String" x:Key="VerseBody">
+                <On Platform="Android" Value="SourceCodePro-Regular.ttf#Source Code Pro" />
+                <On Platform="iOS"     Value="Avenir-Book" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="VerseRef">
+                <On Platform="Android" Value="CabinCondensed-Regular.ttf#Cabin Condensed" />
+                <On Platform="iOS"     Value="GillsSans-BoldItalic" />
+            </OnPlatform>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <!-- Outer rounded container -->
+    <Border
+        x:Name="Frame"
+        BackgroundColor="{StaticResource ContentBackground}"
+        StrokeShape="RoundRectangle 20"
+        Stroke="{StaticResource DarkGray}"
+        StrokeThickness="1"
+        Margin="40,10,40,10">
+
+        <Grid x:Name="Grid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Question text -->
+            <Label
+                x:Name="VerseText"
+                Grid.Row="0"
+                Style="{StaticResource Verse}"
+                FontFamily="{StaticResource VerseBody}"
+                Text="{Binding Question.QuestionText}" />
+
+            <!-- Segmented selection for UserValue -->
+            <!-- Button-bar “segmented” UI -->
+            <Border StrokeShape="RoundRectangle 5" Padding="0" Margin="0,10,0,0">
+                <StackLayout Orientation="Horizontal" Spacing="1">
+                    
+                    <!-- Not at all -->
+                    <Button Text="Not at all"
+                        Command="{Binding Question.SetValueCommand}"
+                        CommandParameter="{x:Static enums:UserValue.NotAtAll}"  
+                        HorizontalOptions="Fill">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding Question.UserValue}"
+                                Value="{x:Static enums:UserValue.NotAtAll}">
+                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                                <Setter Property="TextColor"       Value="White" />
+                                <Setter Property="FontAttributes"  Value="Bold" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    
+                    <!-- Little -->
+                    <Button Text="Little"
+                        Command="{Binding Question.SetValueCommand}"
+                        CommandParameter="{x:Static enums:UserValue.Little}"  
+                        HorizontalOptions="Fill">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding Question.UserValue}"
+                                Value="{x:Static enums:UserValue.Little}">
+                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                                <Setter Property="TextColor"       Value="White" />
+                                <Setter Property="FontAttributes"  Value="Bold" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    
+                    <!-- Some -->
+                    <Button Text="Some"
+                        Command="{Binding Question.SetValueCommand}"
+                        CommandParameter="{x:Static enums:UserValue.Some}"  
+                        HorizontalOptions="Fill">
+                        <Button.Triggers>
+                            <DataTrigger 
+                                TargetType="Button"
+                                Binding="{Binding Question.UserValue}"
+                                Value="{x:Static enums:UserValue.Some}">
+                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                                <Setter Property="TextColor"       Value="White" />
+                                <Setter Property="FontAttributes"  Value="Bold" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    
+                    <!-- Much -->
+                    <Button Text="Much"
+                        Command="{Binding Question.SetValueCommand}"
+                        CommandParameter="{x:Static enums:UserValue.Much}"  
+                        HorizontalOptions="Fill">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                Binding="{Binding Question.UserValue}"
+                                Value="{x:Static enums:UserValue.Much}">
+                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                                <Setter Property="TextColor"       Value="White" />
+                                <Setter Property="FontAttributes"  Value="Bold" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackLayout>
+            </Border>
+
+        </Grid>
+    </Border>
+</ContentView>

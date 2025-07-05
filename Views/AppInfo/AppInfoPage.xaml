@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:c="clr-namespace:SpiritualGiftsTest.Controls;assembly=SpiritualGiftsTest.Maui"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-             xmlns:cmp="clr-namespace:Microsoft.Maui.Controls.Compatibility;assembly=Microsoft.Maui.Controls"
-             ios:NavigationPage.HideNavigationBarSeparator="true"
-             NavigationPage.HasBackButton="False"
-             x:Class="SpiritualGiftsTest.Views.AppInfo.AppInfoPage"
-             FlowDirection="{Binding FlowDirection}">
+<views:BasePage
+    x:Class="SpiritualGiftsTest.Views.AppInfo.AppInfoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
+    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.AppInfo;assembly=SpiritualGiftsTest"
+    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    NavigationPage.HasBackButton="False"
+    FlowDirection="{Binding FlowDirection}">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">
             <ImageButton x:Name="BackArrow"
                          HorizontalOptions="Start"
-                         VerticalOptions="CenterAndExpand"
+                         VerticalOptions="Center"
                          BackgroundColor="Transparent"
                          WidthRequest="50"
                          HeightRequest="25"
@@ -25,7 +25,7 @@
                           LabelText="{Binding PageTopic}" />
             <ImageButton x:Name="BackArrowRight"
                          HorizontalOptions="End"
-                         VerticalOptions="CenterAndExpand"
+                         VerticalOptions="Center"
                          BackgroundColor="Transparent"
                          WidthRequest="50"
                          HeightRequest="25"
@@ -37,56 +37,33 @@
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
-        <cmp:RelativeLayout>
-            
-            <Image Source="mainpagebackground"
-                   VerticalOptions="FillAndExpand"
-                   HorizontalOptions="FillAndExpand"
-                   Aspect="Fill"
-                   cmp:RelativeLayout.XConstraint="0"
-                   cmp:RelativeLayout.YConstraint="0"
-                   cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                   cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}" />
+        <Grid RowDefinitions="Auto,*">
+            <Image 
+                Source="mainpagebackground"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                Aspect="Fill"
+                Grid.RowSpan="2" />
 
-            <ScrollView cmp:RelativeLayout.XConstraint="0"
-                        cmp:RelativeLayout.YConstraint="40"
-                        cmp:RelativeLayout.WidthConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                        cmp:RelativeLayout.HeightConstraint="{cmp:ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-40}">
-
-                <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Margin="0,100,0,0">
-                    <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}"
-                                  LabelText="{Binding CreatedBy}" />
-                    <Label Style="{StaticResource AppInfoDetailLabel}" 
-                           Text="{Binding RevLong}" />
-                    <Label x:Name="longEmail"
-                           Style="{StaticResource AppInfoDetailLabel}"
-                           Text="{Binding RevLongEmail}"
-                           TextColor="{StaticResource DodgerBlue}">
+            <ScrollView Grid.Row="1">
+                <StackLayout VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,100,0,0">
+                    <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}" LabelText="{Binding CreatedBy}" />
+                    <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevLong}" />
+                    <Label x:Name="longEmail" Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevLongEmail}" TextColor="{StaticResource DodgerBlue}">
                         <Label.GestureRecognizers>
-                             <TapGestureRecognizer Command="{Binding EmailCommand}" 
-                                                   NumberOfTapsRequired="1" 
-                                                   CommandParameter="{Binding RevLongEmail}" />
+                            <TapGestureRecognizer Command="{Binding EmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevLongEmail}" />
                         </Label.GestureRecognizers>
                     </Label>
-
-                    <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}"
-                                  LabelText="{Binding DevelopedBy}" />
-                    <Label Style="{StaticResource AppInfoDetailLabel}" 
-                           Text="{Binding RevSmith}" />
-                    <Label Style="{StaticResource AppInfoDetailLabel}" 
-                           Text="{Binding AppSmiths}" />
-                    <Label x:Name="smithEmail"
-                           Style="{StaticResource AppInfoDetailLabel}"
-                           Text="{Binding RevSmithEmail}"
-                           TextColor="{StaticResource DodgerBlue}">
+                    <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}" LabelText="{Binding DevelopedBy}" />
+                    <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevSmith}" />
+                    <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding Launchpad}" />
+                    <Label x:Name="smithEmail" Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevSmithEmail}" TextColor="{StaticResource DodgerBlue}">
                         <Label.GestureRecognizers>
-                             <TapGestureRecognizer Command="{Binding EmailCommand}" 
-                                                   NumberOfTapsRequired="1" 
-                                                   CommandParameter="{Binding RevSmithEmail}" />
+                            <TapGestureRecognizer Command="{Binding EmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevSmithEmail}" />
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
             </ScrollView>
-        </cmp:RelativeLayout>
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+</views:BasePage>

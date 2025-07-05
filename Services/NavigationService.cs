@@ -1,6 +1,10 @@
-﻿using SpiritualGiftsTest.Interfaces;
+﻿namespace SpiritualGiftsTest.Services;
 
-namespace SpiritualGiftsTest.Services;
+public interface INavigationService
+{
+    Task<bool> NavigateAsync(string route);
+    Task GoBackToRootAsync();
+}
 
 public class NavigationService : INavigationService
 {

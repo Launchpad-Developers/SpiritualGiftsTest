@@ -1,4 +1,5 @@
-﻿using SpiritualGiftsTest.Interfaces;
+﻿using SpiritualGiftsTest.Helpers;
+using SpiritualGiftsTest.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -14,13 +15,17 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     protected ITranslationService TranslationService => AggregatedServices.TranslationService;
     protected IURLService URLService => AggregatedServices.URLService;
     protected IDeviceStorageService DeviceStorageService => AggregatedServices.DeviceStorageService;
-
     protected INavigationService NavigationService => AggregatedServices.NavigationService;
+    protected IAnalyticsService Analytics => AggregatedServices.AnalyticsService;
 
-    private static ISettings AppSettings => CrossSettings.Current;
-    public BaseViewModel(IAggregatedServices aggregatedServices)
+    readonly IPreferences Prefs;
+
+    public BaseViewModel(
+        IAggregatedServices aggregatedServices,
+        IPreferences prefs)
     {
         AggregatedServices = aggregatedServices;
+        Prefs = prefs;
         NavButtonCommand = new Command<string>(OnNavButtonCommand);
         ConfirmCommand = new Command<string>(OnConfirmCommand);
 
@@ -30,82 +35,11 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     public ICommand NavButtonCommand { get; }
     public ICommand ConfirmCommand { get; }
 
-    private FlowDirection _flowDirection;
-    public FlowDirection FlowDirection
-    {
-        get { return _flowDirection; }
-        set { _flowDirection = value; OnPropertyChanged(nameof(FlowDirection)); }
-    }
-
-    private string _title;
-    public string Title
-    {
-        get { return _title; }
-        set { _title = value; OnPropertyChanged(nameof(Title)); }
-    }
-
-    private bool _isLoading;
-    public bool IsLoading
-    {
-        get { return _isLoading; }
-        set { _isLoading = value; OnPropertyChanged(nameof(IsLoading)); }
-    }
-
-    private string _loadingText;
-    public string LoadingText
-    {
-        get { return _loadingText; }
-        set { _loadingText = value; OnPropertyChanged(nameof(LoadingText)); }
-    }
-
-    public bool IsParallel
-    {
-        get => AppSettings.GetValueOrDefault(nameof(IsParallel), false);
-        set { AppSettings.AddOrUpdateValue(nameof(IsParallel), value); OnPropertyChanged(nameof(IsParallel)); }
-    }
-
-    private string _pageTopic;
-    public string PageTopic
-    {
-        get { return _pageTopic; }
-        set { _pageTopic = value; OnPropertyChanged(nameof(PageTopic)); }
-    }
-
-    private string _navButtonText;
-    public string NavButtonText
-    {
-        get { return _navButtonText; }
-        set { _navButtonText = value; OnPropertyChanged(nameof(NavButtonText)); }
-    }
-
-    private string _pageOf;
-    public string PageOf
-    {
-        get { return _pageOf; }
-        set { _pageOf = value; OnPropertyChanged(nameof(PageOf)); }
-    }
-
-    private string _confirmButtonText;
-    public string ConfirmButtonText
-    {
-        get { return _confirmButtonText; }
-        set { _confirmButtonText = value; OnPropertyChanged(nameof(ConfirmButtonText)); }
-    }
-
-    private bool _isTablet;
-    public bool IsTablet
-    {
-        get { return _isTablet; }
-        set { _isTablet = value; OnPropertyChanged(nameof(IsTablet)); }
-    }
-
-    private bool _showInstructable;
-
 
     #region INotifyPropertyChanging implementation
 
-    public event System.ComponentModel.PropertyChangingEventHandler PropertyChanging;
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event System.ComponentModel.PropertyChangingEventHandler? PropertyChanging;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public void OnPropertyChanging(string propertyName)
     {
@@ -117,18 +51,10 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     protected void OnPropertyChanged([CallerMemberName] string propertyName = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-    //public void OnPropertyChanged(string propertyName)
-    //{
-    //    if (PropertyChanged == null)
-    //        return;
-
-    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    //}
-
 
     protected bool SetProperty<T>(ref T backingStore, T value,
         [CallerMemberName] string propertyName = "",
-        Action onChanged = null)
+        Action? onChanged = null) // Change Action to nullable type Action?  
     {
         if (EqualityComparer<T>.Default.Equals(backingStore, value))
             return false;
@@ -140,14 +66,88 @@ public abstract class BaseViewModel : INotifyPropertyChanged
 
     #endregion
 
-    public bool ShowInstructable
+    private FlowDirection _flowDirection;
+    public FlowDirection FlowDirection
     {
-        get { return _showInstructable; }
+        get => _flowDirection;
+        set => SetProperty(ref _flowDirection, value);
+    }
+
+    private string _title = string.Empty;
+    public string Title
+    {
+        get => _title;
+        set => SetProperty(ref _title, value);
+    }
+
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
+
+    private string _loadingText = string.Empty;
+    public string LoadingText
+    {
+        get => _loadingText;
+        set => SetProperty(ref _loadingText, value);
+    }
+
+    private string _pageTopic = string.Empty;
+    public string PageTopic
+    {
+        get => _pageTopic;
+        set => SetProperty(ref _pageTopic, value);
+    }
+
+    private string _navButtonText = string.Empty;
+    public string NavButtonText
+    {
+        get => _navButtonText;
+        set => SetProperty(ref _navButtonText, value);
+    }
+
+    private string _pageOf = string.Empty;
+    public string PageOf
+    {
+        get => _pageOf;
+        set => SetProperty(ref _pageOf, value);
+    }
+
+    private string _confirmButtonText = string.Empty;
+    public string ConfirmButtonText
+    {
+        get => _confirmButtonText;
+        set => SetProperty(ref _confirmButtonText, value);
+    }
+
+    private bool _isTablet;
+    public bool IsTablet
+    {
+        get => _isTablet;
+        set => SetProperty(ref _isTablet, value);
+    }
+
+    private bool _isParallel = Preferences.Default.Get(nameof(IsParallel), false);
+    public bool IsParallel
+    {
+        get => _isParallel;
         set
         {
-            AppSettings.AddOrUpdateValue(nameof(ShowInstructable), value);
-            _showInstructable = value;
-            OnPropertyChanged(nameof(ShowInstructable));
+            if (SetProperty(ref _isParallel, value))
+                Preferences.Default.Set(nameof(IsParallel), value);
+        }
+    }
+
+    private bool _showInstructable = Preferences.Default.Get(nameof(ShowInstructable), true);
+    public bool ShowInstructable
+    {
+        get => _showInstructable;
+        set
+        {
+            if (SetProperty(ref _showInstructable, value))
+                Preferences.Default.Set(nameof(ShowInstructable), value);
         }
     }
 
@@ -157,7 +157,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
 
         if (!string.IsNullOrEmpty(page))
         {
-            if (AppSettings.GetValueOrDefault(nameof(ShowInstructable), true))
+            if (Prefs.Get(nameof(ShowInstructable), true))
                 ShowInstructable = true;
             else
                 PerformNavigation(page);
@@ -204,8 +204,9 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         IsLoading = false;
     }
 
-    protected async void NotifyUserAsync(string title, string message, string ack)
-    {
-        await Application.Current.MainPage.DisplayAlert(title, message, ack);
-    }
+    protected Task NotifyUserAsync(string title, string message, string ack)
+        => PageHelper.ShowAlert(title, message, ack);
+
+    protected Task<bool> ConfirmUserAsync(string title, string message, string accept, string cancel)
+        => PageHelper.ShowConfirm(title, message, accept, cancel);
 }

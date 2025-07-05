@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SpiritualGiftsTest.Views.Shared;
 
 namespace SpiritualGiftsTest.Views.AppInfo;
 
-public partial class AppInfoPage : ContentPage
+public partial class AppInfoPage : BasePage
 {
-    private AppInfoViewModel ViewModel { get; set; }
-
-    public AppInfoPage()
+    public AppInfoPage(AppInfoViewModel vm) : base(vm)
     {
         InitializeComponent();
     }
@@ -15,8 +12,6 @@ public partial class AppInfoPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        ViewModel = (AppInfoViewModel)BindingContext;
 
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {
