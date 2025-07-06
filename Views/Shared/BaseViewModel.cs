@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsTest.Helpers;
+using SpiritualGiftsTest.Messages;
+using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.Shared;
 
@@ -69,7 +71,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     private string navButtonText = string.Empty;
 
     [ObservableProperty]
-    private string pageOf = string.Empty;
+    private string questionOf = string.Empty;
 
     [ObservableProperty]
     private string confirmButtonText = string.Empty;
@@ -78,7 +80,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     private bool isTablet;
 
     [ObservableProperty]
-    private bool isParallel = Preferences.Default.Get(nameof(IsParallel), false);
+    private Translation currentTranslation = new();
 
     [ObservableProperty]
     private bool showInstructable = Preferences.Default.Get(nameof(ShowInstructable), true);
@@ -90,11 +92,6 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     public bool ShowControls
     {
         get { return !ErrorVisible && !IsLoading; }
-    }
-
-    partial void OnIsParallelChanged(bool value)
-    {
-        Preferences.Default.Set(nameof(IsParallel), value);
     }
 
     partial void OnShowInstructableChanged(bool value)

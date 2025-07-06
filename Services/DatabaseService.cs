@@ -1,252 +1,96 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SpiritualGiftsTest.Models;
+﻿using SpiritualGiftsTest.Models;
 using SQLite;
-using System.Text.RegularExpressions;
 
 namespace SpiritualGiftsTest.Services;
+
 public interface IDatabaseService
 {
-    Task<TranslationModel?> GetTranslationForCode(string code);
-    IEnumerable<TranslationOptionModel> GetCurrentTranslationOptions(string languageCode);
+    Task<Translation?> GetTranslationByCodeAsync(string languageCode);
+    Task<IEnumerable<LanguageOption>> GetLanguageOptionsAsync(string languageCode);
 }
 
 public class DatabaseService : IDatabaseService
 {
-	private IDeviceStorageService _deviceStorageService { get; }
-    private IURLService _urlService { get; }
-	public DatabaseService(IDeviceStorageService deviceStorageService, 
-	                       IURLService uRLService)
+    private readonly IDeviceStorageService _deviceStorage;
+    private readonly IURLService _urlService;
+
+    public DatabaseService(IDeviceStorageService deviceStorage, IURLService urlService)
     {
-		_deviceStorageService = deviceStorageService;
-            _urlService = uRLService;
+        _deviceStorage = deviceStorage;
+        _urlService = urlService;
     }
 
-    private string _path { get { return _deviceStorageService.GetDatabaseFileLocation(); } }
-        
-    public async Task<TranslationModel?> GetTranslationForCode(string code)
+    private string DatabasePath => _deviceStorage.GetDatabaseFileLocation();
+
+    public async Task<Translation?> GetTranslationByCodeAsync(string languageCode)
     {
-        var good2Go = await CheckDatabase(false);
-        if (!good2Go)
+        if (!await EnsureDatabaseUpToDate())
             return null;
 
-        TranslationModel? translation = null; // Use nullable type
-        using (var conn = new SQLiteConnection(_path))
-        {
-            translation = conn.Table<TranslationModel>().Where(x => x.Code == code).FirstOrDefault();
-            conn.Dispose();
-        }
-
-        return translation;
+        using var conn = new SQLiteConnection(DatabasePath);
+        return conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
     }
 
-    public IEnumerable<TranslationOptionModel> GetCurrentTranslationOptions(string languageCode)
+    public async Task<IEnumerable<LanguageOption>> GetLanguageOptionsAsync(string languageCode)
     {
-        var options = new List<TranslationOptionModel>();
-        using (var conn = new SQLiteConnection(_path))
-        {
-            options = conn.Table<TranslationOptionModel>().Where(x => x.Code == languageCode).ToList();
-            conn.Dispose();
-        }
-
-        return options ?? Enumerable.Empty<TranslationOptionModel>(); // Ensure non-null return
+        var translation = await GetTranslationByCodeAsync(languageCode);
+        return translation?.LanguageOptions ?? new List<LanguageOption>();
     }
 
-    private async Task<bool> CheckDatabase(bool deleteDb = false)
+    private async Task<bool> EnsureDatabaseUpToDate()
     {
-        // This should only be TRUE for testing purposes
-        if (deleteDb)
-            _deviceStorageService.DeleteFile(_path);
+        if (!File.Exists(DatabasePath))
+            return await RefreshDatabaseAsync();
 
-        bool refresh = false;
-        if (!File.Exists(_path))
-        {
-            refresh = true;
-        }
-        else
-        {
-            var conn = new SQLiteConnection(_path);
-            var localVersion = conn.Table<DatabaseInfoModel>().FirstOrDefault();
-            conn.Dispose();
-            conn = null;
+        using var conn = new SQLiteConnection(DatabasePath);
+        var localInfo = conn.Table<DatabaseInfo>().FirstOrDefault();
 
-            if (localVersion == null)
-            {
-                refresh = true;
-            }
-            else
-            {
-                var json = await _urlService.GetRemoteDatabaseInfoJson();
-                if (!string.IsNullOrEmpty(json))
-                {
-                    var latestVersion = JsonConvert.DeserializeObject<DatabaseInfoModel>(json);
-                    if (latestVersion != null && latestVersion.Version > localVersion.Version) // Added null check for latestVersion
-                        refresh = true;
-                }
-            }
-        }
+        var remoteResult = await _urlService.GetFullDatabaseAsync();
+        if (!remoteResult.IsSuccess || remoteResult.Value is null)
+            return false;
 
-        if (refresh)
-        {
-            _deviceStorageService.DeleteFile(_path);
-            CreateDatabase();
+        var remoteInfo = remoteResult.Value.Database;
 
-            var json = await _urlService.GetFullDatabaseJson();
-            if (string.IsNullOrEmpty(json))
-                return false;
-
-            var tuple = ParseDatabaseJson(json);
-            if (tuple == null)
-                return false;
-
-            PopulateDatabase(tuple);
-
-            return true;
-        }
+        if (localInfo == null || remoteInfo.Version > localInfo.Version)
+            return await RefreshDatabaseAsync(remoteResult.Value);
 
         return true;
     }
 
-    private void CreateDatabase()
-	{
-            using (var conn = new SQLiteConnection(_path))
-		{
-                conn.CreateTable<TranslationOptionModel>();
-                conn.CreateTable<TranslationModel>();
-                conn.CreateTable<DatabaseInfoModel>();
-
-                conn.Dispose();
-            }
-
-            //GC.Collect(); //Possibly overkill
-	}
-
-	private Tuple<DatabaseInfoModel, Translations, TranslationOptions> ParseDatabaseJson(string json)
-	{
-            string dbKey = "\"DatabaseInfo\":";
-            string optionsKey = ",\"TranslationOptions\"";
-		string translationsKey = ",\"Translations\":";
-
-            //DatabaseInfo
-            int startIndex = json.IndexOf(dbKey, StringComparison.CurrentCulture) + dbKey.Length;
-		int endIndex = json.IndexOf(optionsKey, StringComparison.CurrentCulture);
-
-		string dbJson = json.Substring(startIndex, endIndex - startIndex);
-            var dbInfo = ParseDatabaseInfo(dbJson);
-		if (dbInfo == null)
-			return default!;
-
-            //Languages
-		startIndex = json.IndexOf(translationsKey, StringComparison.CurrentCulture) + translationsKey.Length;
-		endIndex = json.Length - 1;
-
-		string langJson = json.Substring(startIndex, endIndex - startIndex);
-            var languages = ParseAllLanguages(langJson);
-		if (languages == null)
-                return default!;
-		
-            //Options
-		startIndex = json.IndexOf(optionsKey, StringComparison.CurrentCulture) + optionsKey.Length;
-		endIndex = json.IndexOf(translationsKey, StringComparison.CurrentCulture);
-
-		string optionsJson = json.Substring(startIndex, endIndex - startIndex);
-            var options = ParseLanguageCodes(optionsJson);
-		if (options == null)
-                return default!;
-		
-            return new Tuple<DatabaseInfoModel, Translations, TranslationOptions>(dbInfo, languages, options);
-	}
-
-    private DatabaseInfoModel ParseDatabaseInfo(string json)
+    private async Task<bool> RefreshDatabaseAsync(RootModel? rootModel = null)
     {
-        var info = JsonConvert.DeserializeObject<DatabaseInfoModel>(json);
-        return info ?? new DatabaseInfoModel(); // Ensure a non-null return value
-    }
+        _deviceStorage.DeleteFile(DatabasePath);
 
-    private Translations ParseAllLanguages(string json)
-    {
-        Regex rgx = new Regex("\"[a-zA-Z]+\":{");
-        string rawArray = rgx.Replace(json, "{");
-        rawArray = "[" + rawArray.Remove(0, 1);
-        rawArray = rawArray.Remove(rawArray.Length - 1, 1) + "]";
-
-        var rawTranslations = JsonConvert.DeserializeObject<JArray>(rawArray);
-        var translations = new Translations();
-
-        if (rawTranslations != null) // Ensure rawTranslations is not null before iterating
+        if (rootModel == null)
         {
-            foreach (var t in rawTranslations)
-            {
-                var filtered = t.ToString().Replace("\\\\\\", "\\");
-                var translation = JsonConvert.DeserializeObject<TranslationModel>(filtered);
+            var result = await _urlService.GetFullDatabaseAsync();
+            if (!result.IsSuccess || result.Value is null)
+                return false;
 
-                // Ensure translation is not null before adding to the collection
-                if (translation != null)
-                {
-                    translations.TranslationCollection.Add(translation);
-                }
-            }
+            rootModel = result.Value;
         }
 
-        return translations;
-    }
+        using var conn = new SQLiteConnection(DatabasePath);
+        conn.CreateTable<DatabaseInfo>();
+        conn.CreateTable<Translation>();
+        conn.CreateTable<AppString>();
+        conn.CreateTable<LanguageOption>();
+        conn.CreateTable<Question>();
+        conn.CreateTable<GiftDescription>();
+        conn.CreateTable<Reflection>();
 
-    private TranslationOptions ParseLanguageCodes(string json)
-    {
-        json = json.Remove(0, 2);
-        json = json.Remove(json.Length - 2, 2);
+        conn.Insert(rootModel.Database);
 
-        Regex rgx = new Regex("},");
-        var rawArray = rgx.Split(json);
-        var options = new TranslationOptions();
-
-        foreach (var s in rawArray)
+        foreach (var translation in rootModel.Translations)
         {
-            string match = "\":{";
-            int startIndex = 1;
-            int endIndex = s.IndexOf(match, StringComparison.CurrentCulture);
-            var code = s.Substring(startIndex, endIndex - startIndex);
-            var rawCodes = s.Remove(0, code.Length + 1 + match.Length);
-
-            Regex optionRgx = new Regex(",");
-            var pairs = optionRgx.Split(rawCodes);
-            foreach (var pair in pairs)
-            {
-                var cleanPair = pair.Replace("\"", "");
-                endIndex = cleanPair.IndexOf(":", StringComparison.CurrentCulture);
-                var langOpt = cleanPair.Substring(0, endIndex);
-                var trans = cleanPair.Substring(endIndex + 1, cleanPair.Length - endIndex - 1);
-
-                options.TranslationOptionCollection.Add(new TranslationOptionModel
-                {
-                    Code = code,
-                    CodeOption = langOpt,
-                    CodeOptionTranslation = trans,
-                    Selected = false
-                });
-            }
+            conn.Insert(translation);
+            conn.InsertAll(translation.AppStrings);
+            conn.InsertAll(translation.LanguageOptions);
+            conn.InsertAll(translation.Questions);
+            conn.InsertAll(translation.GiftDescriptions);
+            conn.InsertAll(translation.Reflections);
         }
 
-        return options;
+        return true;
     }
-
-        private bool PopulateDatabase(Tuple<DatabaseInfoModel, Translations, TranslationOptions> data)
-	{
-		int i, j, k;
-		using (var conn = new SQLiteConnection(_path))
-		{
-                conn.BeginTransaction();
-
-                i = conn.Insert(data.Item1);
-                j = conn.InsertAll(data.Item2.TranslationCollection);
-                k = conn.InsertAll(data.Item3.TranslationOptionCollection);
-
-                conn.Commit();    
-                conn.Dispose();    
-		}
-
-		//GC.Collect(); //Possibly overkill
-
-		return i > 0 && j > 0 && k > 0;
-	}
 }

@@ -1,131 +1,95 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsTest.Helpers;
+using SpiritualGiftsTest.Messages;
 using SpiritualGiftsTest.Models;
 
 namespace SpiritualGiftsTest.Services;
 
 public interface ITranslationService
 {
-    TranslationModel PrimaryLanguage { get; }
-    TranslationModel ParallelLanguage { get; }
+    Translation Language { get; }
 
-    IEnumerable<TranslationOptionModel> PrimaryTranslationOptions { get; }
-    IEnumerable<TranslationOptionModel> ParallelTranslationOptions { get; }
+    IEnumerable<LanguageOption> LanguageOptions { get; }
 
-    string PrimaryLanguageCode { get; }
-    string ParallelLanguageCode { get; }
+    string CurrentLanguageCode { get; }
 
-    /// <summary>
-    /// Initializes the translation.
-    /// This should only be called when app first starts or if the Primary language changes.
-    /// </summary>
-    /// <returns>True if translation could be set, false otherwise.</returns>
-    Task<bool> InitializeLanguages();
+    string CurrentLanguageDisplayName { get; }
 
-    /// <summary>
-    /// Sets the current translation.
-    /// </summary>
-    /// <returns>True if translation could be set, false otherwise.</returns>        
-    Task<bool> SetPrimaryLanguageForCode(TranslationOptionModel current);
-
-    /// <summary>
-    /// Sets the current translation.
-    /// </summary>
-    /// <returns>True if translation could be set, false otherwise.</returns>        
-    Task<bool> SetParallelLanguageForCode(TranslationOptionModel current);
+    Task<bool> InitializeLanguage();
+    Task<bool> SetLanguageByCodeAsync(string code);
 }
 
 public partial class TranslationService : ObservableObject, ITranslationService
 {
-    private IDatabaseService _databaseService { get; }
+    private readonly IDatabaseService _databaseService;
     private readonly IPreferences _prefs;
 
     private const string DefaultLang = AppConstants.DefaultLanguage;
 
-    public TranslationService(
-        IDatabaseService databaseService,
-        IPreferences preferences)
+    public TranslationService(IDatabaseService databaseService, IPreferences preferences)
     {
         _databaseService = databaseService;
         _prefs = preferences;
     }
 
-    public string PrimaryLanguageCode
-    {
-        get => _prefs.Get(nameof(PrimaryLanguageCode), DefaultLang);
-        private set => _prefs.Set(nameof(PrimaryLanguageCode), value);
-    }
-
-    public string PrimaryLanguageName
-    {
-        get => _prefs.Get(nameof(PrimaryLanguageName), DefaultLang);
-        private set => _prefs.Set(nameof(PrimaryLanguageName), value);
-    }
-
-    public string ParallelLanguageCode
-    {
-        get => _prefs.Get(nameof(ParallelLanguageCode), DefaultLang);
-        private set => _prefs.Set(nameof(ParallelLanguageCode), value);
-    }
-
-    public string ParallelLanguageName
-    {
-        get => _prefs.Get(nameof(ParallelLanguageName), DefaultLang);
-        private set => _prefs.Set(nameof(ParallelLanguageName), value);
-    }
-
+    [ObservableProperty]
+    private string currentLanguageCode = string.Empty;
 
     [ObservableProperty]
-    private TranslationModel primaryLanguage = new();
+    private string currentLanguageDisplayName = string.Empty;
 
     [ObservableProperty]
-    private TranslationModel parallelLanguage = new();
+    private Translation language = new();
 
     [ObservableProperty]
-    private IEnumerable<TranslationOptionModel> primaryTranslationOptions = new List<TranslationOptionModel>();
+    private IEnumerable<LanguageOption> languageOptions = Enumerable.Empty<LanguageOption>();
 
-    [ObservableProperty]
-    private IEnumerable<TranslationOptionModel> parallelTranslationOptions = new List<TranslationOptionModel>();
-
-    public async Task<bool> SetPrimaryLanguageForCode(TranslationOptionModel current)
+    partial void OnCurrentLanguageCodeChanged(string value)
     {
-        if (current == null) return false;
-
-        PrimaryLanguageCode = current.CodeOption;
-        PrimaryLanguageName = current.CodeOptionTranslation;
-        return await InitializeLanguages();
+        Preferences.Default.Set(nameof(CurrentLanguageCode), value);
+        Preferences.Default.Set(nameof(CurrentLanguageDisplayName), value);
+    }
+    partial void OnCurrentLanguageDisplayNameChanged(string value)
+    {
+        Preferences.Default.Set(nameof(CurrentLanguageDisplayName), value);
     }
 
-    public async Task<bool> SetParallelLanguageForCode(TranslationOptionModel current)
+    public void LoadLanguageCode()
     {
-        if (current == null) return false;
-
-        ParallelLanguageCode = current.CodeOption;
-        // find the translation text from the primary options
-        ParallelLanguageName = PrimaryTranslationOptions
-            .FirstOrDefault(x => x.Code == current.Code)?
-            .CodeOptionTranslation
-            ?? DefaultLang;
-
-        return await InitializeLanguages();
+        CurrentLanguageCode = Preferences.Default.Get(nameof(CurrentLanguageCode), "EN");
+        CurrentLanguageDisplayName = Preferences.Default.Get(nameof(CurrentLanguageDisplayName), "English");
     }
 
-    public async Task<bool> InitializeLanguages()
+    public async Task<bool> InitializeLanguage()
     {
-        var primaryLanguage = await _databaseService.GetTranslationForCode(PrimaryLanguageCode);
-        var parallelLanguage = await _databaseService.GetTranslationForCode(ParallelLanguageCode);
+        Language = await _databaseService.GetTranslationByCodeAsync(CurrentLanguageCode) ?? new();
 
-        if (primaryLanguage == null || parallelLanguage == null)
+        LanguageOptions = await _databaseService.GetLanguageOptionsAsync(CurrentLanguageCode);
+
+        return Language is not null && 
+               LanguageOptions is not null;
+    }
+
+    public async Task<bool> SetLanguageByCodeAsync(string code)
+    {
+        if (string.IsNullOrEmpty(code)) return false;
+
+        CurrentLanguageCode = code;
+
+        if (await InitializeLanguage())
         {
-            return false; // Handle null cases explicitly
+            foreach (var option in LanguageOptions)
+            {
+                if (option.CodeOption == code)
+                {
+                    CurrentLanguageDisplayName = option.DisplayName;
+                    WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(option));
+                    return true;
+                }
+            }
         }
 
-        PrimaryLanguage = primaryLanguage;
-        ParallelLanguage = parallelLanguage;
-
-        PrimaryTranslationOptions = _databaseService.GetCurrentTranslationOptions(PrimaryLanguageCode);
-        ParallelTranslationOptions = _databaseService.GetCurrentTranslationOptions(ParallelLanguageCode);
-
-        return true;
+        return false;
     }
 }

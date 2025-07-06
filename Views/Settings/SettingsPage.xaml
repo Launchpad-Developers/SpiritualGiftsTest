@@ -77,11 +77,11 @@
 
             <ScrollView Grid.Row="1">
                 <StackLayout VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,40,0,0">
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                         <Label Text="{Binding ParallelMode}" HorizontalOptions="Start" TextColor="Black" Margin="30,0" IsEnabled="{Binding IsTablet}" />
                         <Switch x:Name="ParallelMode" HorizontalOptions="End" VerticalOptions="Center" Margin="30,0" IsToggled="{Binding IsParallel, Mode=TwoWay}" IsEnabled="{Binding IsTablet}" />
                     </StackLayout>
-                    <Label Text="{Binding TabletRequired}" TextColor="Red" FontSize="Micro" Margin="30,-10,30,50" IsVisible="{Binding IsTablet, Converter={StaticResource NegatedConverter}}" />
+                    <Label Text="{Binding TabletRequired}" TextColor="Red" FontSize="Micro" Margin="30,-10,30,50" IsVisible="{Binding IsTablet, Converter={StaticResource NegatedConverter}}" />-->
                     
                     <BoxView HeightRequest="0.5" HorizontalOptions="Fill" />
                     <Grid 
@@ -107,30 +107,30 @@
 
                     </Grid>
 
-                    <BoxView HeightRequest="0.5" HorizontalOptions="Fill" IsVisible="{Binding IsParallel}" />
+                    <!--<BoxView HeightRequest="0.5" HorizontalOptions="Fill" IsVisible="{Binding IsParallel}" />
                     <Grid 
                         Padding="20,10"
                         RowDefinitions="Auto"
                         ColumnDefinitions="*,Auto"
                         IsVisible="{Binding IsParallel}">
 
-                        <!-- Title -->
+                        --><!-- Title --><!--
                         <Label 
                             Text="{Binding ParallelLanguageTitle}" 
                             VerticalOptions="Center" />
 
-                        <!-- Detail -->
+                        --><!-- Detail --><!--
                         <Label 
                             Grid.Column="1"
                             Text="{Binding SelectedParallelLanguage.CodeOptionTranslation}" 
                             VerticalOptions="Center" />
 
-                        <!-- Tap Gesture on the whole Grid -->
+                        --><!-- Tap Gesture on the whole Grid --><!--
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="TeacherLanguage_Tapped" />
                         </Grid.GestureRecognizers>
 
-                    </Grid>
+                    </Grid>-->
                     
                 </StackLayout>
             </ScrollView>

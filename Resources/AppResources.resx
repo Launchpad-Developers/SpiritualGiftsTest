@@ -17,12 +17,12 @@
         <comment>The loading text</comment>
     </data>
     <data name="SpiritualGiftsTestTitle" xml:space="preserve">
-        <value>Spiritual Gifts Test</value>
+        <value>Spiritual Gifts Survey</value>
         <comment>The title of the Main Page</comment>
     </data>
     <!--#if (!Empty) -->
     <data name="BibleStudyTitle" xml:space="preserve">
-        <value>Spiritual Gifts Test</value>
+        <value>Spiritual Gifts Survey</value>
     </data>
     <data name="NavButtonBegin" xml:space="preserve">
         <value>BEGIN</value>
@@ -36,12 +36,11 @@
     
     <data name="CreatedBy" xml:space="preserve">
         <value>Created by
-        Rev. John Bonner Long</value>
+        Wagner</value>
     </data>
     <data name="DevelopedBy" xml:space="preserve">
         <value>Developed by
-        Rev. Will Smith
-        Appsmiths, LLC</value>
+        Launchpad Developers</value>
     </data>
     <data name="SelectLanguage" xml:space="preserve">
         <value>Please Select Language</value>

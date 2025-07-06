@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsTest.Helpers;
 using SpiritualGiftsTest.Messages;
 using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
@@ -20,7 +21,7 @@ public partial class WelcomeViewModel : BaseViewModel
     {
         Languages = new ObservableCollection<string>();
 
-        Title = "Welcome to the Spiritual Gifts Test";
+        Title = "Welcome to the Spiritual Gifts Survey";
 
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
         {
@@ -98,34 +99,33 @@ public partial class WelcomeViewModel : BaseViewModel
         ErrorVisible = false;
         OnPropertyChanged(nameof(ShowControls));
 
-        await TranslationService.InitializeLanguages();
+        await TranslationService.InitializeLanguage();
 
-        var lang = TranslationService.PrimaryLanguage;
+        var lang = TranslationService.Language;
 
         if (lang == null)
         {
-            PageTopic = "Spiritual Gifts Test";
+            PageTopic = "Spiritual Gifts Survey";
             ErrorMessage = "No Internet Connection \nNo Translations Available";
             NavButtonText = "Retry";
             ErrorVisible = true;
         }
         else
         {
-            FlowDirection = lang.LanguageTextDirection.Equals("RL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            LoadingText = lang.Loading;
-            PageTopic = lang.BibleStudyTitle;
-            //VerseSource = new Tuple<string, string>(lang.Acts412, lang.Acts412v);
-            NavButtonText = lang.NavButtonBegin;
+            FlowDirection = lang.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
+            PageTopic = CurrentTranslation.AppStrings.Get("AppTitle", "Spiritual Gifts Survey");
+            NavButtonText = CurrentTranslation.AppStrings.Get("NavButtonBegin", "Begin");
             _databaseOK = true;
-            ConfirmButtonText = lang.GotIt;
-            TapTo = lang.TapTo;
-            Navigate = lang.Navigate;
+            ConfirmButtonText = CurrentTranslation.AppStrings.Get("GotIt", "Got it");
+            TapTo = CurrentTranslation.AppStrings.Get("TapArrows", "Tap arrows");
+            Navigate = CurrentTranslation.AppStrings.Get("ToNavigate", "to navigate");
         }
 
-        NextPage = IsParallel ? "ParallelStudyPage" : "StudyPage";
+        NextPage = "SurveyPage";
 
         IsLoading = false;
-        OnPropertyChanged(nameof(ShowControls));
+        ShowInstructable = true;
     }
 
 }

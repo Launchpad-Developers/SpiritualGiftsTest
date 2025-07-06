@@ -1,11 +1,11 @@
 ﻿using SpiritualGiftsTest.Helpers;
 using SpiritualGiftsTest.Views.Shared;
 
-namespace SpiritualGiftsTest.Views.Test;
+namespace SpiritualGiftsTest.Views.Survey;
 
-public partial class TestPage : BasePage
+public partial class SurveyPage : BasePage
 {
-    public TestPage(TestViewModel vm)
+    public SurveyPage(SurveyViewModel vm)
         : base(vm)
     {
         InitializeComponent();

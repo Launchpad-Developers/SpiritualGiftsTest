@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SpiritualGiftsTest.Helpers.FontAwesome
+﻿namespace SpiritualGiftsTest.Helpers.FontAwesome
 {
 	public static class IconFontGlyphs
 	{

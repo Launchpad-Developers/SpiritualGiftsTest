@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsTest.Helpers;
 using SpiritualGiftsTest.Messages;
 using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
@@ -24,104 +25,51 @@ public partial class SettingsViewModel : BaseViewModel
     private string header = string.Empty;
 
     [ObservableProperty]
-    private string tabletRequired = string.Empty;
-
-    [ObservableProperty]
-    private string parallelMode = string.Empty;
-
-    [ObservableProperty]
     private string languageTitle = string.Empty;
 
-    [ObservableProperty]
-    private string parallelLanguageTitle = string.Empty;
+    public List<LanguageOption> LanguageOptions { get; set; }
+        = new List<LanguageOption>();
 
     [ObservableProperty]
-    private TranslationOptionModel selectedLanguage = new();
+    private Translation currentTranslation = new();
 
-    [ObservableProperty]
-    private TranslationOptionModel selectedParallelLanguage = new();
-
-    public List<TranslationOptionModel> LanguageOptions { get; set; }
-        = new List<TranslationOptionModel>();
-    public List<TranslationOptionModel> ParallelLanguageOptions { get; set; }
-        = new List<TranslationOptionModel>();
-
-    partial void OnSelectedLanguageChanged(TranslationOptionModel value)
+    partial void OnCurrentTranslationChanged(Translation value)
     {
         if (value == null) return;
-        LanguageChanged();
+        CurrentTranslationChanged();
     }
 
-    partial void OnSelectedParallelLanguageChanged(TranslationOptionModel value)
+    private async void CurrentTranslationChanged()
     {
-        if (value == null) return;
-        ParallelLanguageChanged();
-    }
+        IsLoading = true;
 
-    private async void LanguageChanged()
-    {
-        await TranslationService.SetPrimaryLanguageForCode(SelectedLanguage);
-
-        WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(SelectedLanguage));
-
-        await NavBack();
-    }
-
-    private async void ParallelLanguageChanged()
-    {
-        await TranslationService.SetParallelLanguageForCode(SelectedParallelLanguage);
-        OnPropertyChanged(nameof(SelectedParallelLanguage));
+        try
+        {
+            await TranslationService.SetLanguageByCodeAsync(CurrentTranslation.Code);
+        }
+        finally
+        {
+            IsLoading = false;
+            await NavBack();
+        }
     }
 
     public void InitializeData()
     {
-		IsLoading = true;
+        IsLoading = true;
 
-        var lang = TranslationService.PrimaryLanguage;
-
-        FlowDirection = lang.LanguageTextDirection.Equals("RL") ? FlowDirection.RightToLeft :  FlowDirection.LeftToRight;
-
-        LoadingText = lang.Loading;
-		PageTopic = lang.Settings;
-
-        LanguageOptions = new List<TranslationOptionModel>();
-        ParallelLanguageOptions = new List<TranslationOptionModel>();
-
-        var languageOptions = TranslationService.PrimaryTranslationOptions;
-        foreach (var option in languageOptions)
+        try
         {
-            if (option.CodeOption == TranslationService.PrimaryLanguageCode)
-            {
-                option.Selected = true;
-                SelectedLanguage = option;
-            }
-            
-            LanguageOptions.Add(option);
+            CurrentTranslation = TranslationService.Language;
+            FlowDirection = CurrentTranslation.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
+            PageTopic = CurrentTranslation.AppStrings.Get("Settings", "Settings");
+            LanguageOptions = CurrentTranslation.LanguageOptions;
+            LanguageTitle = TranslationService.CurrentLanguageDisplayName;
         }
-
-        var parallelLanguageOptions = TranslationService.ParallelTranslationOptions;
-        foreach (var option in parallelLanguageOptions)
+        finally
         {
-            if (option.CodeOption == TranslationService.ParallelLanguageCode)
-            {
-                option.Selected = true;
-                SelectedParallelLanguage = option;
-            }
-
-            ParallelLanguageOptions.Add(option);
+            IsLoading = false;
         }
-
-        OnPropertyChanged(nameof(LanguageOptions));
-        OnPropertyChanged(nameof(ParallelLanguageOptions));
-        OnPropertyChanged(nameof(SelectedLanguage));
-        OnPropertyChanged(nameof(SelectedParallelLanguage));
-
-        ParallelMode = lang.ParallelMode;
-        TabletRequired = lang.OnlyAvailableOnTablets;
-
-        LanguageTitle = $"{lang.StudentLanguage} 1";
-        ParallelLanguageTitle = $"{lang.TeacherLanguage} 2";
-
-        IsLoading = false;
     }
 }

@@ -4,185 +4,182 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
-    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Welcome;assembly=SpiritualGiftsTest"
+    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Welcome"
     xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
     NavigationPage.HasBackButton="False"
     x:DataType="vm:WelcomeViewModel"
     FlowDirection="{Binding FlowDirection}">
 
+    <!-- NAVBAR -->
     <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" FlowDirection="LeftToRight" BackgroundColor="Transparent">
-            <ImageButton 
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                WidthRequest="50"
-                HeightRequest="25"
-                BackgroundColor="Transparent"
-                IsVisible="{Binding ShowControls}"
-                Source="{StaticResource Settings}"
-                Command="{Binding OpenSettingsCommand}"/>
-            
-            <c:TitleLabel 
-                NewStyle="{StaticResource NavTitleLabelStyle}"
-                HorizontalOptions="Fill"
-                LabelText="{Binding PageTopic}"
-                FlowDirection="{Binding FlowDirection}" />
-            
-            <ImageButton 
-                HorizontalOptions="End"
-                VerticalOptions="Center"
-                BackgroundColor="Transparent"
-                WidthRequest="50"
-                HeightRequest="25"
-                IsVisible="{Binding ShowControls}"
-                Source="{StaticResource Info}"
-                Command="{Binding OpenInfoCommand}"/>
-        </StackLayout>
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              VerticalOptions="Center"
+              BackgroundColor="Transparent">
+
+            <!-- Left icon -->
+            <ImageButton Grid.Column="0"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         BackgroundColor="Transparent"
+                         IsVisible="{Binding ShowControls}"
+                         Source="{StaticResource Settings}"
+                         Command="{Binding OpenSettingsCommand}" />
+
+            <!-- Title -->
+            <c:TitleLabel Grid.Column="1"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"
+                          NewStyle="{StaticResource NavTitleLabelStyle}"
+                          LabelText="{Binding PageTopic}" />
+
+            <!-- Right icon -->
+            <ImageButton Grid.Column="2"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Margin="0,0,10,0"
+                         BackgroundColor="Transparent"
+                         IsVisible="{Binding ShowControls}"
+                         Source="{StaticResource Info}"
+                         Command="{Binding OpenInfoCommand}" />
+
+        </Grid>
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
-        <Grid x:Name="MainLayout">
+        <Grid>
+            <!-- BG -->
+            <Image Source="mainpagebackground"
+                   Aspect="Fill"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill" />
 
-            <!-- Background Image -->
-            <Image 
-                Source="mainpagebackground"
-                Aspect="Fill"
-                HorizontalOptions="Fill"
-                VerticalOptions="Fill" />
+            <!-- Main layout -->
+            <Grid RowDefinitions="*,Auto,100">
 
-            <!-- QuestionView centered vertically at 30% -->
-            <c:QuestionView 
-                x:Name="scriptureView"
-                Question="{Binding Question}"
-                IsVisible="{Binding ShowControls}"
-                HorizontalOptions="Center"
-                VerticalOptions="Start"
-                Margin="0"
-                TranslationY="{OnIdiom Phone='{Binding RelativeTranslationY}', Tablet='{Binding RelativeTranslationY}'}" />
+                <!-- Center content: QuestionView + Nav icon -->
+                <StackLayout Grid.Row="0"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="40">
 
-            <!-- Nav Button centered -->
-            <ImageButton
-                Command="{Binding NavButtonCommand}"
-                CommandParameter="{Binding NextPage}"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}"
-                WidthRequest="100"
-                HeightRequest="100"
-                Source="{StaticResource YourNavIcon}" />
+                    <!-- QuestionView -->
+                    <c:QuestionView 
+                        x:Name="scriptureView"
+                        Question="{Binding Question}"
+                        IsVisible="{Binding ShowControls}" />
 
-            <!-- Loading overlay background -->
-            <ContentView 
-                x:Name="loadingBackground"
-                BackgroundColor="#222222"
-                Opacity="0.65"
-                IsVisible="{Binding IsLoading}" />
-
-            <!-- Loading spinner/message centered -->
-            <StackLayout 
-                Orientation="Vertical"
-                IsVisible="{Binding IsLoading}"
-                WidthRequest="300"
-                HeightRequest="100"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
-                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
-                <Label 
-                    Text="{Binding LoadingText}"
-                    HorizontalOptions="Center"
-                    TextColor="{StaticResource WhiteSmoke}" />
-            </StackLayout>
-
-            <!-- Instructable overlay background -->
-            <ContentView 
-                x:Name="instructableBackground"
-                BackgroundColor="#222222"
-                Opacity="0.85"
-                IsVisible="{Binding ShowInstructable}" />
-
-            <!-- Instructable overlay content centered -->
-            <StackLayout 
-                Orientation="Vertical"
-                IsVisible="{Binding ShowInstructable}"
-                WidthRequest="{OnIdiom Phone=300, Tablet=500}"
-                HeightRequest="{OnIdiom Phone=500, Tablet=700}"
-                HorizontalOptions="Center"
-                VerticalOptions="Center">
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="33*" />
-                        <ColumnDefinition Width="34*" />
-                        <ColumnDefinition Width="33*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Label 
-                        Text="{Binding TapTo}"
-                        Style="{StaticResource InstructableLabelStyle}"
-                        Grid.Row="0" />
-
-                    <StackLayout 
-                        Grid.Row="1" Grid.Column="0"
-                        Margin="10,0,0,0"
-                        HorizontalOptions="Start"
-                        Orientation="Horizontal"
-                        HeightRequest="96">
-                        <Image 
-                            Source="{StaticResource NavLeftWhite}"
-                            HeightRequest="{OnIdiom Phone=75, Tablet=150}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            Aspect="AspectFit" />
-                    </StackLayout>
-
-                    <StackLayout 
-                        Grid.Row="1" Grid.Column="1"
+                    <!-- Nav icon -->
+                    <ImageButton
+                        Command="{Binding NavButtonCommand}"
+                        CommandParameter="{Binding NextPage}"
+                        WidthRequest="100"
+                        HeightRequest="100"
                         HorizontalOptions="Center"
-                        Orientation="Horizontal"
-                        HeightRequest="96">
-                        <Image 
-                            Source="{StaticResource Swipe}"
-                            HeightRequest="{OnIdiom Phone=50, Tablet=100}"
-                            Margin="0,25,0,0"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            Aspect="AspectFit" />
-                    </StackLayout>
+                        VerticalOptions="Center"
+                        Source="{StaticResource YourNavIcon}"
+                        IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}" />
 
-                    <StackLayout 
-                        Grid.Row="1" Grid.Column="2"
-                        Margin="0,0,10,0"
-                        HorizontalOptions="End"
-                        Orientation="Horizontal"
-                        HeightRequest="96">
-                        <Image 
-                            Source="{StaticResource NavRightWhite}"
-                            HeightRequest="{OnIdiom Phone=75, Tablet=150}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            Aspect="AspectFit" />
-                    </StackLayout>
+                </StackLayout>
 
-                    <Label 
-                        Text="{Binding Navigate}"
-                        Style="{StaticResource InstructableLabelStyle}"
-                        Grid.Row="2" />
-
-                    <Button 
-                        Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+                <!-- Confirm button pinned lower -->
+                <Button Grid.Row="2"
                         Command="{Binding ConfirmCommand}"
-                        CommandParameter="{Binding NextPage}" />
-                </Grid>
-            </StackLayout>
+                        CommandParameter="{Binding NextPage}"
+                        Margin="40"
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="End"
+                        BackgroundColor="DodgerBlue"
+                        IsVisible="{Binding ShowInstructable, Converter={StaticResource NegatedConverter}}"
+                        Text="Begin" />
 
+                <!-- Loading overlay -->
+                <ContentView BackgroundColor="#222222"
+                             Opacity="0.65"
+                             IsVisible="{Binding IsLoading}" />
+
+                <StackLayout Orientation="Vertical"
+                             IsVisible="{Binding IsLoading}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             WidthRequest="300"
+                             HeightRequest="100">
+                    <ActivityIndicator IsRunning="True"
+                                       Color="{StaticResource WhiteSmoke}" />
+                    <Label Text="{Binding LoadingText}"
+                           HorizontalOptions="Center"
+                           TextColor="{StaticResource WhiteSmoke}" />
+                </StackLayout>
+
+                <!-- Fullscreen instructable dark background -->
+                <ContentView Grid.RowSpan="3"
+                    BackgroundColor="#222222"
+                    Opacity="0.85"
+                    IsVisible="{Binding ShowInstructable}" />
+
+                <!-- Instructable content -->
+                <Grid IsVisible="{Binding ShowInstructable}"
+                    RowDefinitions="*,Auto"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    Padding="20">     
+
+                    <!-- Centered instructable message and icons -->
+                    <StackLayout Grid.Row="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="{OnIdiom Phone=300, Tablet=500}"
+                        Spacing="20">
+
+                        <Label 
+                            Text="{Binding TapTo}"
+                            Style="{StaticResource InstructableLabelStyle}" />
+
+                        <Grid ColumnDefinitions="33*,34*,33*">
+                            <Image 
+                                Source="{StaticResource NavLeftWhite}" 
+                                Aspect="AspectFit"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
+
+                            <Image 
+                                Source="{StaticResource Swipe}" 
+                                Grid.Column="1"
+                                Aspect="AspectFit"
+                                Margin="0,0,0,0"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
+
+                            <Image 
+                                Source="{StaticResource NavRightWhite}" 
+                                Grid.Column="2"
+                                Aspect="AspectFit"
+                                HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
+                        </Grid>
+
+                        <Label 
+                            Text="{Binding Navigate}"
+                            Style="{StaticResource InstructableLabelStyle}" />
+
+                    </StackLayout>
+
+                    <!-- Got it! button pinned at bottom -->
+                    <Button 
+                        Grid.Row="1"
+                        Text="Got it!"
+                        Command="{Binding ConfirmCommand}"
+                        CommandParameter="{Binding NextPage}"
+                        BackgroundColor="{StaticResource DodgerBlue}"
+                        TextColor="White"
+                        HeightRequest="50"
+                        Margin="20"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="End" />
+                </Grid>
+
+            </Grid>
         </Grid>
     </ContentPage.Content>
-
 </views:BasePage>

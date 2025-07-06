@@ -3,9 +3,9 @@ using SpiritualGiftsTest.Models;
 
 namespace SpiritualGiftsTest.Messages;
 
-public class LanguageChangedMessage : ValueChangedMessage<TranslationOptionModel>
+public class LanguageChangedMessage : ValueChangedMessage<LanguageOption>
 {
-    public LanguageChangedMessage(TranslationOptionModel language)
+    public LanguageChangedMessage(LanguageOption language)
         : base(language)
     {
     }

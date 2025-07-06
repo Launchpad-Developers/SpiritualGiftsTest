@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Configuration;
 using SpiritualGiftsTest.Resources;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.ViewModels;
@@ -7,7 +8,7 @@ using SpiritualGiftsTest.Views.Reporting;
 using SpiritualGiftsTest.Views.Results;
 using SpiritualGiftsTest.Views.Send;
 using SpiritualGiftsTest.Views.Settings;
-using SpiritualGiftsTest.Views.Test;
+using SpiritualGiftsTest.Views.Survey;
 using SpiritualGiftsTest.Views.Welcome;
 using System.Globalization;
 
@@ -18,6 +19,7 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
@@ -30,12 +32,13 @@ public static class MauiProgram
             .RegisterAppServices()
             .RegisterViewModels();
 
+        // Localization
         var deviceCulture = CultureInfo.CurrentCulture;
-
         AppResources.Culture = deviceCulture;
         CultureInfo.DefaultThreadCurrentCulture = deviceCulture;
         CultureInfo.DefaultThreadCurrentUICulture = deviceCulture;
 
+        // SQLite Init
         SQLitePCL.Batteries.Init();
 
         return builder.Build();
@@ -43,10 +46,23 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder)
     {
-        //Do not remove qualifying domain from Network or this will not build
+
+#if DEBUG
+        var baseUrl = "https://sgt-dev-b29c8-default-rtdb.firebaseio.com/";
+#else
+        var baseUrl = "https://sgt-prod-691ce-default-rtdb.firebaseio.com/";
+#endif
+
+        // Register typed HttpClient for URLService
+        mauiAppBuilder.Services.AddHttpClient<IURLService, URLService>(client =>
+        {
+            client.BaseAddress = new Uri(baseUrl ?? throw new InvalidOperationException("BaseUrl missing."));
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        // Other app services
         mauiAppBuilder.Services.AddSingleton<IPreferences>(_ => Preferences.Default);
         mauiAppBuilder.Services.AddSingleton<ITranslationService, TranslationService>();
-        mauiAppBuilder.Services.AddSingleton<IURLService, URLService>();
         mauiAppBuilder.Services.AddTransient<IDeviceStorageService, DeviceStorageService>();
         mauiAppBuilder.Services.AddTransient<IDatabaseService, DatabaseService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
@@ -77,8 +93,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<SettingsViewModel>();
         mauiAppBuilder.Services.AddSingleton<SettingsPage>();
 
-        mauiAppBuilder.Services.AddSingleton<TestViewModel>();
-        mauiAppBuilder.Services.AddSingleton<TestPage>();
+        mauiAppBuilder.Services.AddSingleton<SurveyViewModel>();
+        mauiAppBuilder.Services.AddSingleton<SurveyPage>();
 
         mauiAppBuilder.Services.AddSingleton<WelcomeViewModel>();
         mauiAppBuilder.Services.AddSingleton<WelcomePage>();

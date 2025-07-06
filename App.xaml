@@ -64,19 +64,20 @@
                 <Setter Property="FontFamily" Value="Kanit" />
             </Style>
             <Style x:Key="NavTitleLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource TitleLabelStyle}">
-                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=28}" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="Margin" Value="0" />
+                <Setter Property="MaxLines" Value="0" />
             </Style>
 
             <FontImageSource x:Key="Info" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.Info}"
+                             Glyph="{x:Static fonts:IconFontGlyphs.InfoCircle}"
                              Color="{StaticResource DarkGray}" />
 
             <FontImageSource x:Key="Settings" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.Cogs}"
+                             Glyph="{x:Static fonts:IconFontGlyphs.Cog}"
                              Color="{StaticResource DarkGray}" />
 
             <FontImageSource x:Key="BackArrow" 
@@ -182,6 +183,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="WidthRequest" Value="200" />
+                <Setter Property="HeightRequest" Value="50" />
                 <Setter Property="FontSize" Value="36" />
                 <Setter Property="Grid.ColumnSpan" Value="3" />
             </Style>

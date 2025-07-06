@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SpiritualGiftsTest.Helpers;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 using System.Runtime.Versioning;
@@ -26,8 +27,8 @@ public partial class AppInfoViewModel : BaseViewModel
         {
             var message = new EmailMessage
             {
-                Subject = "Spiritual Gifts Test",
-                Body = "Information for Spiritual Gifts Test.",
+                Subject = "Spiritual Gifts Survey",
+                Body = "Information for Spiritual Gifts Survey.",
                 To = new List<string>() { emailAddress }
             };
             await Email.ComposeAsync(message);
@@ -48,39 +49,27 @@ public partial class AppInfoViewModel : BaseViewModel
 
     public void Initialize()
 	{
-        var lang = TranslationService.PrimaryLanguage;
-
-			if (lang != null)
-			{
-                PageTopic = lang.SpiritualGiftsTestTitle;
-                CreatedBy = lang.CreatedBy;
-                RevLong = lang.RevLong;
-                RevLongEmail = lang.RevLongEmail;
-                DevelopedBy = lang.DevelopedBy;
-                RevSmith = lang.RevSmith;
-                RevSmithEmail = lang.RevSmithEmail;
-                Launchpad = lang.AppsmithsLLC;
-                FlowDirection = lang.LanguageTextDirection.Equals("RL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-		    }
+		if (TranslationService.Language != null)
+		{
+            CurrentTranslation = TranslationService.Language;
+            FlowDirection = CurrentTranslation.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
+            PageTopic = CurrentTranslation.AppStrings.Get("Settings", "Settings");
+            CreatedBy = CurrentTranslation.AppStrings.Get("CreatedBy", "Created by");
+            DevelopedBy = CurrentTranslation.AppStrings.Get("DevelopedBy", "Developed by");
+            DeveloperEmail = CurrentTranslation.AppStrings.Get("DeveloperEmail", "william@launchpaddevs.com");
+            Launchpad = CurrentTranslation.AppStrings.Get("Launchpad", "Launchpad Developers");
+		}
     }
 
     [ObservableProperty]
     private string createdBy = string.Empty;
 
     [ObservableProperty]
-    private string revLong = string.Empty;
-
-    [ObservableProperty]
-    private string revLongEmail = string.Empty;
-
-    [ObservableProperty]
     private string developedBy = string.Empty;
 
     [ObservableProperty]
-    private string revSmith = string.Empty;
-
-    [ObservableProperty]
-    private string revSmithEmail = string.Empty;
+    private string developerEmail = string.Empty;
 
     [ObservableProperty]
     private string launchpad = string.Empty;

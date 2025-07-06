@@ -4,7 +4,7 @@
              x:Class="SpiritualGiftsTest.Views.Controls.TitleLabel">
     <ContentView.Content>
         <Grid>
-            <Label x:Name="titleLabel" FontFamily="{StaticResource Title}" />
+            <Label x:Name="titleLabel" MaxLines="0" LineBreakMode="WordWrap" FontFamily="{StaticResource Title}" />
         </Grid>
     </ContentView.Content>
 </ContentView>
