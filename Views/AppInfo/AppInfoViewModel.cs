@@ -2,10 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
+using System.Runtime.Versioning;
 using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.AppInfo;
 
+[SupportedOSPlatform("android")]
+[SupportedOSPlatform("ios")]
 public partial class AppInfoViewModel : BaseViewModel
 {
     public AppInfoViewModel(
@@ -17,7 +20,7 @@ public partial class AppInfoViewModel : BaseViewModel
 
 
     [RelayCommand]
-    private async Task OnEmailCommandAsync(string emailAddress)
+    private async Task SendEmailAsync(string emailAddress)
 	{
         try
         {

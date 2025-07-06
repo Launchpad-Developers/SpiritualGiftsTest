@@ -52,7 +52,7 @@
                     <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevLong}" />
                     <Label x:Name="longEmail" Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevLongEmail}" TextColor="{StaticResource DodgerBlue}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding EmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevLongEmail}" />
+                            <TapGestureRecognizer Command="{Binding SendEmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevLongEmail}" />
                         </Label.GestureRecognizers>
                     </Label>
                     <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}" LabelText="{Binding DevelopedBy}" />
@@ -60,7 +60,7 @@
                     <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding Launchpad}" />
                     <Label x:Name="smithEmail" Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevSmithEmail}" TextColor="{StaticResource DodgerBlue}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding EmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevSmithEmail}" />
+                            <TapGestureRecognizer Command="{Binding SendEmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevSmithEmail}" />
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>

@@ -20,12 +20,14 @@
                 BackgroundColor="Transparent"
                 IsVisible="{Binding ShowControls}"
                 Source="{StaticResource Settings}"
-                Command="{Binding OpenSettings}"/>
+                Command="{Binding OpenSettingsCommand}"/>
+            
             <c:TitleLabel 
                 NewStyle="{StaticResource NavTitleLabelStyle}"
                 HorizontalOptions="Fill"
                 LabelText="{Binding PageTopic}"
                 FlowDirection="{Binding FlowDirection}" />
+            
             <ImageButton 
                 HorizontalOptions="End"
                 VerticalOptions="Center"
@@ -34,7 +36,7 @@
                 HeightRequest="25"
                 IsVisible="{Binding ShowControls}"
                 Source="{StaticResource Info}"
-                Command="{Binding OpenInfo}"/>
+                Command="{Binding OpenInfoCommand}"/>
         </StackLayout>
     </NavigationPage.TitleView>
 

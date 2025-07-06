@@ -6,9 +6,9 @@ using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.Welcome;
+
 
 public partial class WelcomeViewModel : BaseViewModel
 {

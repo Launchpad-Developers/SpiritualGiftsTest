@@ -3,14 +3,8 @@
     x:Class="SpiritualGiftsTest.Views.Controls.ASLabelCell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Name="Self">
-
-    <!-- single tap recognizer wired to your Command DP -->
-    <ContentView.GestureRecognizers>
-        <TapGestureRecognizer
-            Command="{Binding Command, Source={x:Reference Self}}"
-            CommandParameter="{Binding ., Source={x:Reference Self}}" />
-    </ContentView.GestureRecognizers>
+    xmlns:local="clr-namespace:SpiritualGiftsTest.Views.Controls"
+    x:DataType="local:ASLabelCell">
 
     <Grid
       HorizontalOptions="Fill"
@@ -38,13 +32,13 @@
             Margin="20,-5,0,0">
             <Label
               x:Name="TitleLabel"
-              Text="{Binding Title, Source={x:Reference Self}}"
+              Text="{Binding Title}"
               FontSize="{OnIdiom Phone=14, Tablet=20}"
               FontAttributes="Bold" />
             <Label
               Text="*"
               TextColor="Red"
-              IsVisible="{Binding IsRequired, Source={x:Reference Self}}" />
+              IsVisible="{Binding IsRequired}" />
         </StackLayout>
 
         <!-- Detail text -->
@@ -52,7 +46,7 @@
             x:Name="DetailLabel"
             Grid.Row="0" Grid.RowSpan="2"
             Grid.Column="1"
-            Text="{Binding Detail, Source={x:Reference Self}}"
+            Text="{Binding Detail}"
             TextColor="{StaticResource PrimaryTextColor}"
             VerticalOptions="Center"
             HorizontalOptions="End"
@@ -68,17 +62,17 @@
             HeightRequest="30"
             WidthRequest="30"
             Margin="0,-5,20,0"
-            IsVisible="{Binding IsReadOnly, Source={x:Reference Self}, Converter={StaticResource InverseBool}}" />
+            IsVisible="{Binding IsReadOnly, Converter={StaticResource InverseBool}}" />
 
         <!-- Error message, only visible when non‐empty -->
         <Label
             x:Name="ErrorLabel"
             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-            Text="{Binding Error, Source={x:Reference Self}}"
+            Text="{Binding Error}"
             TextColor="Red"
             Margin="20,22,0,0"
             FontSize="12"
-            IsVisible="{Binding Error, Source={x:Reference Self}, Converter={StaticResource StringNotNullOrEmpty}}" />
+            IsVisible="{Binding Error, Converter={StaticResource StringNotNullOrEmpty}}" />
 
         <!-- full‐cell tappable overlay -->
         <Border
@@ -95,7 +89,7 @@
             BackgroundColor="Gray"
             HorizontalOptions="Fill"
             VerticalOptions="End"
-            IsVisible="{Binding IsLastCell, Source={x:Reference Self}, Converter={StaticResource InverseBool}}" />
+            IsVisible="{Binding IsLastCell, Converter={StaticResource InverseBool}}" />
 
     </Grid>
 </ContentView>

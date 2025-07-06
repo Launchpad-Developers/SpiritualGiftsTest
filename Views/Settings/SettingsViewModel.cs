@@ -4,9 +4,12 @@ using SpiritualGiftsTest.Messages;
 using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
+using System.Runtime.Versioning;
 
 namespace SpiritualGiftsTest.Views.Settings;
 
+[SupportedOSPlatform("android")]
+[SupportedOSPlatform("ios")]
 public partial class SettingsViewModel : BaseViewModel
 {
     public SettingsViewModel(
@@ -27,7 +30,7 @@ public partial class SettingsViewModel : BaseViewModel
     private string parallelMode = string.Empty;
 
     [ObservableProperty]
-    private string primaryLanguageTitle = string.Empty;
+    private string languageTitle = string.Empty;
 
     [ObservableProperty]
     private string parallelLanguageTitle = string.Empty;
@@ -38,7 +41,7 @@ public partial class SettingsViewModel : BaseViewModel
     [ObservableProperty]
     private TranslationOptionModel selectedParallelLanguage = new();
 
-    public List<TranslationOptionModel> PrimaryLanguageOptions { get; set; }
+    public List<TranslationOptionModel> LanguageOptions { get; set; }
         = new List<TranslationOptionModel>();
     public List<TranslationOptionModel> ParallelLanguageOptions { get; set; }
         = new List<TranslationOptionModel>();
@@ -81,7 +84,7 @@ public partial class SettingsViewModel : BaseViewModel
         LoadingText = lang.Loading;
 		PageTopic = lang.Settings;
 
-        PrimaryLanguageOptions = new List<TranslationOptionModel>();
+        LanguageOptions = new List<TranslationOptionModel>();
         ParallelLanguageOptions = new List<TranslationOptionModel>();
 
         var languageOptions = TranslationService.PrimaryTranslationOptions;
@@ -93,7 +96,7 @@ public partial class SettingsViewModel : BaseViewModel
                 SelectedLanguage = option;
             }
             
-            PrimaryLanguageOptions.Add(option);
+            LanguageOptions.Add(option);
         }
 
         var parallelLanguageOptions = TranslationService.ParallelTranslationOptions;
@@ -108,7 +111,7 @@ public partial class SettingsViewModel : BaseViewModel
             ParallelLanguageOptions.Add(option);
         }
 
-        OnPropertyChanged(nameof(PrimaryLanguageOptions));
+        OnPropertyChanged(nameof(LanguageOptions));
         OnPropertyChanged(nameof(ParallelLanguageOptions));
         OnPropertyChanged(nameof(SelectedLanguage));
         OnPropertyChanged(nameof(SelectedParallelLanguage));
@@ -116,7 +119,7 @@ public partial class SettingsViewModel : BaseViewModel
         ParallelMode = lang.ParallelMode;
         TabletRequired = lang.OnlyAvailableOnTablets;
 
-        PrimaryLanguageTitle = $"{lang.StudentLanguage} 1";
+        LanguageTitle = $"{lang.StudentLanguage} 1";
         ParallelLanguageTitle = $"{lang.TeacherLanguage} 2";
 
         IsLoading = false;

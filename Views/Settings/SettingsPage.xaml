@@ -6,9 +6,9 @@
     xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:shared="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
-    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Settings;assembly=SpiritualGiftsTest"
-    ios:NavigationPage.HideNavigationBarSeparator="true"
+    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Settings"
     x:DataType="vm:SettingsViewModel"
+    ios:NavigationPage.HideNavigationBarSeparator="true"
     NavigationPage.HasBackButton="False"
     FlowDirection="{Binding FlowDirection}">
 
@@ -82,12 +82,56 @@
                         <Switch x:Name="ParallelMode" HorizontalOptions="End" VerticalOptions="Center" Margin="30,0" IsToggled="{Binding IsParallel, Mode=TwoWay}" IsEnabled="{Binding IsTablet}" />
                     </StackLayout>
                     <Label Text="{Binding TabletRequired}" TextColor="Red" FontSize="Micro" Margin="30,-10,30,50" IsVisible="{Binding IsTablet, Converter={StaticResource NegatedConverter}}" />
+                    
                     <BoxView HeightRequest="0.5" HorizontalOptions="Fill" />
+                    <Grid 
+                        Padding="20,10"
+                        RowDefinitions="Auto"
+                        ColumnDefinitions="*,Auto">
 
-                    <c:ASLabelCell x:Name="StudentLanguage" Title="{Binding PrimaryLanguageTitle}" Detail="{Binding SelectedLanguage.CodeOptionTranslation}" Command="{Binding PrimaryLanguageTapped}" />
+                        <!-- Title -->
+                        <Label 
+                            Text="{Binding LanguageTitle}" 
+                            VerticalOptions="Center" />
+
+                        <!-- Detail -->
+                        <Label 
+                            Grid.Column="1"
+                            Text="{Binding SelectedLanguage.CodeOptionTranslation}" 
+                            VerticalOptions="Center" />
+
+                        <!-- Tap Gesture on the whole Grid -->
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="StudentLanguage_Tapped" />
+                        </Grid.GestureRecognizers>
+
+                    </Grid>
+
                     <BoxView HeightRequest="0.5" HorizontalOptions="Fill" IsVisible="{Binding IsParallel}" />
+                    <Grid 
+                        Padding="20,10"
+                        RowDefinitions="Auto"
+                        ColumnDefinitions="*,Auto"
+                        IsVisible="{Binding IsParallel}">
 
-                    <c:ASLabelCell x:Name="TeacherLanguage" Title="{Binding ParallelLanguageTitle}" Detail="{Binding SelectedParallelLanguage.CodeOptionTranslation}" IsVisible="{Binding IsParallel}" Command="{Binding ParallelLanguageTapped}" />
+                        <!-- Title -->
+                        <Label 
+                            Text="{Binding ParallelLanguageTitle}" 
+                            VerticalOptions="Center" />
+
+                        <!-- Detail -->
+                        <Label 
+                            Grid.Column="1"
+                            Text="{Binding SelectedParallelLanguage.CodeOptionTranslation}" 
+                            VerticalOptions="Center" />
+
+                        <!-- Tap Gesture on the whole Grid -->
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TeacherLanguage_Tapped" />
+                        </Grid.GestureRecognizers>
+
+                    </Grid>
+                    
                 </StackLayout>
             </ScrollView>
 
@@ -97,7 +141,7 @@
                 <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
             </StackLayout>
 
-            <Picker x:Name="PrimaryLanguagePicker" Title="{Binding PrimaryLanguageTitle}" SelectedItem="{Binding SelectedPrimaryLanguage}" ItemsSource="{Binding PrimaryLanguageOptions}" IsVisible="false" ItemDisplayBinding="{Binding CodeOptionTranslation}" ios:Picker.UpdateMode="WhenFinished" />
+            <Picker x:Name="LanguagePicker" Title="{Binding LanguageTitle}" SelectedItem="{Binding SelectedLanguage}" ItemsSource="{Binding LanguageOptions}" IsVisible="false" ItemDisplayBinding="{Binding CodeOptionTranslation}" ios:Picker.UpdateMode="WhenFinished" />
 
             <Picker x:Name="ParallelLanguagePicker" Title="{Binding ParallelLanguageTitle}" SelectedItem="{Binding SelectedParallelLanguage}" ItemsSource="{Binding ParallelLanguageOptions}" IsVisible="false" ItemDisplayBinding="{Binding CodeOptionTranslation}" ios:Picker.UpdateMode="WhenFinished" />
         </Grid>

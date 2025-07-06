@@ -38,7 +38,7 @@
 
     <!-- Outer rounded container -->
     <Border
-        x:Name="Frame"
+        x:Name="OuterFrame"
         BackgroundColor="{StaticResource ContentBackground}"
         StrokeShape="RoundRectangle 20"
         Stroke="{StaticResource DarkGray}"
@@ -57,7 +57,7 @@
                 Grid.Row="0"
                 Style="{StaticResource Verse}"
                 FontFamily="{StaticResource VerseBody}"
-                Text="{Binding Question.QuestionText}" />
+                Text="{Binding QuestionText}" />
 
             <!-- Segmented selection for UserValue -->
             <!-- Button-bar “segmented” UI -->
@@ -66,12 +66,12 @@
                     
                     <!-- Not at all -->
                     <Button Text="Not at all"
-                        Command="{Binding Question.SetValueCommand}"
+                        Command="{Binding SetValueCommand}"
                         CommandParameter="{x:Static enums:UserValue.NotAtAll}"  
                         HorizontalOptions="Fill">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button"
-                                Binding="{Binding Question.UserValue}"
+                                Binding="{Binding UserValue}"
                                 Value="{x:Static enums:UserValue.NotAtAll}">
                                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                                 <Setter Property="TextColor"       Value="White" />
@@ -82,12 +82,12 @@
                     
                     <!-- Little -->
                     <Button Text="Little"
-                        Command="{Binding Question.SetValueCommand}"
+                        Command="{Binding SetValueCommand}"
                         CommandParameter="{x:Static enums:UserValue.Little}"  
                         HorizontalOptions="Fill">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button"
-                                Binding="{Binding Question.UserValue}"
+                                Binding="{Binding UserValue}"
                                 Value="{x:Static enums:UserValue.Little}">
                                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                                 <Setter Property="TextColor"       Value="White" />
@@ -98,13 +98,13 @@
                     
                     <!-- Some -->
                     <Button Text="Some"
-                        Command="{Binding Question.SetValueCommand}"
+                        Command="{Binding SetValueCommand}"
                         CommandParameter="{x:Static enums:UserValue.Some}"  
                         HorizontalOptions="Fill">
                         <Button.Triggers>
                             <DataTrigger 
                                 TargetType="Button"
-                                Binding="{Binding Question.UserValue}"
+                                Binding="{Binding UserValue}"
                                 Value="{x:Static enums:UserValue.Some}">
                                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                                 <Setter Property="TextColor"       Value="White" />
@@ -115,12 +115,12 @@
                     
                     <!-- Much -->
                     <Button Text="Much"
-                        Command="{Binding Question.SetValueCommand}"
+                        Command="{Binding SetValueCommand}"
                         CommandParameter="{x:Static enums:UserValue.Much}"  
                         HorizontalOptions="Fill">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button"
-                                Binding="{Binding Question.UserValue}"
+                                Binding="{Binding UserValue}"
                                 Value="{x:Static enums:UserValue.Much}">
                                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                                 <Setter Property="TextColor"       Value="White" />

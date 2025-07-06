@@ -9,8 +9,8 @@ public partial class TestPage : BasePage
         : base(vm)
     {
         InitializeComponent();
-        //loadingBackground.IsVisible = true;
-        //loadingMessage.IsVisible = true;
+        loadingBackground.IsVisible = true;
+        loadingMessage.IsVisible = true;
     }
 
     protected override void OnAppearing()
@@ -19,13 +19,13 @@ public partial class TestPage : BasePage
 
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {
-            //BackArrow.IsVisible = false;
-            //BackArrow.IsEnabled = false;
-            //BackArrowRight.IsVisible = true;
-            //BackArrowRight.IsEnabled = true;
+            BackArrow.IsVisible = false;
+            BackArrow.IsEnabled = false;
+            BackArrowRight.IsVisible = true;
+            BackArrowRight.IsEnabled = true;
 
-            //LeftButton.Source = (ImageSource)Application.Current!.Resources["NavRight"];
-            //RightButton.Source = (ImageSource)Application.Current!.Resources["NavLeft"];
+            LeftButton.Source = (ImageSource)Application.Current!.Resources["NavRight"];
+            RightButton.Source = (ImageSource)Application.Current!.Resources["NavLeft"];
         }
 
         var height = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
@@ -39,12 +39,12 @@ public partial class TestPage : BasePage
         //MainLayout.Children.Add(ViewModel.ContentViews[1]);
         SetupNavigation(1);
 
-        //MainLayout.Children.Remove(NavLayout);
-        //MainLayout.Children.Add(NavLayout);
-        //NavLayout.IsVisible = true;
+        MainLayout.Children.Remove(NavLayout);
+        MainLayout.Children.Add(NavLayout);
+        NavLayout.IsVisible = true;
 
-        //loadingBackground.IsVisible = false;
-        //loadingMessage.IsVisible = false;
+        loadingBackground.IsVisible = false;
+        loadingMessage.IsVisible = false;
     }
 
     

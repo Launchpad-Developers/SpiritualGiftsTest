@@ -7,6 +7,18 @@ namespace SpiritualGiftsTest.Views.Controls
         public ASLabelCell()
         {
             InitializeComponent();
+
+            BindingContext = this;
+
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += OnTapped!;
+            this.GestureRecognizers.Add(tap);
+        }
+
+        private void OnTapped(object? sender, TappedEventArgs e)
+        {
+            if (Command?.CanExecute(this) == true)
+                Command.Execute(this);
         }
 
         // ─── Bindable Properties ────────────────────────────────────────────────────
@@ -155,20 +167,8 @@ namespace SpiritualGiftsTest.Views.Controls
     /// </summary>
     public class PickerDefinition
     {
-        /// <summary>
-        /// The translation key for the picker’s title.
-        /// </summary>
         public string LocalizedPickerTitleKey { get; set; } = string.Empty;
-
-        /// <summary>
-        /// A collection of items to show in the picker.
-        /// (Assign this from your ViewModel when handling the command.)
-        /// </summary>
         public IEnumerable<object>? SimpleItemsCollection { get; set; }
-
-        /// <summary>
-        /// For your special “employee” mode.
-        /// </summary>
         public bool IsEmployee { get; set; }
     }
 }

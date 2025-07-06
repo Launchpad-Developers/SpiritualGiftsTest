@@ -1,4 +1,5 @@
 ﻿using SpiritualGiftsTest.Views.Shared;
+using System.Runtime.Versioning;
 
 namespace SpiritualGiftsTest.Views.Results;
 

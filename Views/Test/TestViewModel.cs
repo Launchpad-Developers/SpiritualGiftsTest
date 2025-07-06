@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SpiritualGiftsTest.Models;
 using SpiritualGiftsTest.Services;
 using SpiritualGiftsTest.Views.Shared;
+using System.Runtime.Versioning;
 using System.Windows.Input;
 
 namespace SpiritualGiftsTest.Views.Test;
@@ -13,6 +14,8 @@ public class TestNavParameter
     public string TargetPageTopic { get; set; } = string.Empty;
 }
 
+[SupportedOSPlatform("android")]
+[SupportedOSPlatform("ios")]
 public partial class TestViewModel : BaseViewModel
 {
 
@@ -68,7 +71,7 @@ public partial class TestViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void OnNavigated(TestNavParameter parameter)
+    private void Navigate(TestNavParameter parameter)
     {
         PageOf = $"{PrimaryLanguageTranslation.Page} {parameter.TargetPage} {PrimaryLanguageTranslation.Of} 20";
         PageTopic = parameter.TargetPageTopic;

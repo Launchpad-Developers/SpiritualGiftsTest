@@ -1,38 +1,37 @@
 ﻿using SpiritualGiftsTest.Models;
 
-namespace SpiritualGiftsTest.Views.Controls
+namespace SpiritualGiftsTest.Views.Controls;
+
+public partial class QuestionView : ContentView
 {
-    public partial class QuestionView : ContentView
+    public QuestionView()
     {
-        public QuestionView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        /// <summary>
-        /// The view‐model backing this QuestionView.
-        /// When set, we update the BindingContext so that all bindings in XAML (e.g. to Question.QuestionText, Question.UserValue) resolve correctly.
-        /// </summary>
-        public QuestionViewModel Question
-        {
-            get => (QuestionViewModel)GetValue(QuestionProperty);
-            set => SetValue(QuestionProperty, value);
-        }
+    /// <summary>
+    /// The view‐model backing this QuestionView.
+    /// When set, we update the BindingContext so that all bindings in XAML (e.g. to Question.QuestionText, Question.UserValue) resolve correctly.
+    /// </summary>
+    public QuestionViewModel Question
+    {
+        get => (QuestionViewModel)GetValue(QuestionProperty);
+        set => SetValue(QuestionProperty, value);
+    }
 
-        public static readonly BindableProperty QuestionProperty =
-            BindableProperty.Create(
-                nameof(Question),
-                typeof(QuestionViewModel),
-                typeof(QuestionView),
-                default(QuestionViewModel),
-                propertyChanged: OnQuestionChanged);
+    public static readonly BindableProperty QuestionProperty =
+        BindableProperty.Create(
+            nameof(Question),
+            typeof(QuestionViewModel),
+            typeof(QuestionView),
+            default(QuestionViewModel),
+            propertyChanged: OnQuestionChanged);
 
-        private static void OnQuestionChanged(BindableObject bindable, object oldValue, object newValue)
+    private static void OnQuestionChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is QuestionView view && newValue is QuestionViewModel vm)
         {
-            if (bindable is QuestionView view && newValue is QuestionViewModel vm)
-            {
-                view.BindingContext = vm;
-            }
+            view.BindingContext = vm;
         }
     }
 }

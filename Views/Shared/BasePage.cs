@@ -1,4 +1,6 @@
-﻿namespace SpiritualGiftsTest.Views.Shared;
+﻿using System.Runtime.Versioning;
+
+namespace SpiritualGiftsTest.Views.Shared;
 
 public partial class BasePage : ContentPage
 {
