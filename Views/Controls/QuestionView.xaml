@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ContentView 
-    x:Class="SpiritualGiftsTest.Views.Controls.QuestionView"
+    x:Class="SpiritualGiftsSurvey.Views.Controls.QuestionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:enums="clr-namespace:SpiritualGiftsTest.Enums"
-    xmlns:models="clr-namespace:SpiritualGiftsTest.Models"
+    xmlns:enums="clr-namespace:SpiritualGiftsSurvey.Enums"
+    xmlns:models="clr-namespace:SpiritualGiftsSurvey.Models"
     x:DataType="models:QuestionViewModel">
 
     <ContentView.Resources>

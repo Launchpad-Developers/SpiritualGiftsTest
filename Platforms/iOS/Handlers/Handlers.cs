@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest.Platforms.iOS.Handlers;
+﻿namespace SpiritualGiftsSurvey.Platforms.iOS.Handlers;
 
 public class Handlers
 {

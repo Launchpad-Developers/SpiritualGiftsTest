@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace SpiritualGiftsTest.Helpers
+namespace SpiritualGiftsSurvey.Helpers
 {
     public static class StringToFormattedStringConverter
     {

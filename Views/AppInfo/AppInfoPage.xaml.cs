@@ -1,6 +1,6 @@
-﻿using SpiritualGiftsTest.Views.Shared;
+﻿using SpiritualGiftsSurvey.Views.Shared;
 
-namespace SpiritualGiftsTest.Views.AppInfo;
+namespace SpiritualGiftsSurvey.Views.AppInfo;
 
 public partial class AppInfoPage : BasePage
 {

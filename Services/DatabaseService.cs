@@ -1,12 +1,15 @@
-﻿using SpiritualGiftsTest.Models;
+﻿using SpiritualGiftsSurvey.Models;
 using SQLite;
 
-namespace SpiritualGiftsTest.Services;
+namespace SpiritualGiftsSurvey.Services;
 
 public interface IDatabaseService
 {
     Task<Translation?> GetTranslationByCodeAsync(string languageCode);
     Task<IEnumerable<LanguageOption>> GetLanguageOptionsAsync(string languageCode);
+    Guid GetTranslationGuid(string languageCode);
+    List<AppString> GetAppStrings(string languageCode);
+    Task<int> GetQuestionsCountAsync(string languageCode);
 }
 
 public class DatabaseService : IDatabaseService
@@ -28,13 +31,52 @@ public class DatabaseService : IDatabaseService
             return null;
 
         using var conn = new SQLiteConnection(DatabasePath);
-        return conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
+        var translation = conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
+
+        return translation;
     }
 
     public async Task<IEnumerable<LanguageOption>> GetLanguageOptionsAsync(string languageCode)
     {
         var translation = await GetTranslationByCodeAsync(languageCode);
         return translation?.LanguageOptions ?? new List<LanguageOption>();
+    }
+
+    public List<AppString> GetAppStrings(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        var translation = conn.Table<Translation>()
+            .FirstOrDefault(t => t.Code == languageCode);
+
+        if (translation == null)
+            return new List<AppString>();
+
+        var appStrings = conn.Table<AppString>()
+            .Where(x => x.TranslationGuid == translation.TranslationGuid)
+            .ToList();
+
+        return appStrings;
+    }
+
+    public Guid GetTranslationGuid(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        return conn.Table<Translation>()
+            .FirstOrDefault(t => t.Code == languageCode)?.TranslationGuid ?? Guid.Empty;
+    }
+
+    public async Task<int> GetQuestionsCountAsync(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+        var translation = conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
+
+        if (translation == null)
+            return 0;
+
+        return conn.Table<Question>()
+            .Count(q => q.TranslationGuid == translation.TranslationGuid);
     }
 
     private async Task<bool> EnsureDatabaseUpToDate()
@@ -78,6 +120,7 @@ public class DatabaseService : IDatabaseService
         conn.CreateTable<Question>();
         conn.CreateTable<GiftDescription>();
         conn.CreateTable<Reflection>();
+        conn.CreateTable<Verse>();
 
         conn.Insert(rootModel.Database);
 
@@ -86,9 +129,30 @@ public class DatabaseService : IDatabaseService
             conn.Insert(translation);
             conn.InsertAll(translation.AppStrings);
             conn.InsertAll(translation.LanguageOptions);
+
+            foreach (var question in translation.Questions)
+            {
+                question.TranslationGuid = translation.TranslationGuid;
+            }
             conn.InsertAll(translation.Questions);
+
             conn.InsertAll(translation.GiftDescriptions);
             conn.InsertAll(translation.Reflections);
+
+            foreach (var giftDescription in translation.GiftDescriptions)
+            {
+                conn.Insert(giftDescription);
+
+                if (giftDescription.Verses != null)
+                {
+                    foreach (var verse in giftDescription.Verses)
+                    {
+                        verse.GiftDescriptionGuid = giftDescription.GiftDescriptionGuid;
+                        verse.VerseText = verse.VerseText;
+                        conn.Insert(verse);
+                    }
+                }
+            }
         }
 
         return true;

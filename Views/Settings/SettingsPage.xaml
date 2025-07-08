@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <shared:BasePage
-    x:Class="SpiritualGiftsTest.Views.Settings.SettingsPage"
+    x:Class="SpiritualGiftsSurvey.Views.Settings.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-    xmlns:shared="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
-    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Settings"
+    xmlns:shared="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Settings"
     x:DataType="vm:SettingsViewModel"
     ios:NavigationPage.HideNavigationBarSeparator="true"
-    NavigationPage.HasBackButton="False"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">
@@ -97,7 +98,7 @@
                         <!-- Detail -->
                         <Label 
                             Grid.Column="1"
-                            Text="{Binding SelectedLanguage.CodeOptionTranslation}" 
+                            Text="{Binding SelectedLanguage.DisplayName}" 
                             VerticalOptions="Center" />
 
                         <!-- Tap Gesture on the whole Grid -->
@@ -107,31 +108,6 @@
 
                     </Grid>
 
-                    <!--<BoxView HeightRequest="0.5" HorizontalOptions="Fill" IsVisible="{Binding IsParallel}" />
-                    <Grid 
-                        Padding="20,10"
-                        RowDefinitions="Auto"
-                        ColumnDefinitions="*,Auto"
-                        IsVisible="{Binding IsParallel}">
-
-                        --><!-- Title --><!--
-                        <Label 
-                            Text="{Binding ParallelLanguageTitle}" 
-                            VerticalOptions="Center" />
-
-                        --><!-- Detail --><!--
-                        <Label 
-                            Grid.Column="1"
-                            Text="{Binding SelectedParallelLanguage.CodeOptionTranslation}" 
-                            VerticalOptions="Center" />
-
-                        --><!-- Tap Gesture on the whole Grid --><!--
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TeacherLanguage_Tapped" />
-                        </Grid.GestureRecognizers>
-
-                    </Grid>-->
-                    
                 </StackLayout>
             </ScrollView>
 
@@ -141,9 +117,14 @@
                 <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
             </StackLayout>
 
-            <Picker x:Name="LanguagePicker" Title="{Binding LanguageTitle}" SelectedItem="{Binding SelectedLanguage}" ItemsSource="{Binding LanguageOptions}" IsVisible="false" ItemDisplayBinding="{Binding CodeOptionTranslation}" ios:Picker.UpdateMode="WhenFinished" />
+            <Picker x:Name="LanguagePicker" 
+                    Title="{Binding LanguageTitle}" 
+                    SelectedItem="{Binding SelectedLanguage}" 
+                    ItemsSource="{Binding LanguageOptions}" 
+                    ItemDisplayBinding="{Binding DisplayName}" 
+                    IsVisible="false" 
+                    ios:Picker.UpdateMode="WhenFinished" />
 
-            <Picker x:Name="ParallelLanguagePicker" Title="{Binding ParallelLanguageTitle}" SelectedItem="{Binding SelectedParallelLanguage}" ItemsSource="{Binding ParallelLanguageOptions}" IsVisible="false" ItemDisplayBinding="{Binding CodeOptionTranslation}" ios:Picker.UpdateMode="WhenFinished" />
         </Grid>
     </ContentPage.Content>
     

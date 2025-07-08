@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest.Helpers.FontAwesome
+﻿namespace SpiritualGiftsSurvey.Helpers.FontAwesome
 {
 	public static class IconFontGlyphs
 	{

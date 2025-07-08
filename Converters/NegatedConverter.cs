@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace SpiritualGiftsTest.Converters
+namespace SpiritualGiftsSurvey.Converters
 {
     public class NegatedConverter : IValueConverter
     {

@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
-using SpiritualGiftsTest.Enums;
+using SpiritualGiftsSurvey.Enums;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace SpiritualGiftsTest.Models;
+namespace SpiritualGiftsSurvey.Models;
 
 /// <summary>
 /// Represents a single question with its metadata and user response.

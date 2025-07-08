@@ -1,7 +1,8 @@
-﻿using SpiritualGiftsTest.Resources;
-using SpiritualGiftsTest.Views.Welcome;
+﻿using SpiritualGiftsSurvey.Resources;
+using SpiritualGiftsSurvey.Views.Splash;
+using SpiritualGiftsSurvey.Views.Welcome;
 
-namespace SpiritualGiftsTest;
+namespace SpiritualGiftsSurvey;
 
 public partial class App : Application
 {
@@ -11,12 +12,13 @@ public partial class App : Application
 
         Services = serviceProvider;
     }
+
     public IServiceProvider Services { get; }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        var welcomePage = Services.GetRequiredService<WelcomePage>();
-        var navPage = new NavigationPage(welcomePage);
+        var splashPage = Services.GetRequiredService<SplashPage>();
+        var navPage = new NavigationPage(splashPage);
         return new Window(navPage);
     }
 

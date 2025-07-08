@@ -1,20 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using SpiritualGiftsTest.Helpers;
-using SpiritualGiftsTest.Messages;
-using SpiritualGiftsTest.Models;
-using SpiritualGiftsTest.Services;
-using SpiritualGiftsTest.Views.Shared;
+using SpiritualGiftsSurvey.Messages;
+using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
 
-namespace SpiritualGiftsTest.Views.Welcome;
+namespace SpiritualGiftsSurvey.Views.Welcome;
 
 
 public partial class WelcomeViewModel : BaseViewModel
 {
-    private bool _databaseOK;
-
     public WelcomeViewModel(
         IAggregatedServices aggregatedServices, 
         IPreferences preferences) : base(aggregatedServices, preferences)
@@ -25,11 +22,9 @@ public partial class WelcomeViewModel : BaseViewModel
 
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
         {
-            _databaseOK = false;
             InitializePageAsync();
         });
 
-        //Question = new Tuple<string, string>(string.Empty, string.Empty);
         Languages = new ObservableCollection<string>();
 
         InitializePageAsync();
@@ -54,11 +49,10 @@ public partial class WelcomeViewModel : BaseViewModel
     private ObservableCollection<string> languages = new();
 
     [RelayCommand]
-    private void GetStarted()
+    private async Task GetStartedAsync()
     {
-        // TODO: navigate to your next page, e.g.:
-        // await Application.Current.MainPage.Navigation.PushAsync(
-        //     new ContentPage() { Title = "Next" });
+        if (!IsLoading)
+            await NavigationService.NavigateAsync("Settings");
     }
 
     [RelayCommand]
@@ -92,37 +86,19 @@ public partial class WelcomeViewModel : BaseViewModel
 
     public async void InitializePageAsync()
     {
-        if (_databaseOK) return;
-
-        LoadingText = "Loading";
         IsLoading = true;
         ErrorVisible = false;
-        OnPropertyChanged(nameof(ShowControls));
 
         await TranslationService.InitializeLanguage();
 
-        var lang = TranslationService.Language;
-
-        if (lang == null)
-        {
-            PageTopic = "Spiritual Gifts Survey";
-            ErrorMessage = "No Internet Connection \nNo Translations Available";
-            NavButtonText = "Retry";
-            ErrorVisible = true;
-        }
-        else
-        {
-            FlowDirection = lang.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
-            PageTopic = CurrentTranslation.AppStrings.Get("AppTitle", "Spiritual Gifts Survey");
-            NavButtonText = CurrentTranslation.AppStrings.Get("NavButtonBegin", "Begin");
-            _databaseOK = true;
-            ConfirmButtonText = CurrentTranslation.AppStrings.Get("GotIt", "Got it");
-            TapTo = CurrentTranslation.AppStrings.Get("TapArrows", "Tap arrows");
-            Navigate = CurrentTranslation.AppStrings.Get("ToNavigate", "to navigate");
-        }
-
-        NextPage = "SurveyPage";
+        FlowDirection = TranslationService.FlowDirection;
+        LoadingText = TranslationService.GetString("Loading", "Loading");
+        PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gift Survey_");
+        NavButtonText = TranslationService.GetString("NavButtonBegin", "Begin_");
+        ConfirmButtonText = TranslationService.GetString("GotIt", "Got it_");
+        TapTo = TranslationService.GetString("TapArrows", "Tap arrows_");
+        Navigate = TranslationService.GetString("ToNavigate", "to navigate_");
+        NextPage = TranslationService.GetString("SurveyPage", "SurveyPage");
 
         IsLoading = false;
         ShowInstructable = true;

@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest.Utilities;
+﻿namespace SpiritualGiftsSurvey.Utilities;
 
 public class TitledException : Exception
 {

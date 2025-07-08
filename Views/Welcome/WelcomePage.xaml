@@ -1,53 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage
-    x:Class="SpiritualGiftsTest.Views.Welcome.WelcomePage"
+    x:Class="SpiritualGiftsSurvey.Views.Welcome.WelcomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
-    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Welcome"
-    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Welcome"
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     NavigationPage.HasBackButton="False"
     x:DataType="vm:WelcomeViewModel"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
 
-    <!-- NAVBAR -->
-    <NavigationPage.TitleView>
-        <Grid ColumnDefinitions="Auto,*,Auto"
-              VerticalOptions="Center"
-              BackgroundColor="Transparent">
-
-            <!-- Left icon -->
-            <ImageButton Grid.Column="0"
-                         HorizontalOptions="Start"
-                         VerticalOptions="Center"
-                         WidthRequest="40"
-                         HeightRequest="40"
-                         BackgroundColor="Transparent"
-                         IsVisible="{Binding ShowControls}"
-                         Source="{StaticResource Settings}"
-                         Command="{Binding OpenSettingsCommand}" />
-
-            <!-- Title -->
-            <c:TitleLabel Grid.Column="1"
-                          HorizontalOptions="Center"
-                          VerticalOptions="Center"
-                          NewStyle="{StaticResource NavTitleLabelStyle}"
-                          LabelText="{Binding PageTopic}" />
-
-            <!-- Right icon -->
-            <ImageButton Grid.Column="2"
-                         HorizontalOptions="End"
-                         VerticalOptions="Center"
-                         WidthRequest="40"
-                         HeightRequest="40"
-                         Margin="0,0,10,0"
-                         BackgroundColor="Transparent"
-                         IsVisible="{Binding ShowControls}"
-                         Source="{StaticResource Info}"
-                         Command="{Binding OpenInfoCommand}" />
-
-        </Grid>
-    </NavigationPage.TitleView>
 
     <ContentPage.Content>
         <Grid>
@@ -56,6 +20,44 @@
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill" />
+
+            <!-- NAVBAR -->
+            <Grid ColumnDefinitions="Auto,*,Auto"
+                  Padding="10"
+                  VerticalOptions="Start"
+                  BackgroundColor="Transparent">
+
+                <!-- Left icon -->
+                <ImageButton Grid.Column="0"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Center"
+                     WidthRequest="40"
+                     HeightRequest="40"
+                     BackgroundColor="Transparent"
+                     IsVisible="{Binding ShowControls}"
+                     Source="{StaticResource Settings}"
+                     Command="{Binding OpenSettingsCommand}" />
+
+                <!-- Title -->
+                <c:TitleLabel Grid.Column="1"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    NewStyle="{StaticResource NavTitleLabelStyle}"
+                    LabelText="{Binding PageTopic}" />
+
+                <!-- Right icon -->
+                <ImageButton Grid.Column="2"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    Margin="0,0,10,0"
+                    BackgroundColor="Transparent"
+                    IsVisible="{Binding ShowControls}"
+                    Source="{StaticResource Info}"
+                    Command="{Binding OpenInfoCommand}" />
+
+            </Grid>
 
             <!-- Main layout -->
             <Grid RowDefinitions="*,Auto,100">
@@ -93,9 +95,10 @@
                         HeightRequest="50"
                         HorizontalOptions="Fill"
                         VerticalOptions="End"
-                        BackgroundColor="DodgerBlue"
+                        BackgroundColor="{StaticResource ButtonColor}"
                         IsVisible="{Binding ShowInstructable, Converter={StaticResource NegatedConverter}}"
-                        Text="Begin" />
+                        Text="{Binding NavButtonText}"
+                        FontSize="30" Padding="0" />
 
                 <!-- Loading overlay -->
                 <ContentView BackgroundColor="#222222"
@@ -116,13 +119,14 @@
                 </StackLayout>
 
                 <!-- Fullscreen instructable dark background -->
-                <ContentView Grid.RowSpan="3"
-                    BackgroundColor="#222222"
-                    Opacity="0.85"
+                <ContentView Grid.RowSpan="4"
+                    BackgroundColor="#222244"
+                    Opacity="0.75"
                     IsVisible="{Binding ShowInstructable}" />
 
                 <!-- Instructable content -->
                 <Grid IsVisible="{Binding ShowInstructable}"
+                    Margin="0,50,0,0"
                     RowDefinitions="*,Auto"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"

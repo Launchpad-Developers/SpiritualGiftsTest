@@ -1,7 +1,7 @@
-﻿using SpiritualGiftsTest.Helpers;
-using SpiritualGiftsTest.Views.Shared;
+﻿using SpiritualGiftsSurvey.Helpers;
+using SpiritualGiftsSurvey.Views.Shared;
 
-namespace SpiritualGiftsTest.Views.Survey;
+namespace SpiritualGiftsSurvey.Views.Survey;
 
 public partial class SurveyPage : BasePage
 {

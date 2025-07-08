@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SpiritualGiftsTest.Helpers;
-using SpiritualGiftsTest.Services;
-using SpiritualGiftsTest.Views.Shared;
+using SpiritualGiftsSurvey.Helpers;
+using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Shared;
+using System.Reflection;
 using System.Runtime.Versioning;
 
-namespace SpiritualGiftsTest.Views.Survey;
+namespace SpiritualGiftsSurvey.Views.Survey;
 
 public class SurveyNavParameter
 {
@@ -29,24 +30,10 @@ public partial class SurveyViewModel : BaseViewModel
 
     public async void InitializeData()
     {
-        CurrentTranslation = TranslationService.Language;
+        FlowDirection = TranslationService.FlowDirection;
 
-        if (CurrentTranslation == null)
-        {
-            await NotifyUserAsync(
-                "Error",
-                "Translation not found",
-                "Ok");
-
-            //TODO Log error
-
-            return;
-        }
-
-        FlowDirection = CurrentTranslation.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-
-        SpiritualGiftsTest = CurrentTranslation.AppStrings.Get("AppTitle", "Spiritual Gifts Survey");
-        LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
+        Title = TranslationService.GetString("AppTitle", "Spiritual Gifts Survey");
+        LoadingText = TranslationService.GetString("Loading", "Loading");
 
         UpdateQuestionLabel(_currentPage);
     }
@@ -54,11 +41,10 @@ public partial class SurveyViewModel : BaseViewModel
     private int _currentPage = 1;
     private void UpdateQuestionLabel(int currentPage)
     {
-        var question = CurrentTranslation.AppStrings.Get("Question", "question");
-        var of = CurrentTranslation.AppStrings.Get("Of", "of");
-        var total = CurrentTranslation.Questions.Count;
+        var question = TranslationService.GetString("Question", "question");
+        var of = TranslationService.GetString("Of", "of");
 
-        QuestionOf = $"{question} {currentPage} {of} {total}";
+        QuestionOf = $"{question} {currentPage} {of} {TranslationService.TotalQuestions}";
     }
 
 
@@ -74,17 +60,14 @@ public partial class SurveyViewModel : BaseViewModel
     [ObservableProperty]
     private bool showForwardNav;
 
-    [ObservableProperty]
-    private string spiritualGiftsTest = string.Empty;
-
     [RelayCommand]
     private async Task OnLeaveSurveyAsync()
     {
         var result = await ConfirmUserAsync(
-            CurrentTranslation.AppStrings.Get("Quit", "quit"),
-            CurrentTranslation.AppStrings.Get("AreYouSure", "Are you sure?"),
-            CurrentTranslation.AppStrings.Get("Yes", "Yes"),
-            CurrentTranslation.AppStrings.Get("No", "No"));
+            TranslationService.GetString("Quit", "quit"),
+            TranslationService.GetString("AreYouSure", "Are you sure?"),
+            TranslationService.GetString("Yes", "Yes"),
+            TranslationService.GetString("No", "No"));
 
         if (result)
             await NavBack();

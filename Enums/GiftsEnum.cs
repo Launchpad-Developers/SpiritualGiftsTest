@@ -1,4 +1,4 @@
-namespace SpiritualGiftsTest.Enums;
+namespace SpiritualGiftsSurvey.Enums;
 
 public enum Gifts
 {

@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest.Enums;
+﻿namespace SpiritualGiftsSurvey.Enums;
 
 /// <summary>
 /// Possible values a user can assign to a question.

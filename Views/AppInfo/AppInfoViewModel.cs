@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SpiritualGiftsTest.Helpers;
-using SpiritualGiftsTest.Services;
-using SpiritualGiftsTest.Views.Shared;
+using SpiritualGiftsSurvey.Helpers;
+using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Shared;
 using System.Runtime.Versioning;
 using System.Windows.Input;
 
-namespace SpiritualGiftsTest.Views.AppInfo;
+namespace SpiritualGiftsSurvey.Views.AppInfo;
 
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
@@ -49,17 +49,13 @@ public partial class AppInfoViewModel : BaseViewModel
 
     public void Initialize()
 	{
-		if (TranslationService.Language != null)
-		{
-            CurrentTranslation = TranslationService.Language;
-            FlowDirection = CurrentTranslation.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
-            PageTopic = CurrentTranslation.AppStrings.Get("Settings", "Settings");
-            CreatedBy = CurrentTranslation.AppStrings.Get("CreatedBy", "Created by");
-            DevelopedBy = CurrentTranslation.AppStrings.Get("DevelopedBy", "Developed by");
-            DeveloperEmail = CurrentTranslation.AppStrings.Get("DeveloperEmail", "william@launchpaddevs.com");
-            Launchpad = CurrentTranslation.AppStrings.Get("Launchpad", "Launchpad Developers");
-		}
+        FlowDirection = TranslationService.FlowDirection;
+        LoadingText = TranslationService.GetString("Loading", "Loading");
+        PageTopic = TranslationService.GetString("Settings", "Settings");
+        CreatedBy = TranslationService.GetString("CreatedBy", "Created by");
+        DevelopedBy = TranslationService.GetString("DevelopedBy", "Developed by");
+        DeveloperEmail = TranslationService.GetString("DeveloperEmail", "william@launchpaddevs.com");
+        Launchpad = TranslationService.GetString("Launchpad", "Launchpad Developers");
     }
 
     [ObservableProperty]

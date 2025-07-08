@@ -1,14 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using SpiritualGiftsTest.Helpers;
-using SpiritualGiftsTest.Messages;
-using SpiritualGiftsTest.Models;
-using SpiritualGiftsTest.Services;
+using SpiritualGiftsSurvey.Helpers;
+using SpiritualGiftsSurvey.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace SpiritualGiftsTest.Views.Shared;
+namespace SpiritualGiftsSurvey.Views.Shared;
 
 public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyChanged
 {
@@ -80,9 +77,6 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     private bool isTablet;
 
     [ObservableProperty]
-    private Translation currentTranslation = new();
-
-    [ObservableProperty]
     private bool showInstructable = Preferences.Default.Get(nameof(ShowInstructable), true);
 
     [ObservableProperty]
@@ -115,6 +109,11 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         {
             await NavBack();
         }
+    }
+
+    public virtual Task InitAsync(INavigation nav)
+    {
+        throw new NotImplementedException("InitAsync must be implemented in derived ViewModels.");
     }
 
     protected async Task NavBack()

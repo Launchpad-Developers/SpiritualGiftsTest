@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace SpiritualGiftsTest;
+namespace SpiritualGiftsSurvey;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

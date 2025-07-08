@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpiritualGiftsTest.Helpers
+namespace SpiritualGiftsSurvey.Helpers
 {
     public static class AppConstants
     {
@@ -20,6 +20,9 @@ namespace SpiritualGiftsTest.Helpers
         public const int TitleFontSize_Micro = 19;
         public const int TitleAttFontSize_Micro = 22;
 
-        public const string DefaultLanguage = "English";
+        public const string DefaultLangName = "English";
+        public const string DefaultLangCode = "EN";
+
+        public const int TotalQuestions = 110;
     }
 }

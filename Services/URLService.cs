@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SpiritualGiftsTest.Models;
-using SpiritualGiftsTest.Utilities;
+using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Utilities;
 using System.Text.Json;
 
-namespace SpiritualGiftsTest.Services;
+namespace SpiritualGiftsSurvey.Services;
 
 public interface IURLService
 {
@@ -38,7 +38,7 @@ public partial class URLService : ObservableObject, IURLService
 
     public async Task<Result<RootModel>> GetFullDatabaseAsync()
     {
-        var uri = new Uri($"{BaseURL}.json");
+        var uri = new Uri($"{BaseURL}/.json");
         var result = await GetStringAsync(uri);
 
         if (result.Error != null)

@@ -1,14 +1,14 @@
-using SpiritualGiftsTest.Resources;
+using SpiritualGiftsSurvey.Resources;
 using System.Reflection;
 using System.Resources;
 
-namespace SpiritualGiftsTest.i18n;
+namespace SpiritualGiftsSurvey.i18n;
 
 // You exclude the 'Extension' suffix when using in Xaml markup
 [ContentProperty(nameof(Text))]
 internal class TranslateExtension : IMarkupExtension
 {
-    private const string ResourceId = "SpiritualGiftsTest.Resources.AppResources";
+    private const string ResourceId = "SpiritualGiftsSurvey.Resources.AppResources";
 
     private static readonly Lazy<ResourceManager> resmgr = new Lazy<ResourceManager>(() => new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly));
 

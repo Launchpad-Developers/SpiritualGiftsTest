@@ -1,13 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using SpiritualGiftsTest.Helpers;
-using SpiritualGiftsTest.Messages;
-using SpiritualGiftsTest.Models;
-using SpiritualGiftsTest.Services;
-using SpiritualGiftsTest.Views.Shared;
+using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Shared;
 using System.Runtime.Versioning;
 
-namespace SpiritualGiftsTest.Views.Settings;
+namespace SpiritualGiftsSurvey.Views.Settings;
 
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
@@ -18,58 +15,45 @@ public partial class SettingsViewModel : BaseViewModel
         IPreferences preferences) 
         : base(aggregatedServices, preferences)
     {
-        InitializeData();
+
     }
 
     [ObservableProperty]
     private string header = string.Empty;
 
     [ObservableProperty]
-    private string languageTitle = string.Empty;
-
-    public List<LanguageOption> LanguageOptions { get; set; }
-        = new List<LanguageOption>();
+    private List<LanguageOption> languageOptions = new();
 
     [ObservableProperty]
-    private Translation currentTranslation = new();
+    private LanguageOption? selectedLanguage;
 
-    partial void OnCurrentTranslationChanged(Translation value)
+    [ObservableProperty]
+    private string languageTitle = "English";
+
+    partial void OnSelectedLanguageChanged(LanguageOption? value)
     {
-        if (value == null) return;
-        CurrentTranslationChanged();
+        if (value == null)
+            return;
+
+        _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
+
+        // If your LanguageOptions might change display names, refresh them:
+        LanguageOptions = TranslationService.GetLanguageOptions();
+        LanguageTitle = TranslationService.CurrentLanguageDisplayName;
     }
 
-    private async void CurrentTranslationChanged()
+    public override Task InitAsync(INavigation nav)
     {
-        IsLoading = true;
 
-        try
-        {
-            await TranslationService.SetLanguageByCodeAsync(CurrentTranslation.Code);
-        }
-        finally
-        {
-            IsLoading = false;
-            await NavBack();
-        }
-    }
+        FlowDirection = TranslationService.FlowDirection;
+        LoadingText = TranslationService.GetString("Loading", "Loading");
+        PageTopic = TranslationService.GetString("Settings", "Settings");
+        LanguageTitle = TranslationService.CurrentLanguageDisplayName;
 
-    public void InitializeData()
-    {
-        IsLoading = true;
+        var currentCode = TranslationService.CurrentLanguageCode;
+        LanguageOptions = TranslationService.GetLanguageOptions();
+        SelectedLanguage = LanguageOptions.FirstOrDefault(lo => lo.CodeOption == currentCode);
 
-        try
-        {
-            CurrentTranslation = TranslationService.Language;
-            FlowDirection = CurrentTranslation.FlowDirection.Equals("RTL") ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            LoadingText = CurrentTranslation.AppStrings.Get("Loading", "Loading");
-            PageTopic = CurrentTranslation.AppStrings.Get("Settings", "Settings");
-            LanguageOptions = CurrentTranslation.LanguageOptions;
-            LanguageTitle = TranslationService.CurrentLanguageDisplayName;
-        }
-        finally
-        {
-            IsLoading = false;
-        }
+        return base.InitAsync(nav);
     }
 }

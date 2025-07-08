@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <views:BasePage
-    x:Class="SpiritualGiftsTest.Views.AppInfo.AppInfoPage"
+    x:Class="SpiritualGiftsSurvey.Views.AppInfo.AppInfoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
-    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.AppInfo;assembly=SpiritualGiftsTest"
-    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.AppInfo;assembly=SpiritualGiftsSurvey"
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     x:DataType="vm:AppInfoViewModel"
-    NavigationPage.HasBackButton="False"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">

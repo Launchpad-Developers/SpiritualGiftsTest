@@ -16,7 +16,7 @@
         <value>Loading...</value>
         <comment>The loading text</comment>
     </data>
-    <data name="SpiritualGiftsTestTitle" xml:space="preserve">
+    <data name="SpiritualGiftsSurveyTitle" xml:space="preserve">
         <value>Spiritual Gifts Survey</value>
         <comment>The title of the Main Page</comment>
     </data>

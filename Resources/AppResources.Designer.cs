@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SpiritualGiftsTest.Resources {
+namespace SpiritualGiftsSurvey.Resources {
     using System;
     using System.Reflection;
     
@@ -30,7 +30,7 @@ namespace SpiritualGiftsTest.Resources {
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("SpiritualGiftsTest.Resources.AppResources", typeof(AppResources).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("SpiritualGiftsSurvey.Resources.AppResources", typeof(AppResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -53,9 +53,9 @@ namespace SpiritualGiftsTest.Resources {
             }
         }
         
-        internal static string SpiritualGiftsTestTitle {
+        internal static string SpiritualGiftsSurveyTitle {
             get {
-                return ResourceManager.GetString("SpiritualGiftsTestTitle", resourceCulture);
+                return ResourceManager.GetString("SpiritualGiftsSurveyTitle", resourceCulture);
             }
         }
         

@@ -2,10 +2,10 @@
 <Application 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
-    xmlns:converters="clr-namespace:SpiritualGiftsTest.Converters"
-    xmlns:fonts="clr-namespace:SpiritualGiftsTest.Helpers.FontAwesome"
-    x:Class="SpiritualGiftsTest.App">
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
+    xmlns:converters="clr-namespace:SpiritualGiftsSurvey.Converters"
+    xmlns:fonts="clr-namespace:SpiritualGiftsSurvey.Helpers.FontAwesome"
+    x:Class="SpiritualGiftsSurvey.App">
     
     <Application.Resources>
         <!-- Application resource dictionary -->
@@ -38,8 +38,8 @@
 
             <!--Refreshed Styles-->
             <Style TargetType="NavigationPage" ApplyToDerivedTypes="true">
-                <Setter Property="BarTextColor" Value="{StaticResource ButtonColor}" />
-                <Setter Property="BarBackgroundColor" Value="{StaticResource SecondaryTextColor}" />
+                <Setter Property="BarTextColor" Value="Transparent" />
+                <Setter Property="BarBackgroundColor" Value="Transparent" />
             </Style>
 
             <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">

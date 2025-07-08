@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest.Services;
+﻿namespace SpiritualGiftsSurvey.Services;
 
 public interface IAggregatedServices
 {

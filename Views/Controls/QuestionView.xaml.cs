@@ -1,6 +1,6 @@
-﻿using SpiritualGiftsTest.Models;
+﻿using SpiritualGiftsSurvey.Models;
 
-namespace SpiritualGiftsTest.Views.Controls;
+namespace SpiritualGiftsSurvey.Views.Controls;
 
 public partial class QuestionView : ContentView
 {

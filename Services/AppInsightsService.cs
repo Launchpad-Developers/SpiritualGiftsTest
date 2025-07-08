@@ -1,7 +1,7 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 
-namespace SpiritualGiftsTest.Services;
+namespace SpiritualGiftsSurvey.Services;
 
 public interface IAnalyticsService
 {

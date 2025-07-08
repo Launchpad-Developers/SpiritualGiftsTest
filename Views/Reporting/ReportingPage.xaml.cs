@@ -1,7 +1,7 @@
-﻿using SpiritualGiftsTest.Views.Shared;
+﻿using SpiritualGiftsSurvey.Views.Shared;
 using System.Runtime.Versioning;
 
-namespace SpiritualGiftsTest.Views.Reporting;
+namespace SpiritualGiftsSurvey.Views.Reporting;
 
 public partial class ReportingPage : BasePage
 {

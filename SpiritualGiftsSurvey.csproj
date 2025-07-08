@@ -11,17 +11,17 @@
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
-		<RootNamespace>SpiritualGiftsTest</RootNamespace>
+		<RootNamespace>SpiritualGiftsSurvey</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>SpiritualGiftsTest</ApplicationTitle>
+		<ApplicationTitle>Spiritual Gifts Survey</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.spiritualgiftstest</ApplicationId>
+		<ApplicationId>com.launchpaddevs.spiritualgiftssurvey</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -41,14 +41,16 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg">
+		  <Color>#6082B6</Color>
+		  <ForegroundFile>Resources\AppIcon\appiconfg.svg</ForegroundFile>
+		</MauiIcon>
+		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#6082B6" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -113,5 +115,12 @@
 		<PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.11" />
 	</ItemGroup>
+
+
+  <ItemGroup>
+    <MauiXaml Update="Views\Splash\SplashPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
 
 </Project>

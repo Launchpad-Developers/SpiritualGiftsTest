@@ -1,18 +1,17 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Configuration;
-using SpiritualGiftsTest.Resources;
-using SpiritualGiftsTest.Services;
-using SpiritualGiftsTest.ViewModels;
-using SpiritualGiftsTest.Views.AppInfo;
-using SpiritualGiftsTest.Views.Reporting;
-using SpiritualGiftsTest.Views.Results;
-using SpiritualGiftsTest.Views.Send;
-using SpiritualGiftsTest.Views.Settings;
-using SpiritualGiftsTest.Views.Survey;
-using SpiritualGiftsTest.Views.Welcome;
+using SpiritualGiftsSurvey.Resources;
+using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.AppInfo;
+using SpiritualGiftsSurvey.Views.Reporting;
+using SpiritualGiftsSurvey.Views.Results;
+using SpiritualGiftsSurvey.Views.Send;
+using SpiritualGiftsSurvey.Views.Settings;
+using SpiritualGiftsSurvey.Views.Splash;
+using SpiritualGiftsSurvey.Views.Survey;
+using SpiritualGiftsSurvey.Views.Welcome;
 using System.Globalization;
 
-namespace SpiritualGiftsTest;
+namespace SpiritualGiftsSurvey;
 
 public static class MauiProgram
 {
@@ -76,7 +75,8 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddSingleton<NavigationPage>();
 
-        mauiAppBuilder.Services.AddSingleton<SplashScreenViewModel>();
+        mauiAppBuilder.Services.AddSingleton<SplashViewModel>();
+        mauiAppBuilder.Services.AddSingleton<SplashPage>();
 
         mauiAppBuilder.Services.AddSingleton<AppInfoViewModel>();
         mauiAppBuilder.Services.AddSingleton<AppInfoPage>();

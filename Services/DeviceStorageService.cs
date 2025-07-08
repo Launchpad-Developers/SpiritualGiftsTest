@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace SpiritualGiftsTest.Services;
+namespace SpiritualGiftsSurvey.Services;
 public interface IDeviceStorageService
 {
     string GetAbsoluteFilePath(string filePath);
@@ -53,7 +53,7 @@ public class DeviceStorageService : IDeviceStorageService
             Debug.WriteLine($"***** DeviceStorageService created folder path");
         }
 
-        string fullPath = Path.Combine(folderPath, "SpiritualGiftsTest.sqlite");
+        string fullPath = Path.Combine(folderPath, "SpiritualGiftsSurvey.sqlite");
 
         Debug.WriteLine($"***** DeviceStorageService folderPath: {fullPath}");
         return fullPath;

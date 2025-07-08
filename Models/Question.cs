@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace SpiritualGiftsTest.Models;
+namespace SpiritualGiftsSurvey.Models;
 
 [Table("Question")]
 public class Question
@@ -11,4 +11,5 @@ public class Question
     public Guid QuestionGuid { get; set; }
     public string Gift { get; set; } = string.Empty;
     public string QuestionText { get; set; } = string.Empty;
+    public Guid TranslationGuid { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Versioning;
 
-namespace SpiritualGiftsTest.Views.Shared;
+namespace SpiritualGiftsSurvey.Views.Shared;
 
 public partial class BasePage : ContentPage
 {

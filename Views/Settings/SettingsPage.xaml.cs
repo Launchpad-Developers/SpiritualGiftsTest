@@ -1,7 +1,7 @@
-﻿using SpiritualGiftsTest.Views.Shared;
+﻿using SpiritualGiftsSurvey.Views.Shared;
 using System.Runtime.Versioning;
 
-namespace SpiritualGiftsTest.Views.Settings;
+namespace SpiritualGiftsSurvey.Views.Settings;
 
 public partial class SettingsPage : BasePage
 {
@@ -14,6 +14,8 @@ public partial class SettingsPage : BasePage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        ViewModel.InitAsync(Navigation);
 
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {
@@ -28,13 +30,6 @@ public partial class SettingsPage : BasePage
     {
         MainThread.BeginInvokeOnMainThread(() => {
             LanguagePicker.Focus();
-        });
-    }
-
-    private void TeacherLanguage_Tapped(object sender, System.EventArgs e)
-    {
-        MainThread.BeginInvokeOnMainThread(() => {
-            ParallelLanguagePicker.Focus();
         });
     }
 }

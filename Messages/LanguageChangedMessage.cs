@@ -1,12 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
-using SpiritualGiftsTest.Models;
+using SpiritualGiftsSurvey.Models;
 
-namespace SpiritualGiftsTest.Messages;
+namespace SpiritualGiftsSurvey.Messages;
 
-public class LanguageChangedMessage : ValueChangedMessage<LanguageOption>
+public class LanguageChangedMessage : ValueChangedMessage<bool>
 {
-    public LanguageChangedMessage(LanguageOption language)
-        : base(language)
+    public LanguageChangedMessage(bool value) : base(value)
     {
     }
 }

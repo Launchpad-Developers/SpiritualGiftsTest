@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace SpiritualGiftsTest.Models;
+namespace SpiritualGiftsSurvey.Models;
 
 [Table("Translation")]
 public class Translation

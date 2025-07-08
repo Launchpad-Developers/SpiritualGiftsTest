@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage
-    x:Class="SpiritualGiftsTest.Views.Results.ResultsPage"
+    x:Class="SpiritualGiftsSurvey.Views.Results.ResultsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:SpiritualGiftsTest.Views.Shared;assembly=SpiritualGiftsTest"
-    xmlns:vm="clr-namespace:SpiritualGiftsTest.Views.Results;assembly=SpiritualGiftsTest"  
-    xmlns:c="clr-namespace:SpiritualGiftsTest.Views.Controls;assembly=SpiritualGiftsTest"
+    xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Results;assembly=SpiritualGiftsSurvey"  
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     ios:NavigationPage.HideNavigationBarSeparator="true"
     x:DataType="vm:ResultsViewModel"
-    NavigationPage.HasBackButton="False"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
 
     <!-- …your page layout here… -->
 

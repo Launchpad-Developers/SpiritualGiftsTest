@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest
+﻿namespace SpiritualGiftsSurvey
 {
     public partial class MainPage : ContentPage
     {

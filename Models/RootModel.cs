@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsTest.Models;
+﻿namespace SpiritualGiftsSurvey.Models;
 
 public class RootModel
 {

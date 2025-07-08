@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpiritualGiftsTest.Views.Controls
+namespace SpiritualGiftsSurvey.Views.Controls
 {
     public class ASImageButton : ImageButton
     {

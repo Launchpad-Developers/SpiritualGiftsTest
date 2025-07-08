@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace SpiritualGiftsTest.Views.Controls
+namespace SpiritualGiftsSurvey.Views.Controls
 {
     public partial class ASLabelCell : ContentView
     {

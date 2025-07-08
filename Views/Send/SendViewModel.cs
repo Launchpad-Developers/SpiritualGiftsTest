@@ -1,7 +1,7 @@
-﻿using SpiritualGiftsTest.Services;
-using SpiritualGiftsTest.Views.Shared;
+﻿using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Shared;
 
-namespace SpiritualGiftsTest.Views.Send;
+namespace SpiritualGiftsSurvey.Views.Send;
 
 public partial class SendViewModel : BaseViewModel
 {

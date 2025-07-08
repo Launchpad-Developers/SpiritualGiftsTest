@@ -1,7 +1,7 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
 using System.Globalization;
 
-namespace SpiritualGiftsTest.Converters
+namespace SpiritualGiftsSurvey.Converters
 {
     public class RadiusToShapeConverter : IValueConverter
     {
