@@ -89,13 +89,13 @@ public partial class TranslationService : ObservableObject, ITranslationService
             .ToDictionary(x => x.Key, x => x.Value);
 
         // Load available language options
-        LanguageOptions = await _databaseService.GetLanguageOptionsAsync(CurrentLanguageCode);
+        LanguageOptions = _databaseService.GetLanguageOptions(CurrentLanguageCode);
 
         // Set FlowDirection based on DB value or default to LTR
         FlowDirection = ParseFlowDirection(translation.FlowDirection);
 
         // Load total questions
-        TotalQuestions = await _databaseService.GetQuestionsCountAsync(CurrentLanguageCode);
+        TotalQuestions = _databaseService.GetQuestionsCount(CurrentLanguageCode);
 
         // Done: returns success only if you actually have strings + options
         return AppStrings.Any() && LanguageOptions.Any();
@@ -136,11 +136,7 @@ public partial class TranslationService : ObservableObject, ITranslationService
         if (LanguageOptions != null && LanguageOptions.Any())
             return LanguageOptions.ToList();
 
-        // If not already loaded, get them fresh from the database synchronously
-        // (Note: SQLite sync here is fine if you're sure DB is local & lightweight)
-
-        var options = _databaseService.GetLanguageOptionsAsync(CurrentLanguageCode)
-                                       .GetAwaiter().GetResult();
+        var options = _databaseService.GetLanguageOptions(CurrentLanguageCode);
 
         return options?.ToList() ?? new List<LanguageOption>();
     }

@@ -6,10 +6,13 @@ namespace SpiritualGiftsSurvey.Services;
 public interface IDatabaseService
 {
     Task<Translation?> GetTranslationByCodeAsync(string languageCode);
-    Task<IEnumerable<LanguageOption>> GetLanguageOptionsAsync(string languageCode);
     Guid GetTranslationGuid(string languageCode);
+    List<LanguageOption> GetLanguageOptions(string languageCode);
+    List<Question> GetQuestions(string languageCode);
+    List<GiftDescription> GetGiftDescriptions(string languageCode);
+    List<Verse> GetVerses(Guid giftDescriptionGuid);
     List<AppString> GetAppStrings(string languageCode);
-    Task<int> GetQuestionsCountAsync(string languageCode);
+    int GetQuestionsCount(string languageCode);
 }
 
 public class DatabaseService : IDatabaseService
@@ -36,12 +39,6 @@ public class DatabaseService : IDatabaseService
         return translation;
     }
 
-    public async Task<IEnumerable<LanguageOption>> GetLanguageOptionsAsync(string languageCode)
-    {
-        var translation = await GetTranslationByCodeAsync(languageCode);
-        return translation?.LanguageOptions ?? new List<LanguageOption>();
-    }
-
     public List<AppString> GetAppStrings(string languageCode)
     {
         using var conn = new SQLiteConnection(DatabasePath);
@@ -59,6 +56,60 @@ public class DatabaseService : IDatabaseService
         return appStrings;
     }
 
+    public List<LanguageOption> GetLanguageOptions(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        var translation = conn.Table<Translation>()
+            .FirstOrDefault(t => t.Code == languageCode);
+
+        if (translation == null)
+            return new List<LanguageOption>();
+
+        return conn.Table<LanguageOption>()
+            .Where(x => x.TranslationGuid == translation.TranslationGuid)
+            .ToList();
+    }
+
+    public List<Question> GetQuestions(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        var translation = conn.Table<Translation>()
+            .FirstOrDefault(t => t.Code == languageCode);
+
+        if (translation == null)
+            return new List<Question>();
+
+        return conn.Table<Question>()
+            .Where(x => x.TranslationGuid == translation.TranslationGuid)
+            .ToList();
+    }
+
+    public List<GiftDescription> GetGiftDescriptions(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        var translation = conn.Table<Translation>()
+            .FirstOrDefault(t => t.Code == languageCode);
+
+        if (translation == null)
+            return new List<GiftDescription>();
+
+        return conn.Table<GiftDescription>()
+            .Where(x => x.TranslationGuid == translation.TranslationGuid)
+            .ToList();
+    }
+
+    public List<Verse> GetVerses(Guid giftDescriptionGuid)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        return conn.Table<Verse>()
+            .Where(x => x.GiftDescriptionGuid == giftDescriptionGuid)
+            .ToList();
+    }
+
     public Guid GetTranslationGuid(string languageCode)
     {
         using var conn = new SQLiteConnection(DatabasePath);
@@ -67,7 +118,7 @@ public class DatabaseService : IDatabaseService
             .FirstOrDefault(t => t.Code == languageCode)?.TranslationGuid ?? Guid.Empty;
     }
 
-    public async Task<int> GetQuestionsCountAsync(string languageCode)
+    public int GetQuestionsCount(string languageCode)
     {
         using var conn = new SQLiteConnection(DatabasePath);
         var translation = conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
@@ -127,20 +178,34 @@ public class DatabaseService : IDatabaseService
         foreach (var translation in rootModel.Translations)
         {
             conn.Insert(translation);
-            conn.InsertAll(translation.AppStrings);
-            conn.InsertAll(translation.LanguageOptions);
+
+            foreach (var appString in translation.AppStrings)
+            {
+                appString.TranslationGuid = translation.TranslationGuid;
+                conn.Insert(appString);
+            }
+
+            foreach (var languageOption in translation.LanguageOptions)
+            {
+                languageOption.TranslationGuid = translation.TranslationGuid;
+                conn.Insert(languageOption);
+            }
 
             foreach (var question in translation.Questions)
             {
                 question.TranslationGuid = translation.TranslationGuid;
+                conn.Insert(question);
             }
-            conn.InsertAll(translation.Questions);
 
-            conn.InsertAll(translation.GiftDescriptions);
-            conn.InsertAll(translation.Reflections);
+            foreach (var reflection in translation.Reflections)
+            {
+                reflection.TranslationGuid = translation.TranslationGuid;
+                conn.Insert(reflection);
+            }
 
             foreach (var giftDescription in translation.GiftDescriptions)
             {
+                giftDescription.TranslationGuid = translation.TranslationGuid;
                 conn.Insert(giftDescription);
 
                 if (giftDescription.Verses != null)

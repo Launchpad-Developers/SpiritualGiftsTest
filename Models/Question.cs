@@ -9,7 +9,7 @@ public class Question
     public int Id { get; set; }
 
     public Guid QuestionGuid { get; set; }
+    public Guid TranslationGuid { get; set; }
     public string Gift { get; set; } = string.Empty;
     public string QuestionText { get; set; } = string.Empty;
-    public Guid TranslationGuid { get; set; }
 }

@@ -9,6 +9,7 @@ public class LanguageOption
     public int Id { get; set; }
 
     public Guid LanguageOptionGuid { get; set; }
+    public Guid TranslationGuid { get; set; }
     public string CodeOption { get; set; } = string.Empty;
     public string DisplayName { get; set; } = string.Empty;
 }

@@ -9,6 +9,7 @@ public class GiftDescription
     public int Id { get; set; }
 
     public Guid GiftDescriptionGuid { get; set; }
+    public Guid TranslationGuid { get; set; }
     public string Gift { get; set; } = string.Empty;
     public string Translation { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
