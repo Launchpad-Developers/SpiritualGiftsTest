@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsSurvey.Messages;
 using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
 using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
@@ -18,17 +19,20 @@ public partial class WelcomeViewModel : BaseViewModel
     {
         Languages = new ObservableCollection<string>();
 
-        Title = "Welcome to the Spiritual Gifts Survey";
+        Title = "Spiritual Gifts Survey";
 
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
         {
             InitializePageAsync();
         });
-
+        
         Languages = new ObservableCollection<string>();
 
+        //No translation data available before this point
         InitializePageAsync();
     }
+
+    public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
 
     [ObservableProperty]
     private string errorMessage = string.Empty;
@@ -52,14 +56,14 @@ public partial class WelcomeViewModel : BaseViewModel
     private async Task GetStartedAsync()
     {
         if (!IsLoading)
-            await NavigationService.NavigateAsync("Settings");
+            await PerformNavigation(Routes.SettingsPage);
     }
 
     [RelayCommand]
     private async Task OpenInfoAsync()
     {
         if (!IsLoading)
-            await NavigationService.NavigateAsync("AppInfo");
+            await PerformNavigation(Routes.AppInfoPage);
     }
 
     [RelayCommand]
@@ -73,7 +77,7 @@ public partial class WelcomeViewModel : BaseViewModel
 
         if (!IsLoading)
         {
-            var result = await NavigationService.NavigateAsync("Settings");
+            await PerformNavigation(Routes.SettingsPage);
             return;
         }
     }
@@ -91,13 +95,15 @@ public partial class WelcomeViewModel : BaseViewModel
 
         await TranslationService.InitializeLanguage();
 
+        string instructions = string.Format(TranslationService.GetString("Instructions", "Instructions"), Environment.NewLine);
+        Questions.Add(new QuestionViewModel { QuestionText = instructions });
+
         FlowDirection = TranslationService.FlowDirection;
         LoadingText = TranslationService.GetString("Loading", "Loading");
-        PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gift Survey_");
-        NavButtonText = TranslationService.GetString("NavButtonBegin", "Begin_");
-        ConfirmButtonText = TranslationService.GetString("GotIt", "Got it_");
-        TapTo = TranslationService.GetString("TapArrows", "Tap arrows_");
-        Navigate = TranslationService.GetString("ToNavigate", "to navigate_");
+        PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gift Survey");
+        NavButtonText = TranslationService.GetString("GotIt", "Got it");
+        TapTo = TranslationService.GetString("TapArrows", "Tap arrows");
+        Navigate = TranslationService.GetString("ToNavigate", "to navigate");
         NextPage = TranslationService.GetString("SurveyPage", "SurveyPage");
 
         IsLoading = false;

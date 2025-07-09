@@ -73,6 +73,7 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
     {
+        mauiAppBuilder.Services.AddSingleton<AppShell>();
         mauiAppBuilder.Services.AddSingleton<NavigationPage>();
 
         mauiAppBuilder.Services.AddSingleton<SplashViewModel>();

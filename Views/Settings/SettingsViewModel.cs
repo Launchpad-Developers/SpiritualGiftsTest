@@ -44,7 +44,6 @@ public partial class SettingsViewModel : BaseViewModel
 
     public override Task InitAsync(INavigation nav)
     {
-
         FlowDirection = TranslationService.FlowDirection;
         LoadingText = TranslationService.GetString("Loading", "Loading");
         PageTopic = TranslationService.GetString("Settings", "Settings");
@@ -54,6 +53,6 @@ public partial class SettingsViewModel : BaseViewModel
         LanguageOptions = TranslationService.GetLanguageOptions();
         SelectedLanguage = LanguageOptions.FirstOrDefault(lo => lo.CodeOption == currentCode);
 
-        return base.InitAsync(nav);
+        return Task.CompletedTask;
     }
 }

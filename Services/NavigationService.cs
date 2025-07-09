@@ -1,4 +1,6 @@
-﻿namespace SpiritualGiftsSurvey.Services;
+﻿using System.Diagnostics;
+
+namespace SpiritualGiftsSurvey.Services;
 
 public interface INavigationService
 {
@@ -8,13 +10,29 @@ public interface INavigationService
 
 public class NavigationService : INavigationService
 {
-    public Task GoBackToRootAsync()
+    public async Task<bool> NavigateAsync(string route)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await Shell.Current.GoToAsync($"///{route}");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Navigation failed: {ex.Message}");
+            return false;
+        }
     }
 
-    public Task<bool> NavigateAsync(string route)
+    public async Task GoBackToRootAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            await Shell.Current.GoToAsync("//WelcomePage");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"GoBackToRoot failed: {ex.Message}");
+        }
     }
 }

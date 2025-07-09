@@ -11,15 +11,18 @@ public partial class App : Application
         InitializeComponent();
 
         Services = serviceProvider;
+
+        // Make AppShell the MainPage
+        MainPage = Services.GetRequiredService<AppShell>();
     }
 
     public IServiceProvider Services { get; }
 
+
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        var splashPage = Services.GetRequiredService<SplashPage>();
-        var navPage = new NavigationPage(splashPage);
-        return new Window(navPage);
+        var shell = Services.GetRequiredService<AppShell>();
+        return new Window(shell);
     }
 
     protected override void OnStart()

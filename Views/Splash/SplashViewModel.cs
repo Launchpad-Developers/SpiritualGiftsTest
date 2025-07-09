@@ -17,10 +17,4 @@ public class SplashViewModel : BaseViewModel
     {
         _welcomePage = welcomePage;
     }
-
-    public override async Task InitAsync(INavigation nav)
-    {
-        await Task.Delay(4000);
-        await nav.PushAsync(_welcomePage);
-    }
 }

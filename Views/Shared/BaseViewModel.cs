@@ -71,9 +71,6 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     private string questionOf = string.Empty;
 
     [ObservableProperty]
-    private string confirmButtonText = string.Empty;
-
-    [ObservableProperty]
     private bool isTablet;
 
     [ObservableProperty]
@@ -103,7 +100,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
             if (Prefs.Get(nameof(ShowInstructable), true))
                 ShowInstructable = true;
             else
-                PerformNavigation(page);
+                await PerformNavigation(page);
         }
         else
         {
@@ -129,14 +126,20 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     }
 
     [RelayCommand]
-    private void OnConfirm(string page)
+    private async Task OnConfirmAsync(string page)
     {
-        //Set to false in settings after hitting "Got It" here
-        ShowInstructable = false;
-        PerformNavigation(page);
+        if (ShowInstructable)
+        {
+            ShowInstructable = false;
+            NavButtonText = TranslationService.GetString("NavButtonBegin", "Begin");
+        }
+        else
+        {
+            await PerformNavigation(page);
+        }
     }
 
-    private async void PerformNavigation(string page)
+    protected async Task PerformNavigation(string page)
     {
         IsLoading = true;
 

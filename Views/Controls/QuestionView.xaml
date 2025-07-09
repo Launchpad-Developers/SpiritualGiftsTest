@@ -8,129 +8,62 @@
     xmlns:models="clr-namespace:SpiritualGiftsSurvey.Models"
     x:DataType="models:QuestionViewModel">
 
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <Style x:Key="Verse" TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="Start" />
-                <Setter Property="VerticalTextAlignment"   Value="End" />
-                <Setter Property="TextColor"               Value="Black" />
-                <Setter Property="FontSize"                Value="20" />
-            </Style>
-            <Style x:Key="VerseReference" TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="End" />
-                <Setter Property="VerticalTextAlignment"   Value="Start" />
-                <Setter Property="TextColor"               Value="Black" />
-                <Setter Property="FontAttributes"          Value="Bold"  />
-                <Setter Property="Margin"                  Value="0,0,2,0" />
-                <Setter Property="FontSize"                Value="18" />
-            </Style>
-            <!-- Platform-specific font families -->
-            <OnPlatform x:TypeArguments="x:String" x:Key="VerseBody">
-                <On Platform="Android" Value="SourceCodePro-Regular.ttf#Source Code Pro" />
-                <On Platform="iOS"     Value="Avenir-Book" />
-            </OnPlatform>
-            <OnPlatform x:TypeArguments="x:String" x:Key="VerseRef">
-                <On Platform="Android" Value="CabinCondensed-Regular.ttf#Cabin Condensed" />
-                <On Platform="iOS"     Value="GillsSans-BoldItalic" />
-            </OnPlatform>
-        </ResourceDictionary>
-    </ContentView.Resources>
+    <Grid
+        Margin="30,10"
+        HorizontalOptions="Fill"
+        MinimumHeightRequest="0"
+        RowDefinitions="Auto">
 
-    <!-- Outer rounded container -->
-    <Border
-        x:Name="OuterFrame"
-        BackgroundColor="{StaticResource ContentBackground}"
-        StrokeShape="RoundRectangle 20"
-        Stroke="{StaticResource DarkGray}"
-        StrokeThickness="1"
-        Margin="40,10,40,10">
+        <Border
+            Stroke="{Binding BorderColor}"
+            StrokeThickness="3"
+            BackgroundColor="White"
+            HeightRequest="{Binding CellHeight}"
+            Padding="0"
+            HorizontalOptions="Fill">
 
-        <Grid x:Name="Grid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
 
-            <!-- Question text -->
-            <Label
-                x:Name="VerseText"
-                Grid.Row="0"
-                Style="{StaticResource Verse}"
-                FontFamily="{StaticResource VerseBody}"
-                Text="{Binding QuestionText}" />
 
-            <!-- Segmented selection for UserValue -->
-            <!-- Button-bar “segmented” UI -->
-            <Border StrokeShape="RoundRectangle 5" Padding="0" Margin="0,10,0,0">
-                <StackLayout Orientation="Horizontal" Spacing="1">
-                    
-                    <!-- Not at all -->
-                    <Button Text="Not at all"
-                        Command="{Binding SetValueCommand}"
-                        CommandParameter="{x:Static enums:UserValue.NotAtAll}"  
-                        HorizontalOptions="Fill">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button"
-                                Binding="{Binding UserValue}"
-                                Value="{x:Static enums:UserValue.NotAtAll}">
-                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
-                                <Setter Property="TextColor"       Value="White" />
-                                <Setter Property="FontAttributes"  Value="Bold" />
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                    
-                    <!-- Little -->
-                    <Button Text="Little"
-                        Command="{Binding SetValueCommand}"
-                        CommandParameter="{x:Static enums:UserValue.Little}"  
-                        HorizontalOptions="Fill">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button"
-                                Binding="{Binding UserValue}"
-                                Value="{x:Static enums:UserValue.Little}">
-                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
-                                <Setter Property="TextColor"       Value="White" />
-                                <Setter Property="FontAttributes"  Value="Bold" />
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                    
-                    <!-- Some -->
-                    <Button Text="Some"
-                        Command="{Binding SetValueCommand}"
-                        CommandParameter="{x:Static enums:UserValue.Some}"  
-                        HorizontalOptions="Fill">
-                        <Button.Triggers>
-                            <DataTrigger 
-                                TargetType="Button"
-                                Binding="{Binding UserValue}"
-                                Value="{x:Static enums:UserValue.Some}">
-                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
-                                <Setter Property="TextColor"       Value="White" />
-                                <Setter Property="FontAttributes"  Value="Bold" />
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                    
-                    <!-- Much -->
-                    <Button Text="Much"
-                        Command="{Binding SetValueCommand}"
-                        CommandParameter="{x:Static enums:UserValue.Much}"  
-                        HorizontalOptions="Fill">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button"
-                                Binding="{Binding UserValue}"
-                                Value="{x:Static enums:UserValue.Much}">
-                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
-                                <Setter Property="TextColor"       Value="White" />
-                                <Setter Property="FontAttributes"  Value="Bold" />
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                </StackLayout>
-            </Border>
+            <VerticalStackLayout
+                HorizontalOptions="Center">
 
-        </Grid>
-    </Border>
+                <Label
+                    Text="{Binding QuestionText}"
+                    TextColor="Black"
+                    FontSize="18"
+                    Margin="0,-5,0,0"
+                    LineBreakMode="WordWrap"
+                    HorizontalOptions="Fill"
+                    HeightRequest="{Binding CellHeight}"
+                    WidthRequest="300"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="Start" />
+
+                <Button Text="{Binding NotAtAll}"
+                    IsVisible="{Binding ShowButtons}"
+                    Command="{Binding SetValueCommand}"
+                    CommandParameter="{x:Static enums:UserValue.NotAtAll}" />
+
+                <Button Text="{Binding Little}"
+                    IsVisible="{Binding ShowButtons}"
+                    Command="{Binding SetValueCommand}"
+                    CommandParameter="{x:Static enums:UserValue.Little}" />
+
+                <Button Text="{Binding Some}"
+                    IsVisible="{Binding ShowButtons}"
+                    Command="{Binding SetValueCommand}"
+                    CommandParameter="{x:Static enums:UserValue.Some}" />
+
+                <Button Text="{Binding Much}"
+                    IsVisible="{Binding ShowButtons}"
+                    Command="{Binding SetValueCommand}"
+                    CommandParameter="{x:Static enums:UserValue.Much}" />
+            </VerticalStackLayout>
+
+        </Border>
+
+    </Grid>
 </ContentView>

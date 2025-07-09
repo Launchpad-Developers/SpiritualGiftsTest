@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Welcome"
+    xmlns:models="clr-namespace:SpiritualGiftsSurvey.Models"
+    xmlns:enums="clr-namespace:SpiritualGiftsSurvey.Enums"
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     NavigationPage.HasBackButton="False"
     x:DataType="vm:WelcomeViewModel"
@@ -14,15 +16,17 @@
 
 
     <ContentPage.Content>
-        <Grid>
+        <Grid RowDefinitions="Auto,*,100">
             <!-- BG -->
             <Image Source="mainpagebackground"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
-                   VerticalOptions="Fill" />
+                   VerticalOptions="Fill"
+                   Grid.RowSpan="3"/>
 
             <!-- NAVBAR -->
-            <Grid ColumnDefinitions="Auto,*,Auto"
+            <Grid Grid.Row="0" 
+                  ColumnDefinitions="Auto,*,Auto"
                   Padding="10"
                   VerticalOptions="Start"
                   BackgroundColor="Transparent">
@@ -60,130 +64,112 @@
             </Grid>
 
             <!-- Main layout -->
-            <Grid RowDefinitions="*,Auto,100">
+            <CollectionView
+                Grid.Row="1"
+                ItemsSource="{Binding Questions}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ShowInstructable, Converter={StaticResource NegatedConverter}}">
 
-                <!-- Center content: QuestionView + Nav icon -->
-                <StackLayout Grid.Row="0"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             Spacing="40">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:QuestionViewModel">
+                        <c:QuestionView />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                    <!-- QuestionView -->
-                    <c:QuestionView 
-                        x:Name="scriptureView"
-                        Question="{Binding Question}"
-                        IsVisible="{Binding ShowControls}" />
-
-                    <!-- Nav icon -->
-                    <ImageButton
-                        Command="{Binding NavButtonCommand}"
-                        CommandParameter="{Binding NextPage}"
-                        WidthRequest="100"
-                        HeightRequest="100"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Source="{StaticResource YourNavIcon}"
-                        IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}" />
-
-                </StackLayout>
-
-                <!-- Confirm button pinned lower -->
-                <Button Grid.Row="2"
-                        Command="{Binding ConfirmCommand}"
-                        CommandParameter="{Binding NextPage}"
-                        Margin="40"
-                        HeightRequest="50"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="End"
-                        BackgroundColor="{StaticResource ButtonColor}"
-                        IsVisible="{Binding ShowInstructable, Converter={StaticResource NegatedConverter}}"
-                        Text="{Binding NavButtonText}"
-                        FontSize="30" Padding="0" />
-
-                <!-- Loading overlay -->
-                <ContentView BackgroundColor="#222222"
-                             Opacity="0.65"
-                             IsVisible="{Binding IsLoading}" />
-
-                <StackLayout Orientation="Vertical"
-                             IsVisible="{Binding IsLoading}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             WidthRequest="300"
-                             HeightRequest="100">
-                    <ActivityIndicator IsRunning="True"
-                                       Color="{StaticResource WhiteSmoke}" />
-                    <Label Text="{Binding LoadingText}"
-                           HorizontalOptions="Center"
-                           TextColor="{StaticResource WhiteSmoke}" />
-                </StackLayout>
-
-                <!-- Fullscreen instructable dark background -->
-                <ContentView Grid.RowSpan="4"
-                    BackgroundColor="#222244"
-                    Opacity="0.75"
-                    IsVisible="{Binding ShowInstructable}" />
-
-                <!-- Instructable content -->
-                <Grid IsVisible="{Binding ShowInstructable}"
-                    Margin="0,50,0,0"
-                    RowDefinitions="*,Auto"
+            <!-- Confirm button pinned lower -->
+            <Button Grid.Row="2"
+                    Command="{Binding ConfirmCommand}"
+                    CommandParameter="{Binding NextPage}"
+                    Margin="40"
+                    HeightRequest="50"
                     HorizontalOptions="Fill"
-                    VerticalOptions="Fill"
-                    Padding="20">     
+                    VerticalOptions="End"
+                    BackgroundColor="{StaticResource ButtonColor}"
+                    IsVisible="{Binding ShowInstructable, Converter={StaticResource NegatedConverter}}"
+                    Text="{Binding NavButtonText}"
+                    FontSize="30" Padding="0" />
 
-                    <!-- Centered instructable message and icons -->
-                    <StackLayout Grid.Row="0"
+            <!-- Loading overlay -->
+            <ContentView BackgroundColor="#222222"
+                            Opacity="0.65"
+                            IsVisible="{Binding IsLoading}"
+                            Grid.Row="0" Grid.RowSpan="3" />
+
+            <StackLayout Orientation="Vertical"
+                            IsVisible="{Binding IsLoading}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            WidthRequest="300"
+                            HeightRequest="100"
+                            Grid.Row="0" Grid.RowSpan="3">
+                <ActivityIndicator IsRunning="True"
+                                    Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}"
                         HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        WidthRequest="{OnIdiom Phone=300, Tablet=500}"
-                        Spacing="20">
+                        TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
 
-                        <Label 
-                            Text="{Binding TapTo}"
-                            Style="{StaticResource InstructableLabelStyle}" />
+            <!-- Fullscreen instructable dark background -->
+            <ContentView
+                Grid.Row="0" Grid.RowSpan="3"
+                BackgroundColor="#222244"
+                Opacity="0.75"
+                IsVisible="{Binding ShowInstructable}" />
 
-                        <Grid ColumnDefinitions="33*,34*,33*">
-                            <Image 
-                                Source="{StaticResource NavLeftWhite}" 
-                                Aspect="AspectFit"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
 
-                            <Image 
-                                Source="{StaticResource Swipe}" 
-                                Grid.Column="1"
-                                Aspect="AspectFit"
-                                Margin="0,0,0,0"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
+            <!-- Centered instructable message and icons -->
+            <StackLayout
+                Grid.Row="0" Grid.RowSpan="3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="{OnIdiom Phone=300, Tablet=500}"
+                Spacing="20"
+                Margin="0,-40,0,0"
+                IsVisible="{Binding ShowInstructable}">
 
-                            <Image 
-                                Source="{StaticResource NavRightWhite}" 
-                                Grid.Column="2"
-                                Aspect="AspectFit"
-                                HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
-                        </Grid>
+                <Label 
+                    Text="{Binding TapTo}"
+                    Style="{StaticResource InstructableLabelStyle}" />
 
-                        <Label 
-                            Text="{Binding Navigate}"
-                            Style="{StaticResource InstructableLabelStyle}" />
+                <Grid ColumnDefinitions="33*,34*,33*">
+                    <Image 
+                        Source="{StaticResource NavLeftWhite}" 
+                        Aspect="AspectFit"
+                        HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
 
-                    </StackLayout>
+                    <Image 
+                        Source="{StaticResource Swipe}" 
+                        Grid.Column="1"
+                        Aspect="AspectFit"
+                        Margin="0,0,0,0"
+                        HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
 
-                    <!-- Got it! button pinned at bottom -->
-                    <Button 
-                        Grid.Row="1"
-                        Text="Got it!"
-                        Command="{Binding ConfirmCommand}"
-                        CommandParameter="{Binding NextPage}"
-                        BackgroundColor="{StaticResource DodgerBlue}"
-                        TextColor="White"
-                        HeightRequest="50"
-                        Margin="20"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="End" />
+                    <Image 
+                        Source="{StaticResource NavRightWhite}" 
+                        Grid.Column="2"
+                        Aspect="AspectFit"
+                        HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
                 </Grid>
 
-            </Grid>
+                <Label 
+                    Text="{Binding Navigate}"
+                    Style="{StaticResource InstructableLabelStyle}" />
+
+            </StackLayout>
+
+            <Button 
+                Grid.Row="0" Grid.RowSpan="3"
+                Text="{Binding NavButtonText}"
+                Command="{Binding ConfirmCommand}"
+                CommandParameter="{Binding NextPage}"
+                BackgroundColor="{StaticResource DodgerBlue}"
+                TextColor="White"
+                HeightRequest="50"
+                Margin="40"
+                HorizontalOptions="Fill"
+                VerticalOptions="End" />
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

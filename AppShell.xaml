@@ -3,13 +3,47 @@
     x:Class="SpiritualGiftsSurvey.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:SpiritualGiftsSurvey.Views.Welcome"
+    xmlns:app="clr-namespace:SpiritualGiftsSurvey.Views.AppInfo"
+    xmlns:report="clr-namespace:SpiritualGiftsSurvey.Views.Reporting"
+    xmlns:result="clr-namespace:SpiritualGiftsSurvey.Views.Results"
+    xmlns:send="clr-namespace:SpiritualGiftsSurvey.Views.Send"
+    xmlns:setting="clr-namespace:SpiritualGiftsSurvey.Views.Settings"
+    xmlns:splash="clr-namespace:SpiritualGiftsSurvey.Views.Splash"
+    xmlns:survey="clr-namespace:SpiritualGiftsSurvey.Views.Survey"
+    xmlns:welcome="clr-namespace:SpiritualGiftsSurvey.Views.Welcome"
+    xmlns:routing="clr-namespace:SpiritualGiftsSurvey.Routing"
     Title="SpiritualGiftsSurvey">
 
-
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:WelcomePage}"
-        Route="WelcomePage" />
+        Route="{x:Static routing:Routes.SplashPage}"
+        ContentTemplate="{DataTemplate splash:SplashPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.AppInfoPage}"
+        ContentTemplate="{DataTemplate app:AppInfoPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.ReportingPage}"
+        ContentTemplate="{DataTemplate report:ReportingPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.ResultsPage}"
+        ContentTemplate="{DataTemplate result:ResultsPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.SendPage}"
+        ContentTemplate="{DataTemplate send:SendPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.SettingsPage}"
+        ContentTemplate="{DataTemplate setting:SettingsPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.SurveyPage}"
+        ContentTemplate="{DataTemplate survey:SurveyPage}" />
+    
+    <ShellContent
+        Route="{x:Static routing:Routes.WelcomePage}"
+        ContentTemplate="{DataTemplate welcome:WelcomePage}" />
 
 </Shell>
