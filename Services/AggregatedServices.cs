@@ -4,7 +4,7 @@ public interface IAggregatedServices
 {
     IDatabaseService DatabaseService { get; }
     ITranslationService TranslationService { get; }
-    IURLService URLService { get; }
+    IUrlService URLService { get; }
     IDeviceStorageService DeviceStorageService { get; }
     INavigationService NavigationService { get; }
     IAnalyticsService AnalyticsService { get; }
@@ -15,7 +15,7 @@ public class AggregatedServices : IAggregatedServices
 {
     public IDatabaseService DatabaseService { get; }
     public ITranslationService TranslationService { get; }
-    public IURLService URLService { get; }
+    public IUrlService URLService { get; }
     public IDeviceStorageService DeviceStorageService { get; }
     public INavigationService NavigationService { get; }
     public IAnalyticsService AnalyticsService { get; }
@@ -23,7 +23,7 @@ public class AggregatedServices : IAggregatedServices
 
     public AggregatedServices(IDatabaseService databaseService,
                               ITranslationService translationService,
-                              IURLService urlService,
+                              IUrlService urlService,
                               IDeviceStorageService deviceStorageService,
                               INavigationService navigationService,
                               IAnalyticsService analyticsService,

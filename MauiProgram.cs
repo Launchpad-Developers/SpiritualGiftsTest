@@ -53,7 +53,7 @@ public static class MauiProgram
 #endif
 
         // Register typed HttpClient for URLService
-        mauiAppBuilder.Services.AddHttpClient<IURLService, URLService>(client =>
+        mauiAppBuilder.Services.AddHttpClient<IUrlService, UrlService>(client =>
         {
             client.BaseAddress = new Uri(baseUrl ?? throw new InvalidOperationException("BaseUrl missing."));
             client.DefaultRequestHeaders.Add("Accept", "application/json");

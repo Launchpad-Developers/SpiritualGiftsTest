@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsSurvey.Models;
+﻿namespace SpiritualGiftsSurvey.Enums;
 
 public enum AppEnvironment
 {

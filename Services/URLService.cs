@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Utilities;
 using System.Text.Json;
 
 namespace SpiritualGiftsSurvey.Services;
 
-public interface IURLService
+public interface IUrlService
 {
     Task<Result<RootModel>> GetFullDatabaseAsync();
+    Task<Result<int>> GetRemoteDatabaseVersionAsync();
 }
 
 public class Result<T>
@@ -22,7 +24,7 @@ public class Result<T>
     public T ValueOrThrow() => Value ?? throw new InvalidOperationException("No value present");
 }
 
-public partial class URLService : ObservableObject, IURLService
+public partial class UrlService : ObservableObject, IUrlService
 {
     private readonly HttpClient _client;
 
@@ -31,7 +33,7 @@ public partial class URLService : ObservableObject, IURLService
     public string BaseURL => _client.BaseAddress?.ToString().TrimEnd('/')
                              ?? throw new InvalidOperationException("BaseUrl is not set.");
 
-    public URLService(HttpClient client)
+    public UrlService(HttpClient client)
     {
         _client = client;
     }
@@ -81,6 +83,29 @@ public partial class URLService : ObservableObject, IURLService
         catch (Exception ex)
         {
             return new Result<string>(new TitledException("Error", $"Request failed: {ex.Message}"));
+        }
+    }
+
+    public async Task<Result<int>> GetRemoteDatabaseVersionAsync()
+    {
+        var uri = new Uri($"{BaseURL}/Database/Version.json");
+        var result = await GetStringAsync(uri);
+
+        if (result.Error != null)
+            return new Result<int>(result.Error);
+
+        try
+        {
+            if (int.TryParse(result.Value, out var version))
+            {
+                return new Result<int>(version);
+            }
+
+            return new Result<int>(new TitledException("Error", "Failed to parse version number."));
+        }
+        catch (Exception ex)
+        {
+            return new Result<int>(new TitledException("Error", $"Deserialization failed: {ex.Message}"));
         }
     }
 }

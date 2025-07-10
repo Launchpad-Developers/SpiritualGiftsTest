@@ -113,10 +113,10 @@ public partial class AppInfoViewModel : BaseViewModel
 
         var dbInfo = DatabaseService.GetDatabaseInfo();
 
-        DatabaseVersion = $"Build: {dbInfo?.Version.ToString()}" ?? "Build: Unknown";
+        DatabaseVersion = $"Build {dbInfo?.Version.ToString()}" ?? "Build: Unknown";
 
         var formatted = PageHelper.FormatFlatDate(dbInfo?.Date);
-        DatabaseDate = $"Last Updated: {formatted}";
+        DatabaseDate = $"Last updated {formatted}";
     }
 
     [ObservableProperty]

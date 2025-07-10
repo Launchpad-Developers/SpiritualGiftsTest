@@ -24,9 +24,9 @@ public interface IDatabaseService
 public class DatabaseService : IDatabaseService
 {
     private readonly IDeviceStorageService _deviceStorage;
-    private readonly IURLService _urlService;
+    private readonly IUrlService _urlService;
 
-    public DatabaseService(IDeviceStorageService deviceStorage, IURLService urlService)
+    public DatabaseService(IDeviceStorageService deviceStorage, IUrlService urlService)
     {
         _deviceStorage = deviceStorage;
         _urlService = urlService;
@@ -255,17 +255,35 @@ public class DatabaseService : IDatabaseService
 
     private async Task<bool> EnsureDatabaseUpToDate()
     {
+        // 1️. If the DB file does not exist, fetch fresh data
+        if (!File.Exists(DatabasePath))
+        {
+            return await RefreshDatabaseAsync();
+        }
+
         using var conn = new SQLiteConnection(DatabasePath);
+
+        // 2️. If the DatabaseInfo table does not exist, fetch fresh data
+        var tableInfo = conn.GetTableInfo(nameof(DatabaseInfo));
+        if (tableInfo == null || tableInfo.Count == 0)
+        {
+            return await RefreshDatabaseAsync();
+        }
+
+        // 3. Get local version
         var localInfo = conn.Table<DatabaseInfo>().FirstOrDefault();
 
-        var remoteResult = await _urlService.GetFullDatabaseAsync();
-        if (!remoteResult.IsSuccess || remoteResult.Value is null)
+        // 4️. Get remote version only
+        var remoteVersionResult = await _urlService.GetRemoteDatabaseVersionAsync();
+        if (!remoteVersionResult.IsSuccess)
             return false;
 
-        var remoteInfo = remoteResult.Value.Database;
+        var remoteVersion = remoteVersionResult.Value;
 
-        if (localInfo == null || remoteInfo.Version > localInfo.Version)
-            return await RefreshDatabaseAsync(remoteResult.Value);
+        if (localInfo == null || remoteVersion > localInfo.Version)
+        {
+            return await RefreshDatabaseAsync();
+        }
 
         return true;
     }

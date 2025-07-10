@@ -14,7 +14,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
 
     protected IDatabaseService DatabaseService => AggregatedServices.DatabaseService;
     protected ITranslationService TranslationService => AggregatedServices.TranslationService;
-    protected IURLService URLService => AggregatedServices.URLService;
+    protected IUrlService URLService => AggregatedServices.URLService;
     protected IDeviceStorageService DeviceStorageService => AggregatedServices.DeviceStorageService;
     protected INavigationService NavigationService => AggregatedServices.NavigationService;
     protected IAnalyticsService Analytics => AggregatedServices.AnalyticsService;

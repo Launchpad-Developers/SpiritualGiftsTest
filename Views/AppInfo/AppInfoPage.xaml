@@ -90,17 +90,16 @@
 
                     <Label Text="{Binding DeveloperName}"
                            FontSize="Large"
-                           TextColor="Black"
+                           TextColor="{StaticResource DodgerBlue}"
                            HorizontalOptions="Start"
-                           Margin="30,0,0,0" />
+                           Margin="30,15,0,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SendEmailCommand}"
+                                                  CommandParameter="{Binding DeveloperEmail}" />
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <Label Text="{Binding Launchpad}"
-                           FontSize="Large"
-                           TextColor="Black"
-                           HorizontalOptions="Start"
-                           Margin="30,0,0,0" />
-
-                    <Label Text="{Binding CompanyWebsite}"
                            FontSize="Large"
                            TextColor="{StaticResource DodgerBlue}"
                            HorizontalOptions="Start"
@@ -108,17 +107,6 @@
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}"
                                                   CommandParameter="{Binding CompanyWebsite}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-
-                    <Label Text="{Binding DeveloperEmail}"
-                           FontSize="Large"
-                           TextColor="{StaticResource DodgerBlue}"
-                           HorizontalOptions="Start"
-                           Margin="30,15,0,0">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SendEmailCommand}"
-                                                  CommandParameter="{Binding DeveloperEmail}" />
                         </Label.GestureRecognizers>
                     </Label>
 
