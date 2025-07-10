@@ -10,8 +10,20 @@ namespace SpiritualGiftsSurvey.Models;
 /// </summary>
 public partial class QuestionViewModel : ObservableObject, INotifyPropertyChanged
 {
+    private readonly Color _azureBlue;
+    private readonly Color _emeraldGreen;
+    private readonly Color _dangerRed;
+
     public QuestionViewModel()
     {
+        _azureBlue = GetResourceColor("AzureBlue", Colors.Blue);
+        _emeraldGreen = GetResourceColor("EmeraldGreen", Colors.Green);
+        _dangerRed = GetResourceColor("DangerRed", Colors.Red);
+
+        NotAtAllButtonColor = _azureBlue;
+        LittleButtonColor = _azureBlue;
+        SomeButtonColor = _azureBlue;
+        MuchButtonColor = _azureBlue;
     }
 
     [ObservableProperty]
@@ -46,42 +58,72 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
 
     [ObservableProperty]
     private bool showButtons;
+    
+    [ObservableProperty]
+    private string questionOf = string.Empty;
+
+    [ObservableProperty]
+    private Color notAtAllButtonColor;
+
+    [ObservableProperty]
+    private Color littleButtonColor;
+
+    [ObservableProperty]
+    private Color someButtonColor;
+
+    [ObservableProperty]
+    private Color muchButtonColor;
+
+    [ObservableProperty]
+    private Thickness questionMargin = new Thickness(30, 10, 30, 10);
 
     [RelayCommand]
     private void SetValue(UserValue value)
     {
         UserValue = value;
         Answered = true;
+
+        // Reset all to default
+        NotAtAllButtonColor = _azureBlue;
+        LittleButtonColor = _azureBlue;
+        SomeButtonColor = _azureBlue;
+        MuchButtonColor = _azureBlue;
+
+        // Set selected to highlight
+        switch (value)
+        {
+            case UserValue.NotAtAll:
+                NotAtAllButtonColor = _emeraldGreen;
+                break;
+            case UserValue.Little:
+                LittleButtonColor = _emeraldGreen;
+                break;
+            case UserValue.Some:
+                SomeButtonColor = _emeraldGreen;
+                break;
+            case UserValue.Much:
+                MuchButtonColor = _emeraldGreen;
+                break;
+        }
     }
 
     partial void OnAnsweredChanged(bool value)
     {
-        BorderColor = value ? (Color?)Application.Current?.Resources["EmeraldGreen"] ?? Colors.Green 
+        BorderColor = value ? _emeraldGreen ?? Colors.Green 
             : (Color?)Application.Current?.Resources["Black"] ?? Colors.Black;
     }
 
     public void MarkQuestionUnanswered()
     {
-        BorderColor = (Color?)Application.Current?.Resources["DangerRed"] ?? Colors.Red;
+        BorderColor = _dangerRed ?? Colors.Red;
     }
 
-    //partial void OnQuestionTextChanged(string value)
-    //{
-    //    CalculateCellHeight(value);
-    //}
-
-    //public void CalculateCellHeight(string questionText)
-    //{
-    //    double fontSize = 18;
-    //    double lineHeight = fontSize * 1.2;
-    //    int charsPerLine = 35;
-    //    int textLength = questionText?.Length ?? 0;
-
-    //    double estimatedLines = Math.Ceiling((double)textLength / charsPerLine);
-
-    //    double padding = ShowButtons ? 320 : 100;
-
-    //    //CellHeight = Math.Max(estimatedLines * lineHeight + padding, 60);
-    //    CellHeight = (estimatedLines * lineHeight) + padding;
-    //}
+    private static Color GetResourceColor(string key, Color fallback)
+    {
+        if (Application.Current?.Resources.TryGetValue(key, out var value) == true && value is Color color)
+        {
+            return color;
+        }
+        return fallback;
+    }
 }

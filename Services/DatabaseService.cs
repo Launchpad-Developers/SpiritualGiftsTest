@@ -189,7 +189,8 @@ public class DatabaseService : IDatabaseService
 
             foreach (var question in translation.Questions)
             {
-                question.TranslationGuid = translation.TranslationGuid;
+                question.TranslationGuid = translation.TranslationGuid; 
+                Debug.WriteLine($"Loaded question: {question.QuestionText}");
                 conn.Insert(question);
             }
 

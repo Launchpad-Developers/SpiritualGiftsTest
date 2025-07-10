@@ -9,7 +9,7 @@
     x:DataType="models:QuestionViewModel">
 
     <Grid
-        Margin="30,10"
+        Margin="{Binding QuestionMargin}"
         HorizontalOptions="Fill"
         MinimumHeightRequest="0"
         RowDefinitions="Auto">
@@ -25,40 +25,64 @@
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
 
-
-            <VerticalStackLayout
-                HorizontalOptions="Center">
-
+            <Grid>
+                <!-- Top-left QuestionOf label -->
                 <Label
-                    Text="{Binding QuestionText}"
-                    TextColor="Black"
-                    FontSize="18"
-                    LineBreakMode="WordWrap"
-                    HorizontalOptions="Fill"
-                    HorizontalTextAlignment="Center"
+                    Text="{Binding QuestionOf}"
+                    TextColor="Gray"
+                    FontSize="12"
+                    HorizontalOptions="Start"
                     VerticalOptions="Start" />
 
-                <Button Text="{Binding NotAtAll}"
-                    IsVisible="{Binding ShowButtons}"
-                    Command="{Binding SetValueCommand}"
-                    CommandParameter="{x:Static enums:UserValue.NotAtAll}" />
+                <!-- Main content -->
+                <VerticalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="20"
+                    Padding="0,20,0,0">
+                    <!-- Push down to leave room for QuestionOf -->
 
-                <Button Text="{Binding Little}"
-                    IsVisible="{Binding ShowButtons}"
-                    Command="{Binding SetValueCommand}"
-                    CommandParameter="{x:Static enums:UserValue.Little}" />
+                    <Label
+                        Text="{Binding QuestionText}"
+                        TextColor="Black"
+                        FontSize="18"
+                        LineBreakMode="WordWrap"
+                        HorizontalOptions="Fill"
+                        HorizontalTextAlignment="Center"
+                        VerticalOptions="Start" />
 
-                <Button Text="{Binding Some}"
-                    IsVisible="{Binding ShowButtons}"
-                    Command="{Binding SetValueCommand}"
-                    CommandParameter="{x:Static enums:UserValue.Some}" />
+                    <!-- Buttons layout -->
+                    <StackLayout
+                        x:Name="ButtonsLayout"
+                        Orientation="{OnIdiom Phone='Vertical', Tablet='Horizontal'}"
+                        HorizontalOptions="Center"
+                        Spacing="15">
 
-                <Button Text="{Binding Much}"
-                    IsVisible="{Binding ShowButtons}"
-                    Command="{Binding SetValueCommand}"
-                    CommandParameter="{x:Static enums:UserValue.Much}" />
-            </VerticalStackLayout>
+                        <Button Text="{Binding NotAtAll}"
+                            IsVisible="{Binding ShowButtons}"
+                            Command="{Binding SetValueCommand}"
+                            CommandParameter="{x:Static enums:UserValue.NotAtAll}"
+                            BackgroundColor="{Binding NotAtAllButtonColor}" />
 
+                        <Button Text="{Binding Little}"
+                            IsVisible="{Binding ShowButtons}"
+                            Command="{Binding SetValueCommand}"
+                            CommandParameter="{x:Static enums:UserValue.Little}"
+                            BackgroundColor="{Binding LittleButtonColor}" />
+
+                        <Button Text="{Binding Some}"
+                            IsVisible="{Binding ShowButtons}"
+                            Command="{Binding SetValueCommand}"
+                            CommandParameter="{x:Static enums:UserValue.Some}"
+                            BackgroundColor="{Binding SomeButtonColor}" />
+
+                        <Button Text="{Binding Much}"
+                            IsVisible="{Binding ShowButtons}"
+                            Command="{Binding SetValueCommand}"
+                            CommandParameter="{x:Static enums:UserValue.Much}"
+                            BackgroundColor="{Binding MuchButtonColor}" />
+                    </StackLayout>
+                </VerticalStackLayout>
+            </Grid>
         </Border>
 
     </Grid>

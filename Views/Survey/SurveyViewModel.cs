@@ -1,44 +1,92 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SpiritualGiftsSurvey.Helpers;
+using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsSurvey.Messages;
+using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
 using SpiritualGiftsSurvey.Views.Shared;
-using System.Reflection;
+using System.Collections.ObjectModel;
 using System.Runtime.Versioning;
 
 namespace SpiritualGiftsSurvey.Views.Survey;
 
-public class SurveyNavParameter
-{
-    public int TargetPage { get; set; }
-    public string TargetPageTopic { get; set; } = string.Empty;
-}
 
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
 public partial class SurveyViewModel : BaseViewModel
 {
 
-    public Dictionary<int, ContentView> ContentViews { get; set; } = new();
+    private int _currentPage = 1;
 
     public SurveyViewModel(
         IAggregatedServices aggregatedServices,
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
-        InitializeData();
     }
+    
+    [ObservableProperty]
+    private bool showConfirmButton;
 
-    public async void InitializeData()
+    public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
+
+    public override async void InitAsync()
     {
+        IsLoading = true;
         FlowDirection = TranslationService.FlowDirection;
 
-        Title = TranslationService.GetString("AppTitle", "Spiritual Gifts Survey");
+        PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gifts Survey");
         LoadingText = TranslationService.GetString("Loading", "Loading");
+        NavButtonText = TranslationService.GetString("Continue", "Continue");
+
+        // Get all questions from the database
+        var questions = DatabaseService.GetQuestions(TranslationService.CurrentLanguageCode);
+        var totalQuestions = DatabaseService.GetQuestionsCount(TranslationService.CurrentLanguageCode);
+
+        // Shuffle questions randomly
+        var random = new Random();
+        var shuffledQuestions = questions.OrderBy(_ => random.Next()).ToList();
+
+        int index = 1;
+        foreach (var q in shuffledQuestions)
+        {
+            var questionVm = new QuestionViewModel
+            {
+                QuestionText = q.QuestionText,
+                QuestionId = q.QuestionGuid,
+                NotAtAll = TranslationService.GetString("NotAtAll", "Not at all"),
+                Little = TranslationService.GetString("Little", "Little"),
+                Some = TranslationService.GetString("Some", "Some"),
+                Much = TranslationService.GetString("Much", "Much"),
+                QuestionOf = $"Question {index} of {totalQuestions}",
+                ShowButtons = true
+            };
+
+            if (index == 1)
+            {
+                questionVm.QuestionMargin = new Thickness(30, 30, 30, 10);
+            }
+
+            if (index == totalQuestions)
+            {
+                questionVm.QuestionMargin = new Thickness(30, 10, 30, 100);
+            }
+
+            Questions.Add(questionVm);
+
+            index++;
+        }
 
         UpdateQuestionLabel(_currentPage);
+        IsLoading = false;
     }
 
-    private int _currentPage = 1;
+    [RelayCommand]
+    private void ReachedEnd()
+    {
+        ShowConfirmButton = true;
+    }
+
     private void UpdateQuestionLabel(int currentPage)
     {
         var question = TranslationService.GetString("Question", "question");
@@ -74,11 +122,36 @@ public partial class SurveyViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void Navigate(SurveyNavParameter parameter)
+    private async Task FinishAsync()
     {
-        UpdateQuestionLabel(++_currentPage);
+        QuestionViewModel? firstUnanswered = null;
 
-        //TODO Consider making this what changes the question
-        PageTopic = parameter.TargetPageTopic;
+        foreach (var q in Questions)
+        {
+            if (q.UserValue == Enums.UserValue.DidNotAnswer)
+            {
+                q.MarkQuestionUnanswered();
+
+                if (firstUnanswered == null)
+                    firstUnanswered = q;
+            }
+        }
+
+        if (firstUnanswered != null)
+        {
+            // Optional: show message
+            await NotifyUserAsync(
+                TranslationService.GetString("Incomplete", "Incomplete"),
+                TranslationService.GetString("PleaseAnswerAllQuestions", "Please answer all questions."),
+                TranslationService.GetString("OK", "OK"));
+
+            var index = Questions.IndexOf(firstUnanswered);
+
+            WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(index));
+            return;
+        }
+
+        await NavigationService.NavigateAsync(Routes.ResultsPage);
     }
+
 }
