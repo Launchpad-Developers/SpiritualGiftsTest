@@ -52,12 +52,14 @@ public partial class WelcomeViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<string> languages = new();
 
-    [RelayCommand]
-    private async Task GetStartedAsync()
-    {
-        if (!IsLoading)
-            await PerformNavigation(Routes.SettingsPage);
-    }
+    //[RelayCommand]
+    //private async Task GetStartedAsync()
+    //{
+    //    ShowInstructable = !ShowInstructable;
+
+    //    if (!ShowInstructable)
+    //        await PerformNavigation(Routes.SurveyPage);
+    //}
 
     [RelayCommand]
     private async Task OpenInfoAsync()
@@ -101,13 +103,12 @@ public partial class WelcomeViewModel : BaseViewModel
         FlowDirection = TranslationService.FlowDirection;
         LoadingText = TranslationService.GetString("Loading", "Loading");
         PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gift Survey");
-        NavButtonText = TranslationService.GetString("GotIt", "Got it");
-        TapTo = TranslationService.GetString("TapArrows", "Tap arrows");
-        Navigate = TranslationService.GetString("ToNavigate", "to navigate");
+        NavButtonText = TranslationService.GetString("Begin", "Begin");
+        TapTo = TranslationService.GetString("ScrollTo", "Scroll to");
+        Navigate = TranslationService.GetString("Navigate", "navigate");
         NextPage = TranslationService.GetString("SurveyPage", "SurveyPage");
 
         IsLoading = false;
-        ShowInstructable = true;
     }
 
 }

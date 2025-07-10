@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SpiritualGiftsSurvey.Helpers;
@@ -31,5 +32,33 @@ public static class PageHelper
         // If no window: safe fallback
         return false;
     }
+
+    public static string FormatFlatDate(string? flatDate, string fallback = "Unknown")
+    {
+        if (string.IsNullOrWhiteSpace(flatDate) || flatDate.Length != 10)
+            return fallback;
+
+        if (DateTime.TryParseExact(
+            flatDate,
+            "yyyy-MM-dd",
+            null,
+            System.Globalization.DateTimeStyles.None,
+            out var parsedDate))
+        {
+            return parsedDate.ToString("MMMM dd, yyyy");
+        }
+
+        return fallback;
+    }
+    public static bool IsValidEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            return false;
+
+        // Simple but solid regex for typical email patterns
+        var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
+    }
+
 }
 

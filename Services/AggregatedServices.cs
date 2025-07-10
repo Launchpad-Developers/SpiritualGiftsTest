@@ -8,6 +8,7 @@ public interface IAggregatedServices
     IDeviceStorageService DeviceStorageService { get; }
     INavigationService NavigationService { get; }
     IAnalyticsService AnalyticsService { get; }
+    IAppInfoService AppInfoService { get; }
 }
 
 public class AggregatedServices : IAggregatedServices
@@ -18,13 +19,15 @@ public class AggregatedServices : IAggregatedServices
     public IDeviceStorageService DeviceStorageService { get; }
     public INavigationService NavigationService { get; }
     public IAnalyticsService AnalyticsService { get; }
+    public IAppInfoService AppInfoService { get; }
 
     public AggregatedServices(IDatabaseService databaseService,
                               ITranslationService translationService,
                               IURLService urlService,
                               IDeviceStorageService deviceStorageService,
                               INavigationService navigationService,
-                              IAnalyticsService analyticsService)
+                              IAnalyticsService analyticsService,
+                              IAppInfoService appInfoService)
     {
         DatabaseService = databaseService;
         TranslationService = translationService;
@@ -32,5 +35,6 @@ public class AggregatedServices : IAggregatedServices
         DeviceStorageService = deviceStorageService;
         NavigationService = navigationService;
         AnalyticsService = analyticsService;
+        AppInfoService = appInfoService;
     }
 }

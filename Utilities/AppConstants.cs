@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpiritualGiftsSurvey.Helpers
+namespace SpiritualGiftsSurvey.Utilities
 {
     public static class AppConstants
     {

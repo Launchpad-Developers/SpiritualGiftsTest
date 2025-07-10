@@ -8,124 +8,194 @@
     xmlns:shared="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Settings"
     x:DataType="vm:SettingsViewModel"
-    ios:NavigationPage.HideNavigationBarSeparator="true"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
 
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">
-            <ImageButton x:Name="BackArrow"
-                         HorizontalOptions="Start"
-                         VerticalOptions="Center"
-                         WidthRequest="50"
-                         HeightRequest="25"
-                         BackgroundColor="Transparent"
-                         Source="{StaticResource BackArrow}"
-                         Command="{Binding NavButtonCommand}" />
-            <c:TitleLabel NewStyle="{StaticResource NavTitleLabelStyle}"
-                          HorizontalOptions="Fill"
-                          FlowDirection="{Binding FlowDirection}"
-                          LabelText="{Binding PageTopic}" />
-            <ImageButton x:Name="BackArrowRight"
-                         HorizontalOptions="End"
-                         VerticalOptions="Center"
-                         WidthRequest="50"
-                         HeightRequest="25"
-                         BackgroundColor="Transparent"
-                         IsVisible="False"
-                         IsEnabled="False"
-                         Source="{StaticResource BackArrowRight}"
-                         Command="{Binding NavButtonCommand}" />
-        </StackLayout>
-    </NavigationPage.TitleView>
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="ListView">
-                <Setter Property="SeparatorColor" Value="Transparent" />
-                <Setter Property="SeparatorVisibility" Value="None" />
-                <Setter Property="RowHeight" Value="35" />
-                <Setter Property="HasUnevenRows" Value="True" />
-                <Setter Property="SeparatorVisibility" Value="Default" />
-                <Setter Property="SeparatorColor" Value="LightGray" />
-                <Setter Property="Margin" Value="0" />
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="VerticalTextAlignment" Value="Center" />
-                <Setter Property="FontSize" Value="24" />
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="TextColor" Value="Gray" />
-            </Style>
-            <Style TargetType="Image">
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HorizontalOptions" Value="Start" />
-            </Style>
-            <Style TargetType="Grid">
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="Padding" Value="20, 10" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
+            <!-- BG -->
             <Image Source="mainpagebackground"
-               VerticalOptions="Fill"
-               HorizontalOptions="Fill"
-               Aspect="Fill"
-               Grid.RowSpan="2" />
+                   VerticalOptions="Fill"
+                   HorizontalOptions="Fill"
+                   Aspect="Fill"
+                   Grid.RowSpan="2" />
 
+            <!-- NAVBAR (matches AppInfoPage) -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="Auto,*,Auto"
+                  Padding="10"
+                  VerticalOptions="Start"
+                  BackgroundColor="Transparent">
+
+                <!-- Back -->
+                <ImageButton x:Name="BackArrow"
+                             Grid.Column="0"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Center"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             BackgroundColor="Transparent"
+                             Source="{StaticResource BackArrow}"
+                             Command="{Binding NavButtonCommand}" />
+
+                <!-- Title -->
+                <c:TitleLabel Grid.Column="1"
+                              HorizontalOptions="End"
+                              VerticalOptions="Center"
+                              NewStyle="{StaticResource NavTitleLabelStyle}"
+                              LabelText="{Binding PageTopic}"
+                              Margin="0,0,20,0" />
+
+                <ImageButton x:Name="BackArrowRight"
+                             Grid.Column="2"
+                             HorizontalOptions="End"
+                             VerticalOptions="Center"
+                             WidthRequest="40"
+                             HeightRequest="40"
+                             BackgroundColor="Transparent"
+                             IsVisible="False"
+                             IsEnabled="False"
+                             Source="{StaticResource BackArrowRight}"
+                             Command="{Binding NavButtonCommand}" />
+            </Grid>
+
+            <!-- MAIN CONTENT -->
             <ScrollView Grid.Row="1">
-                <StackLayout VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,40,0,0">
-                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
-                        <Label Text="{Binding ParallelMode}" HorizontalOptions="Start" TextColor="Black" Margin="30,0" IsEnabled="{Binding IsTablet}" />
-                        <Switch x:Name="ParallelMode" HorizontalOptions="End" VerticalOptions="Center" Margin="30,0" IsToggled="{Binding IsParallel, Mode=TwoWay}" IsEnabled="{Binding IsTablet}" />
-                    </StackLayout>
-                    <Label Text="{Binding TabletRequired}" TextColor="Red" FontSize="Micro" Margin="30,-10,30,50" IsVisible="{Binding IsTablet, Converter={StaticResource NegatedConverter}}" />-->
-                    
-                    <BoxView HeightRequest="0.5" HorizontalOptions="Fill" />
-                    <Grid 
-                        Padding="20,10"
-                        RowDefinitions="Auto"
-                        ColumnDefinitions="*,Auto">
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="Fill"
+                             Margin="20,20,20,40"
+                             Spacing="30">
 
+                    <!-- Language -->
+                    <Label Text="{Binding LanguageTitle}"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start" />
+
+                    <Grid Padding="0,10"
+                          RowDefinitions="Auto"
+                          ColumnDefinitions="*,Auto">
                         <!-- Title -->
-                        <Label 
-                            Text="{Binding LanguageTitle}" 
-                            VerticalOptions="Center" />
+                        <Label Text="{Binding LanguageTitle}"
+                               VerticalOptions="Center"
+                               TextColor="Black" />
 
-                        <!-- Detail -->
-                        <Label 
-                            Grid.Column="1"
-                            Text="{Binding SelectedLanguage.DisplayName}" 
-                            VerticalOptions="Center" />
+                        <!-- Selected -->
+                        <Label Grid.Column="1"
+                               Text="{Binding SelectedLanguage.DisplayName}"
+                               VerticalOptions="Center"
+                               TextColor="Black" />
 
-                        <!-- Tap Gesture on the whole Grid -->
+                        <!-- Tap Gesture -->
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="StudentLanguage_Tapped" />
                         </Grid.GestureRecognizers>
-
                     </Grid>
+
+                    <!-- Hidden Picker -->
+                    <Picker x:Name="LanguagePicker"
+                            Title="{Binding LanguageTitle}"
+                            SelectedItem="{Binding SelectedLanguage}"
+                            ItemsSource="{Binding LanguageOptions}"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            IsVisible="False"
+                            ios:Picker.UpdateMode="WhenFinished" />
+
+                    <!-- Reporting Email -->
+                    <Label Text="Reporting Email"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start" />
+
+                    <Grid ColumnDefinitions="*,Auto"
+                          HorizontalOptions="Fill"
+                          VerticalOptions="Center">
+
+                        <!-- Entry -->
+                        <Entry 
+                            Grid.Column="0"
+                            Placeholder="Add Reporting Email"
+                            Text="{Binding NewReportingEmail}"
+                            Keyboard="Email" />
+
+                        <!-- Add Button -->
+                        <ImageButton 
+                            Grid.Column="1"
+                            Source="{StaticResource AddButton}"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            BackgroundColor="Green"
+                            Command="{Binding AddNewReportingEmailAsyncCommand}" />
+                    </Grid>
+
+                    <!-- Reporting Email List -->
+                    <CollectionView ItemsSource="{Binding ReportingEmails}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10"
+                                      ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding .}"
+                                           FontSize="Large"
+                                           TextColor="Black"
+                                           HorizontalOptions="Start" />
+                                    <ImageButton Source="{StaticResource DeleteEmail}"
+                                                 Grid.Column="1"
+                                                 WidthRequest="24"
+                                                 HeightRequest="24"
+                                                 BackgroundColor="Transparent"
+                                                 Command="{Binding BindingContext.RemoveReportingEmailCommand, Source={x:Reference Name=Page}}"
+                                                 CommandParameter="{Binding .}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button 
+                        Text="{Binding RestoreDatabase}"
+                        Command="{Binding RestoreDatabaseCommand}"
+                        HorizontalOptions="Fill"
+                        BackgroundColor="DarkBlue"
+                        TextColor="White"
+                        HeightRequest="50"
+                        FontAttributes="Bold"
+                        Margin="0,40,0,0" />
+
+                    <Button 
+                        Text="{Binding ClearData}"
+                        Command="{Binding ClearDataCommand}"
+                        HorizontalOptions="Fill"
+                        BackgroundColor="DarkRed"
+                        TextColor="Yellow"
+                        HeightRequest="50"
+                        FontAttributes="Bold"
+                        Margin="0,5,0,0" />
 
                 </StackLayout>
             </ScrollView>
 
-            <ContentView x:Name="actIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="2" IsVisible="{Binding IsLoading}" />
-            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
-                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
-                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            <!-- Loading overlay -->
+            <ContentView x:Name="actIndBackground"
+                         BackgroundColor="#222222"
+                         Opacity="0.65"
+                         Grid.RowSpan="2"
+                         IsVisible="{Binding IsLoading}" />
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding IsLoading}"
+                         WidthRequest="300"
+                         HeightRequest="100"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True"
+                                   Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}"
+                       HorizontalOptions="Center"
+                       TextColor="{StaticResource WhiteSmoke}" />
             </StackLayout>
-
-            <Picker x:Name="LanguagePicker" 
-                    Title="{Binding LanguageTitle}" 
-                    SelectedItem="{Binding SelectedLanguage}" 
-                    ItemsSource="{Binding LanguageOptions}" 
-                    ItemDisplayBinding="{Binding DisplayName}" 
-                    IsVisible="false" 
-                    ios:Picker.UpdateMode="WhenFinished" />
 
         </Grid>
     </ContentPage.Content>
-    
+
 </shared:BasePage>

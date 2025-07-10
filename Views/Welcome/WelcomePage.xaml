@@ -133,23 +133,26 @@
                     Text="{Binding TapTo}"
                     Style="{StaticResource InstructableLabelStyle}" />
 
-                <Grid ColumnDefinitions="33*,34*,33*">
+                <Grid RowDefinitions="33*,34*,33*">
                     <Image 
-                        Source="{StaticResource NavLeftWhite}" 
+                        Source="{StaticResource NavUpWhite}" 
+                        Grid.Row="0"
                         Aspect="AspectFit"
+                        Margin="0,0,0,40"
                         HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
 
                     <Image 
                         Source="{StaticResource Swipe}" 
-                        Grid.Column="1"
+                        Grid.Row="1"
                         Aspect="AspectFit"
                         Margin="0,0,0,0"
                         HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
 
                     <Image 
-                        Source="{StaticResource NavRightWhite}" 
-                        Grid.Column="2"
+                        Source="{StaticResource NavDownWhite}" 
+                        Grid.Row="2"
                         Aspect="AspectFit"
+                        Margin="0,40,0,0"
                         HeightRequest="{OnIdiom Phone=50, Tablet=100}" />
                 </Grid>
 

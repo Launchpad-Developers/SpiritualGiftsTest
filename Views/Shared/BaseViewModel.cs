@@ -18,6 +18,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     protected IDeviceStorageService DeviceStorageService => AggregatedServices.DeviceStorageService;
     protected INavigationService NavigationService => AggregatedServices.NavigationService;
     protected IAnalyticsService Analytics => AggregatedServices.AnalyticsService;
+    protected IAppInfoService AppInfoService => AggregatedServices.AppInfoService;
 
     readonly IPreferences Prefs;
 
@@ -74,7 +75,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     private bool isTablet;
 
     [ObservableProperty]
-    private bool showInstructable = Preferences.Default.Get(nameof(ShowInstructable), true);
+    private bool showInstructable;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowControls))]
@@ -128,13 +129,14 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     [RelayCommand]
     private async Task OnConfirmAsync(string page)
     {
-        if (ShowInstructable)
+        if (!ShowInstructable)
         {
-            ShowInstructable = false;
-            NavButtonText = TranslationService.GetString("NavButtonBegin", "Begin");
+            ShowInstructable = true;
+            NavButtonText = TranslationService.GetString("GotIt", "Got it!");
         }
         else
         {
+            ShowInstructable = false;
             await PerformNavigation(page);
         }
     }

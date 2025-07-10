@@ -66,6 +66,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<IDatabaseService, DatabaseService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
         mauiAppBuilder.Services.AddSingleton<IAnalyticsService, AppInsightsService>();
+        mauiAppBuilder.Services.AddSingleton<IAppInfoService, AppInfoService>();
         mauiAppBuilder.Services.AddSingleton<IAggregatedServices, AggregatedServices>();
 
         return mauiAppBuilder;

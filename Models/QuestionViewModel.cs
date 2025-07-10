@@ -68,7 +68,7 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
 
         double estimatedLines = Math.Ceiling((double)textLength / charsPerLine);
 
-        double padding = ShowButtons ? 320 : 120;
+        double padding = ShowButtons ? 320 : 100;
 
         //CellHeight = Math.Max(estimatedLines * lineHeight + padding, 60);
         CellHeight = (estimatedLines * lineHeight) + padding;

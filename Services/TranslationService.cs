@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using SpiritualGiftsSurvey.Helpers;
 using SpiritualGiftsSurvey.Messages;
 using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Utilities;
 
 namespace SpiritualGiftsSurvey.Services;
 

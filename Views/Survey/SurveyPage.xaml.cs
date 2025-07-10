@@ -1,4 +1,4 @@
-﻿using SpiritualGiftsSurvey.Helpers;
+﻿using SpiritualGiftsSurvey.Utilities;
 using SpiritualGiftsSurvey.Views.Shared;
 
 namespace SpiritualGiftsSurvey.Views.Survey;

@@ -15,8 +15,6 @@ public partial class SettingsPage : BasePage
     {
         base.OnAppearing();
 
-        ViewModel.InitAsync(Navigation);
-
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {
             BackArrow.IsVisible = false;
@@ -30,6 +28,7 @@ public partial class SettingsPage : BasePage
     {
         MainThread.BeginInvokeOnMainThread(() => {
             LanguagePicker.Focus();
+            LanguagePicker.IsVisible = true;
         });
     }
 }

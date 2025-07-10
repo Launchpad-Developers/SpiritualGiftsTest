@@ -1,4 +1,4 @@
-﻿namespace SpiritualGiftsSurvey.Helpers.FontAwesome
+﻿namespace SpiritualGiftsSurvey.Utilities
 {
 	public static class IconFontGlyphs
 	{
@@ -987,6 +987,6 @@
 		public const string Google = "\uf1a0";
 		public const string HandBackPointUp = "\ue1a2";
 		public const string ChevronsLeft = "\uf323";
-		public const string ChevronsRight = "\uf324";
-	}
+        public const string ChevronsRight = "\uf324";
+    }
 }

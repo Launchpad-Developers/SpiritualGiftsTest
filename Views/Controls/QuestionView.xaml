@@ -19,7 +19,7 @@
             StrokeThickness="3"
             BackgroundColor="White"
             HeightRequest="{Binding CellHeight}"
-            Padding="0"
+            Padding="10"
             HorizontalOptions="Fill">
 
             <Border.StrokeShape>
@@ -34,11 +34,9 @@
                     Text="{Binding QuestionText}"
                     TextColor="Black"
                     FontSize="18"
-                    Margin="0,-5,0,0"
                     LineBreakMode="WordWrap"
                     HorizontalOptions="Fill"
                     HeightRequest="{Binding CellHeight}"
-                    WidthRequest="300"
                     HorizontalTextAlignment="Center"
                     VerticalOptions="Start" />
 

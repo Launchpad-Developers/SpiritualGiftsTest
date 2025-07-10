@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:converters="clr-namespace:SpiritualGiftsSurvey.Converters"
-    xmlns:fonts="clr-namespace:SpiritualGiftsSurvey.Helpers.FontAwesome"
+    xmlns:fonts="clr-namespace:SpiritualGiftsSurvey.Utilities"
     x:Class="SpiritualGiftsSurvey.App">
     
     <Application.Resources>
@@ -82,12 +82,12 @@
 
             <FontImageSource x:Key="BackArrow" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.LongArrowAltLeft}"
+                             Glyph="{x:Static fonts:IconFontGlyphs.ArrowLeft}"
                              Color="{StaticResource PrimaryTextColor}" />
 
             <FontImageSource x:Key="BackArrowRight" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.LongArrowAltRight}"
+                             Glyph="{x:Static fonts:IconFontGlyphs.ArrowRight}"
                              Color="{StaticResource PrimaryTextColor}" />
 
             <FontImageSource x:Key="LanguageCheck" 
@@ -95,9 +95,9 @@
                              Glyph="{x:Static fonts:IconFontGlyphs.CheckCircle}"
                              Color="{StaticResource DodgerBlue}" />
 
-            <FontImageSource x:Key="NavLeftWhite" 
+            <FontImageSource x:Key="NavUpWhite" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.ChevronsLeft}"
+                             Glyph="{x:Static fonts:IconFontGlyphs.ChevronUp}"
                              Color="White" />
 
             <FontImageSource x:Key="Swipe" 
@@ -105,9 +105,9 @@
                              Glyph="{x:Static fonts:IconFontGlyphs.HandBackPointUp}"
                              Color="White" />
 
-            <FontImageSource x:Key="NavRightWhite" 
+            <FontImageSource x:Key="NavDownWhite" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.ChevronsRight}"
+                             Glyph="{x:Static fonts:IconFontGlyphs.ChevronDown}"
                              Color="White" />
 
             <FontImageSource x:Key="NavLeft" 
@@ -124,6 +124,16 @@
                              FontFamily="FA6ProThin"
                              Glyph="{x:Static fonts:IconFontGlyphs.ChevronCircleRight}"
                              Color="{StaticResource PrimaryTextColor}" />
+
+            <FontImageSource x:Key="DeleteEmail" 
+                             FontFamily="FA6ProThin"
+                             Glyph="{x:Static fonts:IconFontGlyphs.Backspace}"
+                             Color="{StaticResource Salmon}" />
+
+            <FontImageSource x:Key="AddEmail" 
+                             FontFamily="FA6ProThin"
+                             Glyph="{x:Static fonts:IconFontGlyphs.Plus}"
+                             Color="{StaticResource White}" />
 
             <!--Stale Styles-->
             <Style x:Key="SubjectLarge" TargetType="{x:Type Label}">
@@ -182,23 +192,24 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
-                <Setter Property="WidthRequest" Value="200" />
+                <Setter Property="WidthRequest" Value="250" />
                 <Setter Property="HeightRequest" Value="50" />
                 <Setter Property="FontSize" Value="36" />
                 <Setter Property="Grid.ColumnSpan" Value="3" />
+                <Setter Property="Margin" Value="0,10,0,15" />
             </Style>
-            <Style TargetType="Label">
+            <!--<Style TargetType="Label">
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="Margin" Value="0,0,0,20" />
                 <Setter Property="TextColor" Value="White" />
-                <!--<Setter Property="CurvedBackgroundColor" Value="{StaticResource DarkGray}" />
-                <Setter Property="CornerRadius" Value="15" />-->
+                --><!--<Setter Property="CurvedBackgroundColor" Value="{StaticResource DarkGray}" />
+                <Setter Property="CornerRadius" Value="15" />--><!--
                 <Setter Property="HeightRequest" Value="30" />
                 <Setter Property="WidthRequest" Value="175" />
-            </Style>
+            </Style>-->
 
 
             <OnPlatform x:TypeArguments="GridLength" x:Key="PageBufferHeight">

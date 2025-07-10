@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <views:BasePage
     x:Class="SpiritualGiftsSurvey.Views.AppInfo.AppInfoPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -11,35 +11,9 @@
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
 
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Transparent">
-            <ImageButton x:Name="BackArrow"
-                         HorizontalOptions="Start"
-                         VerticalOptions="Center"
-                         BackgroundColor="Transparent"
-                         WidthRequest="50"
-                         HeightRequest="25"
-                         Source="{StaticResource BackArrow}"
-                         Command="{Binding NavButtonCommand}" />
-            <c:TitleLabel NewStyle="{StaticResource NavTitleLabelStyle}"
-                          HorizontalOptions="Fill"
-                          FlowDirection="{Binding FlowDirection}"
-                          LabelText="{Binding PageTopic}" />
-            <ImageButton x:Name="BackArrowRight"
-                         HorizontalOptions="End"
-                         VerticalOptions="Center"
-                         BackgroundColor="Transparent"
-                         WidthRequest="50"
-                         HeightRequest="25"
-                         IsVisible="False"
-                         IsEnabled="False"
-                         Source="{StaticResource BackArrowRight}"
-                         Command="{Binding NavButtonCommand}" />
-        </StackLayout>
-    </NavigationPage.TitleView>
-
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
+            <!-- BG -->
             <Image 
                 Source="mainpagebackground"
                 VerticalOptions="Fill"
@@ -47,23 +21,141 @@
                 Aspect="Fill"
                 Grid.RowSpan="2" />
 
+            <!-- NAVBAR -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="Auto,*,Auto"
+                  Padding="10"
+                  VerticalOptions="Start"
+                  BackgroundColor="Transparent">
+
+                <!-- Back -->
+                <ImageButton x:Name="BackArrow" 
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    BackgroundColor="Transparent"
+                    Source="{StaticResource BackArrow}"
+                    Command="{Binding NavButtonCommand}" />
+
+                <!-- Title -->
+                <c:TitleLabel 
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    NewStyle="{StaticResource NavTitleLabelStyle}"
+                    LabelText="{Binding PageTopic}"
+                    Margin="0,0,20,0"/>
+
+                <ImageButton x:Name="BackArrowRight"
+                    Grid.Column="2"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    BackgroundColor="Transparent"
+                    IsVisible="False"
+                    IsEnabled="False"
+                    Source="{StaticResource BackArrowRight}"
+                    Command="{Binding NavButtonCommand}" />
+            </Grid>
+
+            <!-- MAIN CONTENT -->
             <ScrollView Grid.Row="1">
-                <StackLayout VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,100,0,0">
-                    <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}" LabelText="{Binding CreatedBy}" />
-                    <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevLong}" />
-                    <Label x:Name="longEmail" Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevLongEmail}" TextColor="{StaticResource DodgerBlue}">
+                <StackLayout VerticalOptions="Start"
+                             HorizontalOptions="Fill"
+                             Margin="20,20,20,40">
+
+                    <!-- Creator -->
+                    <Label Text="{Binding CreatedBy}"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start" />
+
+                    <Label Text="{Binding CreatedByDetail}"
+                           FontSize="Large"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="30,0,0,0" />
+
+                    <!-- Developed -->
+                    <Label Text="{Binding DevelopedBy}"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="0,30,0,0"/>
+
+                    <Label Text="{Binding DeveloperName}"
+                           FontSize="Large"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="30,0,0,0" />
+
+                    <Label Text="{Binding Launchpad}"
+                           FontSize="Large"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="30,0,0,0" />
+
+                    <Label Text="{Binding CompanyWebsite}"
+                           FontSize="Large"
+                           TextColor="{StaticResource DodgerBlue}"
+                           HorizontalOptions="Start"
+                           Margin="30,15,0,0">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SendEmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevLongEmail}" />
+                            <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}"
+                                                  CommandParameter="{Binding CompanyWebsite}" />
                         </Label.GestureRecognizers>
                     </Label>
-                    <c:TitleLabel NewStyle="{StaticResource AppInfoLabel}" LabelText="{Binding DevelopedBy}" />
-                    <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevSmith}" />
-                    <Label Style="{StaticResource AppInfoDetailLabel}" Text="{Binding Launchpad}" />
-                    <Label x:Name="smithEmail" Style="{StaticResource AppInfoDetailLabel}" Text="{Binding RevSmithEmail}" TextColor="{StaticResource DodgerBlue}">
+
+                    <Label Text="{Binding DeveloperEmail}"
+                           FontSize="Large"
+                           TextColor="{StaticResource DodgerBlue}"
+                           HorizontalOptions="Start"
+                           Margin="30,15,0,0">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SendEmailCommand}" NumberOfTapsRequired="1" CommandParameter="{Binding RevSmithEmail}" />
+                            <TapGestureRecognizer Command="{Binding SendEmailCommand}"
+                                                  CommandParameter="{Binding DeveloperEmail}" />
                         </Label.GestureRecognizers>
                     </Label>
+
+                    <!-- App Version -->
+                    <Label Text="{Binding AppVersionLabel}"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="0,30,0,0" />
+
+                    <Label Text="{Binding AppVersion}"
+                           FontSize="Large"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="30,0,0,0" />
+
+                    <!-- DB Info -->
+                    <Label Text="{Binding DatabaseLabel}"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="0,30,0,0"/>
+
+                    <Label Text="{Binding DatabaseVersion}"
+                           FontSize="Large"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="30,0,0,0" />
+
+                    <Label Text="{Binding DatabaseDate}"
+                           FontSize="Large"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="30,0,0,0" />
+
                 </StackLayout>
             </ScrollView>
         </Grid>
