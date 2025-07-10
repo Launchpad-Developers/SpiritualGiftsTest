@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsSurvey.Helpers;
+using SpiritualGiftsSurvey.Messages;
 using SpiritualGiftsSurvey.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -30,6 +32,11 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         Prefs = prefs;
 
         IsTablet = DeviceInfo.Idiom == DeviceIdiom.Tablet;
+
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
+        {
+            InitAsync();
+        });
     }
 
     #region INotifyPropertyChanging implementation
@@ -81,6 +88,8 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     [NotifyPropertyChangedFor(nameof(ShowControls))]
     private bool errorVisible;
 
+    protected bool RequiresInitialzation { get; set; } = true;
+
     public bool ShowControls
     {
         get { return !ErrorVisible && !IsLoading; }
@@ -109,7 +118,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         }
     }
 
-    public virtual Task InitAsync(INavigation nav)
+    public virtual void InitAsync()
     {
         throw new NotImplementedException("InitAsync must be implemented in derived ViewModels.");
     }

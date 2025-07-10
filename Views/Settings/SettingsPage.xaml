@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<shared:BasePage
+<shared:BasePage x:Name="Page"
     x:Class="SpiritualGiftsSurvey.Views.Settings.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -68,19 +68,18 @@
                              Spacing="30">
 
                     <!-- Language -->
-                    <Label Text="{Binding LanguageTitle}"
-                           FontSize="Title"
-                           FontAttributes="Bold"
-                           TextColor="Black"
-                           HorizontalOptions="Start" />
 
                     <Grid Padding="0,10"
                           RowDefinitions="Auto"
                           ColumnDefinitions="*,Auto">
+                        
                         <!-- Title -->
-                        <Label Text="{Binding LanguageTitle}"
-                               VerticalOptions="Center"
-                               TextColor="Black" />
+                        <Label Grid.Column="0" 
+                            Text="{Binding CurrentLanguageTitle}"
+                            FontSize="Title"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            HorizontalOptions="Start" />
 
                         <!-- Selected -->
                         <Label Grid.Column="1"
@@ -100,78 +99,148 @@
                             SelectedItem="{Binding SelectedLanguage}"
                             ItemsSource="{Binding LanguageOptions}"
                             ItemDisplayBinding="{Binding DisplayName}"
-                            IsVisible="False"
+                            IsVisible="{Binding ShowLanguagePicker}"
                             ios:Picker.UpdateMode="WhenFinished" />
 
+                    <BoxView HeightRequest="0.5" HorizontalOptions="Fill" BackgroundColor="Gray" />
+
                     <!-- Reporting Email -->
-                    <Label Text="Reporting Email"
+                    <Label Text="{Binding ReportingEmailsTitle}"
                            FontSize="Title"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start" />
 
-                    <Grid ColumnDefinitions="*,Auto"
-                          HorizontalOptions="Fill"
-                          VerticalOptions="Center">
+                    <Border 
+                        Stroke="Gray"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        BackgroundColor="White"
+                        Padding="10"
+                        Margin="0,10,0,0">
 
-                        <!-- Entry -->
-                        <Entry 
-                            Grid.Column="0"
-                            Placeholder="Add Reporting Email"
-                            Text="{Binding NewReportingEmail}"
-                            Keyboard="Email" />
+                        <VerticalStackLayout Spacing="10">
 
-                        <!-- Add Button -->
-                        <ImageButton 
-                            Grid.Column="1"
-                            Source="{StaticResource AddButton}"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            BackgroundColor="Green"
-                            Command="{Binding AddNewReportingEmailAsyncCommand}" />
-                    </Grid>
+                            <!-- Input Grid -->
+                            <Grid ColumnDefinitions="*,Auto"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center">
 
-                    <!-- Reporting Email List -->
-                    <CollectionView ItemsSource="{Binding ReportingEmails}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="10"
-                                      ColumnDefinitions="*,Auto">
-                                    <Label Text="{Binding .}"
-                                           FontSize="Large"
-                                           TextColor="Black"
-                                           HorizontalOptions="Start" />
-                                    <ImageButton Source="{StaticResource DeleteEmail}"
-                                                 Grid.Column="1"
-                                                 WidthRequest="24"
-                                                 HeightRequest="24"
-                                                 BackgroundColor="Transparent"
-                                                 Command="{Binding BindingContext.RemoveReportingEmailCommand, Source={x:Reference Name=Page}}"
-                                                 CommandParameter="{Binding .}" />
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                <!-- Entry -->
+                                <Entry 
+                                    x:Name="AddReportingEmailEntry"
+                                    Grid.Column="0"
+                                    Placeholder="{Binding AddReportingEmailPlaceholder}"
+                                    Text="{Binding NewReportingEmail}"
+                                    TextColor="{Binding AddReportingEmailTextColor}"
+                                    TextChanged="Entry_TextChanged"
+                                    Keyboard="Email" />
 
-                    <Button 
-                        Text="{Binding RestoreDatabase}"
-                        Command="{Binding RestoreDatabaseCommand}"
-                        HorizontalOptions="Fill"
-                        BackgroundColor="DarkBlue"
-                        TextColor="White"
-                        HeightRequest="50"
-                        FontAttributes="Bold"
-                        Margin="0,40,0,0" />
+                                <!-- Add Button -->
+                                <ImageButton 
+                                    Grid.Column="1"
+                                    Source="{StaticResource AddEmail}"
+                                    WidthRequest="30"
+                                    HeightRequest="30"
+                                    Margin="0,0,5,10"
+                                    Padding="4"
+                                    CornerRadius="15"
+                                    BackgroundColor="{StaticResource EmeraldGreen}"
+                                    Command="{Binding AddNewReportingEmailCommand}" />
+                            </Grid>
 
-                    <Button 
-                        Text="{Binding ClearData}"
-                        Command="{Binding ClearDataCommand}"
-                        HorizontalOptions="Fill"
-                        BackgroundColor="DarkRed"
-                        TextColor="Yellow"
-                        HeightRequest="50"
-                        FontAttributes="Bold"
-                        Margin="0,5,0,0" />
+                            <!-- Divider -->
+                            <BoxView 
+                                HeightRequest="0.5" 
+                                HorizontalOptions="Fill" 
+                                BackgroundColor="Gray" 
+                                IsVisible="{Binding ShowCollectionView}"/>
+
+                            <!-- Email List -->
+                            <CollectionView 
+                                ItemsSource="{Binding ReportingEmails}"
+                                IsVisible="{Binding ShowCollectionView}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Grid Padding="10"
+                                            ColumnDefinitions="*,Auto">
+                                            <Label Text="{Binding}"
+                                                FontSize="Small"
+                                                TextColor="Black"
+                                                HorizontalOptions="Start" />
+                                            <ImageButton 
+                                                Source="{StaticResource DeleteEmail}"
+                                                Grid.Column="1"
+                                                WidthRequest="24"
+                                                HeightRequest="24" 
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding BindingContext.RemoveReportingEmailCommand, Source={x:Reference Name=Page}}"
+                                                CommandParameter="{Binding}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                        </VerticalStackLayout>
+                        
+                    </Border>
+
+                    <BoxView HeightRequest="0.5" HorizontalOptions="Fill" BackgroundColor="Gray" />
+
+                    <HorizontalStackLayout
+                        HorizontalOptions="Center"
+                        Spacing="20"
+                        WidthRequest="{OnIdiom Phone=320, Tablet=600}">
+
+                        <!-- Restore Database Button (wrapped) -->
+                        <Border
+                            BackgroundColor="{StaticResource AzureBlue}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            WidthRequest="{OnIdiom Phone=150, Tablet=290}"
+                            HeightRequest="50">
+
+                            <Label
+                                Text="{Binding RestoreDatabase}"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Padding="10,5">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RestoreDatabaseCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+
+                        <!-- Clear Data Button (wrapped) -->
+                        <Border
+                            BackgroundColor="{StaticResource DangerRed}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            WidthRequest="{OnIdiom Phone=150, Tablet=290}"
+                            HeightRequest="50">
+
+                            <Label
+                                Text="{Binding ClearData}"
+                                TextColor="Yellow"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Padding="10,5">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClearDataCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+
+                    </HorizontalStackLayout>
 
                 </StackLayout>
             </ScrollView>

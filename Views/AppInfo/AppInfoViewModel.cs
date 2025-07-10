@@ -13,12 +13,13 @@ public partial class AppInfoViewModel : BaseViewModel
 {
 
     private string _developerWebsiteUrl = "https://launchpaddevs.com";
+    private string _cornerstoneWebsiteUrl = "https://www.cornerstoneupc.com/";
 
     public AppInfoViewModel(
         IAggregatedServices aggregatedServices,
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
-        Initialize();
+
     }
 
 
@@ -56,20 +57,20 @@ public partial class AppInfoViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task OpenWebsiteAsync()
+    private async Task OpenWebsiteAsync(string url)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(_developerWebsiteUrl))
+            if (string.IsNullOrWhiteSpace(url))
             {
                 await NotifyUserAsync("URL Error", "No website URL was provided.", "OK");
                 return;
             }
 
-            Uri uri;
-            if (!Uri.TryCreate(_developerWebsiteUrl, UriKind.Absolute, out uri))
+            Uri? uri;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
             {
-                await NotifyUserAsync("URL Error", $"The URL '{_developerWebsiteUrl}' is invalid.", "OK");
+                await NotifyUserAsync("URL Error", $"The URL '{url}' is invalid.", "OK");
                 return;
             }
 
@@ -95,13 +96,21 @@ public partial class AppInfoViewModel : BaseViewModel
         }
     }
 
-    public void Initialize()
+    public override void InitAsync()
 	{
+        if (!RequiresInitialzation)
+            return;
+
+        RequiresInitialzation = false;
+
         FlowDirection = TranslationService.FlowDirection;
 
         PageTopic = TranslationService.GetString("AppInfo", "App Info");
         CreatedBy = TranslationService.GetString("CreatedBy", "Created By");
         CreatedByDetail = TranslationService.GetString("CreatedByDetail", "Based on the Wagner Modified Houts Questionnaire");
+        DevelopedFor = TranslationService.GetString("DevelopedFor", "Developed For");
+        CornerstoneUpc = TranslationService.GetString("CornerstoneUpc", "Cornerstone UPC");
+        CornerstoneWebsite = TranslationService.GetString("CornerstoneWebsite", _cornerstoneWebsiteUrl);
         DevelopedBy = TranslationService.GetString("DevelopedBy", "Developed By");
         DeveloperName = TranslationService.GetString("DeveloperName", "William Smith");
         DeveloperEmail = TranslationService.GetString("DeveloperEmail", "william@launchpaddevs.com");
@@ -124,6 +133,15 @@ public partial class AppInfoViewModel : BaseViewModel
 
     [ObservableProperty]
     private string createdByDetail = string.Empty;
+
+    [ObservableProperty]
+    private string developedFor = string.Empty;
+
+    [ObservableProperty]
+    private string cornerstoneUpc = string.Empty;
+
+    [ObservableProperty]
+    private string cornerstoneWebsite = string.Empty;
 
     [ObservableProperty]
     private string developedBy = string.Empty;

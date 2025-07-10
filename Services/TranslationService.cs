@@ -103,7 +103,9 @@ public partial class TranslationService : ObservableObject, ITranslationService
 
     public async Task<bool> SetLanguageByCodeAsync(string code)
     {
-        if (string.IsNullOrEmpty(code)) return false;
+        if (string.IsNullOrEmpty(code) ||
+            CurrentLanguageCode == code) 
+            return false;
 
         CurrentLanguageCode = code;
 

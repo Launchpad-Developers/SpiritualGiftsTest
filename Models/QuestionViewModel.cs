@@ -10,6 +10,10 @@ namespace SpiritualGiftsSurvey.Models;
 /// </summary>
 public partial class QuestionViewModel : ObservableObject, INotifyPropertyChanged
 {
+    public QuestionViewModel()
+    {
+    }
+
     [ObservableProperty]
     private string notAtAll = string.Empty;
 
@@ -43,10 +47,6 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
     [ObservableProperty]
     private bool showButtons;
 
-    public QuestionViewModel()
-    {
-    }
-
     [RelayCommand]
     private void SetValue(UserValue value)
     {
@@ -54,34 +54,34 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
         Answered = true;
     }
 
-    partial void OnQuestionTextChanged(string value)
-    {
-        CalculateCellHeight(value);
-    }
-
-    public void CalculateCellHeight(string questionText)
-    {
-        double fontSize = 18;
-        double lineHeight = fontSize * 1.2;
-        int charsPerLine = 35;
-        int textLength = questionText?.Length ?? 0;
-
-        double estimatedLines = Math.Ceiling((double)textLength / charsPerLine);
-
-        double padding = ShowButtons ? 320 : 100;
-
-        //CellHeight = Math.Max(estimatedLines * lineHeight + padding, 60);
-        CellHeight = (estimatedLines * lineHeight) + padding;
-    }
-
     partial void OnAnsweredChanged(bool value)
     {
-        BorderColor = value ? (Color?)Application.Current?.Resources["Green"] ?? Colors.Green 
+        BorderColor = value ? (Color?)Application.Current?.Resources["EmeraldGreen"] ?? Colors.Green 
             : (Color?)Application.Current?.Resources["Black"] ?? Colors.Black;
     }
 
     public void MarkQuestionUnanswered()
     {
-        BorderColor = (Color?)Application.Current?.Resources["Red"] ?? Colors.Red;
+        BorderColor = (Color?)Application.Current?.Resources["DangerRed"] ?? Colors.Red;
     }
+
+    //partial void OnQuestionTextChanged(string value)
+    //{
+    //    CalculateCellHeight(value);
+    //}
+
+    //public void CalculateCellHeight(string questionText)
+    //{
+    //    double fontSize = 18;
+    //    double lineHeight = fontSize * 1.2;
+    //    int charsPerLine = 35;
+    //    int textLength = questionText?.Length ?? 0;
+
+    //    double estimatedLines = Math.Ceiling((double)textLength / charsPerLine);
+
+    //    double padding = ShowButtons ? 320 : 100;
+
+    //    //CellHeight = Math.Max(estimatedLines * lineHeight + padding, 60);
+    //    CellHeight = (estimatedLines * lineHeight) + padding;
+    //}
 }

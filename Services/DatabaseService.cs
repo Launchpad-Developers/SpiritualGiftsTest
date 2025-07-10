@@ -1,4 +1,6 @@
-﻿using SpiritualGiftsSurvey.Models;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsSurvey.Messages;
+using SpiritualGiftsSurvey.Models;
 using SQLite;
 using System.Diagnostics;
 
@@ -213,6 +215,7 @@ public class DatabaseService : IDatabaseService
             }
         }
 
+        WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(true));
         return true;
     }
 

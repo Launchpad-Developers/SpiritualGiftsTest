@@ -1,20 +1,19 @@
 using SpiritualGiftsSurvey.Services;
 using SpiritualGiftsSurvey.Views.Shared;
-using SpiritualGiftsSurvey.Views.Welcome;
 
 namespace SpiritualGiftsSurvey.Views.Splash;
 
-
 public class SplashViewModel : BaseViewModel
 {
-    private readonly WelcomePage _welcomePage;
-
     public SplashViewModel(
-        IAggregatedServices aggregatedServices, 
-        IPreferences preferences,
-        WelcomePage welcomePage)
+        IAggregatedServices aggregatedServices,
+        IPreferences preferences)
         : base(aggregatedServices, preferences)
     {
-        _welcomePage = welcomePage;
+    }
+
+    public override void InitAsync()
+    {
+        return;
     }
 }

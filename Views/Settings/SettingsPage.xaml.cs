@@ -15,6 +15,8 @@ public partial class SettingsPage : BasePage
     {
         base.OnAppearing();
 
+        ViewModel.InitAsync();
+
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {
             BackArrow.IsVisible = false;
@@ -28,7 +30,12 @@ public partial class SettingsPage : BasePage
     {
         MainThread.BeginInvokeOnMainThread(() => {
             LanguagePicker.Focus();
-            LanguagePicker.IsVisible = true;
+            ((SettingsViewModel)ViewModel).ShowLanguagePicker = true;
         });
+    }
+
+    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        ((SettingsViewModel)ViewModel).ResetAddReportingEmailEntry();
     }
 }

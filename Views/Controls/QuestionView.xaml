@@ -18,7 +18,6 @@
             Stroke="{Binding BorderColor}"
             StrokeThickness="3"
             BackgroundColor="White"
-            HeightRequest="{Binding CellHeight}"
             Padding="10"
             HorizontalOptions="Fill">
 
@@ -36,7 +35,6 @@
                     FontSize="18"
                     LineBreakMode="WordWrap"
                     HorizontalOptions="Fill"
-                    HeightRequest="{Binding CellHeight}"
                     HorizontalTextAlignment="Center"
                     VerticalOptions="Start" />
 

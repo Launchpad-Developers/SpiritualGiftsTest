@@ -23,6 +23,8 @@ namespace SpiritualGiftsSurvey.Utilities
         public const string DefaultLangName = "English";
         public const string DefaultLangCode = "EN";
 
+        public const string ReportingEmailsKey = "ReportingEmails";
+
         public const int TotalQuestions = 110;
     }
 }

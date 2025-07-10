@@ -9,4 +9,11 @@ public partial class WelcomePage : BasePage
     {
         InitializeComponent();
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        ViewModel.InitAsync();
+    }
 }

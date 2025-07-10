@@ -25,7 +25,10 @@
             <Color x:Key="White">#ffffff</Color>
             <Color x:Key="SeaGreen">#34c1b9</Color>
             <Color x:Key="WhiteSmoke">#f8f8f8</Color>
-            <Color x:Key="Salmon">#ea6869</Color>
+            <Color x:Key="Salmon">#EA6869</Color>
+            <Color x:Key="DangerRed">#D32F2F</Color>
+            <Color x:Key="EmeraldGreen">#2ECC71</Color>
+            <Color x:Key="AzureBlue">#2979FF</Color>
 
             <Color x:Key="Lavender">#e5eff8</Color>
             <Color x:Key="DodgerBlue">#1b91ea</Color>
@@ -126,12 +129,12 @@
                              Color="{StaticResource PrimaryTextColor}" />
 
             <FontImageSource x:Key="DeleteEmail" 
-                             FontFamily="FA6ProThin"
+                             FontFamily="FA6Solid"
                              Glyph="{x:Static fonts:IconFontGlyphs.Backspace}"
-                             Color="{StaticResource Salmon}" />
+                             Color="{StaticResource DangerRed}" />
 
             <FontImageSource x:Key="AddEmail" 
-                             FontFamily="FA6ProThin"
+                             FontFamily="FA6Solid"
                              Glyph="{x:Static fonts:IconFontGlyphs.Plus}"
                              Color="{StaticResource White}" />
 

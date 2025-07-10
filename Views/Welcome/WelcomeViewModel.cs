@@ -17,25 +17,10 @@ public partial class WelcomeViewModel : BaseViewModel
         IAggregatedServices aggregatedServices, 
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
-        Languages = new ObservableCollection<string>();
-
         Title = "Spiritual Gifts Survey";
-
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
-        {
-            InitializePageAsync();
-        });
-        
-        Languages = new ObservableCollection<string>();
-
-        //No translation data available before this point
-        InitializePageAsync();
     }
 
     public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
-
-    [ObservableProperty]
-    private string errorMessage = string.Empty;
 
     [ObservableProperty]
     private string tapTo = string.Empty;
@@ -45,21 +30,6 @@ public partial class WelcomeViewModel : BaseViewModel
 
     [ObservableProperty]
     private string nextPage = string.Empty;
-
-    [ObservableProperty]
-    private QuestionViewModel question = new();
-
-    [ObservableProperty]
-    private ObservableCollection<string> languages = new();
-
-    //[RelayCommand]
-    //private async Task GetStartedAsync()
-    //{
-    //    ShowInstructable = !ShowInstructable;
-
-    //    if (!ShowInstructable)
-    //        await PerformNavigation(Routes.SurveyPage);
-    //}
 
     [RelayCommand]
     private async Task OpenInfoAsync()
@@ -71,12 +41,6 @@ public partial class WelcomeViewModel : BaseViewModel
     [RelayCommand]
     private async Task OpenSettingsAsync()
     {
-        if (ErrorVisible)
-        {
-            await NotifyUserAsync("Network Error", "Your device is not connected to the internet. Language updates are not currently available.", "OK");
-            return;
-        }
-
         if (!IsLoading)
         {
             await PerformNavigation(Routes.SettingsPage);
@@ -84,18 +48,21 @@ public partial class WelcomeViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    private void RetryUpdate()
+    public override async void InitAsync()
     {
-        InitializePageAsync();
-    }
+        if (!RequiresInitialzation)
+            return;
 
-    public async void InitializePageAsync()
-    {
+        RequiresInitialzation = false;
+
         IsLoading = true;
-        ErrorVisible = false;
 
         await TranslationService.InitializeLanguage();
+
+        if (Questions.Count > 0)
+        {
+            Questions.RemoveAt(0);
+        };
 
         string instructions = string.Format(TranslationService.GetString("Instructions", "Instructions"), Environment.NewLine);
         Questions.Add(new QuestionViewModel { QuestionText = instructions });

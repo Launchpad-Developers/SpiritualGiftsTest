@@ -80,16 +80,36 @@
                            HorizontalOptions="Start"
                            Margin="30,0,0,0" />
 
-                    <!-- Developed -->
-                    <Label Text="{Binding DevelopedBy}"
-                           FontSize="Title"
+
+                    <!-- Developed for-->
+                    <Label Text="{Binding DevelopedFor}"
+                           FontSize="Body"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="0,30,0,0"/>
 
-                    <Label Text="{Binding DeveloperName}"
-                           FontSize="Large"
+                    <Label Text="{Binding CornerstoneUpc}"
+                           FontSize="Body"
+                           TextColor="{StaticResource DodgerBlue}"
+                           HorizontalOptions="Start"
+                           Margin="30,15,0,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}"
+                                                  CommandParameter="{Binding CornerstoneWebsite}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <!-- Developed by-->
+                    <Label Text="{Binding DevelopedBy}"
+                           FontSize="Body"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="0,30,0,0"/>
+
+                    <!--<Label Text="{Binding DeveloperName}"
+                           FontSize="Body"
                            TextColor="{StaticResource DodgerBlue}"
                            HorizontalOptions="Start"
                            Margin="30,15,0,0">
@@ -97,10 +117,10 @@
                             <TapGestureRecognizer Command="{Binding SendEmailCommand}"
                                                   CommandParameter="{Binding DeveloperEmail}" />
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label>-->
 
                     <Label Text="{Binding Launchpad}"
-                           FontSize="Large"
+                           FontSize="Body"
                            TextColor="{StaticResource DodgerBlue}"
                            HorizontalOptions="Start"
                            Margin="30,15,0,0">
@@ -112,34 +132,34 @@
 
                     <!-- App Version -->
                     <Label Text="{Binding AppVersionLabel}"
-                           FontSize="Title"
+                           FontSize="Body"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="0,30,0,0" />
 
                     <Label Text="{Binding AppVersion}"
-                           FontSize="Large"
+                           FontSize="Body"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="30,0,0,0" />
 
                     <!-- DB Info -->
                     <Label Text="{Binding DatabaseLabel}"
-                           FontSize="Title"
+                           FontSize="Body"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="0,30,0,0"/>
 
                     <Label Text="{Binding DatabaseVersion}"
-                           FontSize="Large"
+                           FontSize="Body"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="30,0,0,0" />
 
                     <Label Text="{Binding DatabaseDate}"
-                           FontSize="Large"
+                           FontSize="Body"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="30,0,0,0" />
