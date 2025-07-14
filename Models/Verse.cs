@@ -10,5 +10,5 @@ public class Verse
 
     public Guid VerseGuid { get; set; }
     public Guid GiftDescriptionGuid { get; set; }
-    public string VerseText { get; set; } = string.Empty;
+    public string Reference { get; set; } = string.Empty;
 }

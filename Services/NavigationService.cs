@@ -5,7 +5,8 @@ namespace SpiritualGiftsSurvey.Services;
 public interface INavigationService
 {
     Task<bool> NavigateAsync(string route);
-    Task GoBackToRootAsync();
+    Task<bool> NavigateAsync(string route, IDictionary<string, object> parameters);
+    Task<bool> GoBackAsync(string route);
 }
 
 public class NavigationService : INavigationService
@@ -24,15 +25,31 @@ public class NavigationService : INavigationService
         }
     }
 
-    public async Task GoBackToRootAsync()
+    public async Task<bool> NavigateAsync(string route, IDictionary<string, object> parameters)
     {
         try
         {
-            await Shell.Current.GoToAsync("//WelcomePage");
+            await Shell.Current.GoToAsync($"///{route}", true, parameters);
+            return true;
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"GoBackToRoot failed: {ex.Message}");
+            Debug.WriteLine($"Navigation with parameters failed: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> GoBackAsync(string route)
+    {
+        try
+        {
+            await Shell.Current.GoToAsync($"//{route}");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"GoBack failed: {ex.Message}");
+            return false;
         }
     }
 }

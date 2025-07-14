@@ -1,5 +1,4 @@
 ﻿using SpiritualGiftsSurvey.Views.Shared;
-using System.Runtime.Versioning;
 
 namespace SpiritualGiftsSurvey.Views.Send;
 

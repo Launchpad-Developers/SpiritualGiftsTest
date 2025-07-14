@@ -3,6 +3,7 @@ using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Utilities;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SpiritualGiftsSurvey.Services;
 
@@ -50,8 +51,10 @@ public partial class UrlService : ObservableObject, IUrlService
         {
             var model = JsonSerializer.Deserialize<RootModel>(result.Value!, new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
             });
+
 
             return model != null
                 ? new Result<RootModel>(model)

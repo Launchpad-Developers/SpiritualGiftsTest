@@ -2,6 +2,7 @@
 using SpiritualGiftsSurvey.Resources;
 using SpiritualGiftsSurvey.Services;
 using SpiritualGiftsSurvey.Views.AppInfo;
+using SpiritualGiftsSurvey.Views.GiftDescription;
 using SpiritualGiftsSurvey.Views.Reporting;
 using SpiritualGiftsSurvey.Views.Results;
 using SpiritualGiftsSurvey.Views.Send;
@@ -68,6 +69,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
         mauiAppBuilder.Services.AddSingleton<IAnalyticsService, AppInsightsService>();
         mauiAppBuilder.Services.AddSingleton<IAppInfoService, AppInfoService>();
+        mauiAppBuilder.Services.AddSingleton<IEmailService, EmailService>();
         mauiAppBuilder.Services.AddSingleton<IAggregatedServices, AggregatedServices>();
 
         return mauiAppBuilder;
@@ -89,6 +91,9 @@ public static class MauiProgram
 
         mauiAppBuilder.Services.AddSingleton<ResultsViewModel>();
         mauiAppBuilder.Services.AddSingleton<ResultsPage>();
+
+        mauiAppBuilder.Services.AddSingleton<GiftDescriptionViewModel>();
+        mauiAppBuilder.Services.AddSingleton<GiftDescriptionPage>();
 
         mauiAppBuilder.Services.AddSingleton<SendViewModel>();
         mauiAppBuilder.Services.AddSingleton<SendPage>();

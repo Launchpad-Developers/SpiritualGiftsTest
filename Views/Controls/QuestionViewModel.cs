@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SpiritualGiftsSurvey.Enums;
 using System.ComponentModel;
 
-namespace SpiritualGiftsSurvey.Models;
+namespace SpiritualGiftsSurvey.Views.Controls;
 
 /// <summary>
 /// Represents a single question with its metadata and user response.
@@ -45,7 +45,13 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
     private Guid questionId;
 
     [ObservableProperty]
+    private Guid giftDescriptionGuid;
+
+    [ObservableProperty]
     private UserValue userValue = UserValue.DidNotAnswer;
+
+    [ObservableProperty]
+    private Gifts gift;
 
     [ObservableProperty]
     private bool answered;

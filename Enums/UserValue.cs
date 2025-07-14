@@ -5,9 +5,9 @@
 /// </summary>
 public enum UserValue
 {
-    DidNotAnswer = 0,
-    NotAtAll = 1,
-    Little = 2,
-    Some = 3,
-    Much = 4
+    DidNotAnswer = -1,
+    NotAtAll = 0,
+    Little = 1,
+    Some = 2,
+    Much = 3
 }

@@ -3,7 +3,7 @@
     x:Class="SpiritualGiftsSurvey.Views.Survey.SurveyPage"  
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-    xmlns:models="clr-namespace:SpiritualGiftsSurvey.Models"
+    xmlns:models="clr-namespace:SpiritualGiftsSurvey.Views.Controls"
     xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"  
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Survey;assembly=SpiritualGiftsSurvey"  
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
@@ -45,7 +45,7 @@
                     ItemsSource="{Binding Questions}"
                     VerticalOptions="Fill"
                     HorizontalOptions="Fill"
-                    RemainingItemsThreshold="1"
+                    RemainingItemsThreshold="0"
                     RemainingItemsThresholdReachedCommand="{Binding ReachedEndCommand}">
 
                     <CollectionView.ItemTemplate>
@@ -89,10 +89,10 @@
                     HeightRequest="50"
                     HorizontalOptions="Fill"
                     VerticalOptions="End"
-                    BackgroundColor="{StaticResource ButtonColor}"
+                    BackgroundColor="{StaticResource EmeraldGreen}"
                     IsVisible="{Binding ShowConfirmButton}"
                     Text="{Binding NavButtonText}"
-                    FontSize="30"
+                    FontSize="{OnIdiom Phone=24, Tablet=34}"
                     Padding="0" />
             </Grid>
         </Grid>

@@ -1,8 +1,4 @@
-﻿using SpiritualGiftsSurvey.Resources;
-using SpiritualGiftsSurvey.Views.Splash;
-using SpiritualGiftsSurvey.Views.Welcome;
-
-namespace SpiritualGiftsSurvey;
+﻿namespace SpiritualGiftsSurvey;
 
 public partial class App : Application
 {
@@ -11,9 +7,6 @@ public partial class App : Application
         InitializeComponent();
 
         Services = serviceProvider;
-
-        // Make AppShell the MainPage
-        MainPage = Services.GetRequiredService<AppShell>();
     }
 
     public IServiceProvider Services { get; }

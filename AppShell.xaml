@@ -11,6 +11,7 @@
     xmlns:splash="clr-namespace:SpiritualGiftsSurvey.Views.Splash"
     xmlns:survey="clr-namespace:SpiritualGiftsSurvey.Views.Survey"
     xmlns:welcome="clr-namespace:SpiritualGiftsSurvey.Views.Welcome"
+    xmlns:description="clr-namespace:SpiritualGiftsSurvey.Views.GiftDescription"
     xmlns:routing="clr-namespace:SpiritualGiftsSurvey.Routing"
     Title="SpiritualGiftsSurvey">
 
@@ -25,11 +26,15 @@
     <ShellContent
         Route="{x:Static routing:Routes.ReportingPage}"
         ContentTemplate="{DataTemplate report:ReportingPage}" />
-    
+
     <ShellContent
         Route="{x:Static routing:Routes.ResultsPage}"
         ContentTemplate="{DataTemplate result:ResultsPage}" />
-    
+
+    <ShellContent
+        Route="{x:Static routing:Routes.GiftDescriptionPage}"
+        ContentTemplate="{DataTemplate description:GiftDescriptionPage}" />
+
     <ShellContent
         Route="{x:Static routing:Routes.SendPage}"
         ContentTemplate="{DataTemplate send:SendPage}" />

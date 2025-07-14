@@ -1,10 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using SpiritualGiftsSurvey.Messages;
-using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Controls;
 using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
 

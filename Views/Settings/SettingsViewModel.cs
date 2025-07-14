@@ -3,11 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using SpiritualGiftsSurvey.Helpers;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Services;
-using SpiritualGiftsSurvey.Utilities;
 using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
 using System.Runtime.Versioning;
-using System.Text.Json;
 
 namespace SpiritualGiftsSurvey.Views.Settings;
 
@@ -17,10 +15,9 @@ public partial class SettingsViewModel : BaseViewModel
 {
     public SettingsViewModel(
         IAggregatedServices aggregatedServices,
-        IPreferences preferences) 
+        IPreferences preferences)
         : base(aggregatedServices, preferences)
     {
-
     }
 
     [ObservableProperty]
@@ -61,9 +58,9 @@ public partial class SettingsViewModel : BaseViewModel
 
     [ObservableProperty]
     private Color addReportingEmailTextColor =
-                (Application.Current?.Resources.TryGetValue("Black", out var value) == true && value is Color color)
-                    ? color
-                    : Colors.Black;
+        (Application.Current?.Resources.TryGetValue("Black", out var value) == true && value is Color color)
+            ? color
+            : Colors.Black;
 
     private string _yes = string.Empty;
     private string _no = string.Empty;
@@ -86,7 +83,6 @@ public partial class SettingsViewModel : BaseViewModel
 
     public ObservableCollection<string> ReportingEmails { get; private set; } = new();
 
-
     public override void InitAsync()
     {
         if (!RequiresInitialzation)
@@ -94,7 +90,11 @@ public partial class SettingsViewModel : BaseViewModel
 
         RequiresInitialzation = false;
 
-        LoadEmails();
+        ReportingEmails.Clear();
+        foreach (var email in EmailService.GetStoredEmails())
+        {
+            ReportingEmails.Add(email);
+        }
 
         FlowDirection = TranslationService.FlowDirection;
 
@@ -128,9 +128,11 @@ public partial class SettingsViewModel : BaseViewModel
 
         _invalidEmailTitle = TranslationService.GetString("InvalidEmailTitle", "Invalid Email");
         _invalidEmailMessage = TranslationService.GetString("InvalidEmailMessage", "Please enter a valid email address.");
-        
+
         _removeEmailTitle = TranslationService.GetString("RemoveEmailTitle", "Remove Email");
         _removeEmailMessage = TranslationService.GetString("RemoveEmailMessage", "Remove {0} from the reporting list?");
+
+        ShowCollectionView = ReportingEmails.Any();
     }
 
     private bool _emailIsError;
@@ -138,10 +140,12 @@ public partial class SettingsViewModel : BaseViewModel
     {
         if (!_emailIsError) return;
 
+        _emailIsError = false;
+
         AddReportingEmailTextColor =
-                (Application.Current?.Resources.TryGetValue("Black", out var value) == true && value is Color color)
-                    ? color
-                    : Colors.Black;
+            (Application.Current?.Resources.TryGetValue("Black", out var value) == true && value is Color color)
+                ? color
+                : Colors.Black;
     }
 
     [RelayCommand]
@@ -154,6 +158,8 @@ public partial class SettingsViewModel : BaseViewModel
 
         if (!PageHelper.IsValidEmail(trimmedEmail))
         {
+            _emailIsError = true;
+
             AddReportingEmailTextColor =
                 (Application.Current?.Resources.TryGetValue("DangerRed", out var value) == true && value is Color color)
                     ? color
@@ -163,14 +169,12 @@ public partial class SettingsViewModel : BaseViewModel
             return;
         }
 
-        if (!ReportingEmails.Contains(trimmedEmail, StringComparer.OrdinalIgnoreCase))
+        if (EmailService.SaveEmail(trimmedEmail))
         {
             ReportingEmails.Add(trimmedEmail);
-            SaveEmails();
         }
 
         NewReportingEmail = string.Empty;
-
         ShowCollectionView = ReportingEmails.Any();
     }
 
@@ -189,10 +193,9 @@ public partial class SettingsViewModel : BaseViewModel
         if (!confirmed)
             return;
 
-        if (ReportingEmails.Contains(email))
+        if (EmailService.RemoveEmail(email))
         {
             ReportingEmails.Remove(email);
-            SaveEmails();
         }
 
         ShowCollectionView = ReportingEmails.Any();
@@ -205,7 +208,6 @@ public partial class SettingsViewModel : BaseViewModel
 
         _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
 
-        // If your LanguageOptions might change display names, refresh them:
         LanguageOptions = TranslationService.GetLanguageOptions();
         LanguageTitle = TranslationService.CurrentLanguageDisplayName;
         ShowLanguagePicker = false;
@@ -254,28 +256,5 @@ public partial class SettingsViewModel : BaseViewModel
         IsLoading = false;
 
         await NotifyUserAsync(_dataClearedTitle, _dataClearedMessage, _ok);
-    }
-
-    private void SaveEmails()
-    {
-        Preferences.Set(AppConstants.ReportingEmailsKey, JsonSerializer.Serialize(ReportingEmails));
-    }
-
-    private void LoadEmails()
-    {
-        var stored = Preferences.Get(AppConstants.ReportingEmailsKey, null);
-        if (!string.IsNullOrEmpty(stored))
-        {
-            var list = JsonSerializer.Deserialize<List<string>>(stored) ?? new List<string>();
-
-            ReportingEmails.Clear();
-
-            foreach (var email in list)
-            {
-                ReportingEmails.Add(email);
-            }
-        }
-
-        ShowCollectionView = ReportingEmails.Any();
     }
 }

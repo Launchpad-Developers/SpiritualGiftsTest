@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using SpiritualGiftsSurvey.Enums;
+using SQLite;
 
 namespace SpiritualGiftsSurvey.Models;
 
@@ -10,7 +11,7 @@ public class GiftDescription
 
     public Guid GiftDescriptionGuid { get; set; }
     public Guid TranslationGuid { get; set; }
-    public string Gift { get; set; } = string.Empty;
+    public Gifts Gift { get; set; }
     public string Translation { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     [Ignore] public List<Verse> Verses { get; set; } = new();

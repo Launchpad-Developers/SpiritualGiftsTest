@@ -1,22 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Messages;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Views.Controls;
 using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
 using System.Runtime.Versioning;
 
 namespace SpiritualGiftsSurvey.Views.Survey;
 
-
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
 public partial class SurveyViewModel : BaseViewModel
 {
-
     private int _currentPage = 1;
 
     public SurveyViewModel(
@@ -24,13 +24,13 @@ public partial class SurveyViewModel : BaseViewModel
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
     }
-    
+
     [ObservableProperty]
     private bool showConfirmButton;
 
     public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
 
-    public override async void InitAsync()
+    public override void InitAsync()
     {
         IsLoading = true;
         FlowDirection = TranslationService.FlowDirection;
@@ -47,6 +47,41 @@ public partial class SurveyViewModel : BaseViewModel
         var random = new Random();
         var shuffledQuestions = questions.OrderBy(_ => random.Next()).ToList();
 
+#if DEBUG
+        // Limit: max 2 per Gift
+        var limitPerGift = 2;
+        var giftCounter = new Dictionary<Gifts, int>();
+
+        // Store random debug answers
+        var debugUserValues = new Dictionary<Guid, UserValue>();
+
+        shuffledQuestions = shuffledQuestions
+            .Where(q =>
+            {
+                if (!giftCounter.ContainsKey(q.Gift))
+                    giftCounter[q.Gift] = 0;
+
+                if (giftCounter[q.Gift] < limitPerGift)
+                {
+                    giftCounter[q.Gift]++;
+
+                    // Pick random answer (not DidNotAnswer)
+                    var possibleValues = Enum.GetValues<UserValue>()
+                        .Where(v => v != UserValue.DidNotAnswer)
+                        .ToList();
+
+                    debugUserValues[q.QuestionGuid] = possibleValues[random.Next(possibleValues.Count)];
+
+                    return true;
+                }
+
+                return false;
+            })
+            .ToList();
+#endif
+
+        totalQuestions = shuffledQuestions.Count;
+
         int index = 1;
         foreach (var q in shuffledQuestions)
         {
@@ -54,26 +89,32 @@ public partial class SurveyViewModel : BaseViewModel
             {
                 QuestionText = q.QuestionText,
                 QuestionId = q.QuestionGuid,
+                Gift = q.Gift,
                 NotAtAll = TranslationService.GetString("NotAtAll", "Not at all"),
                 Little = TranslationService.GetString("Little", "Little"),
                 Some = TranslationService.GetString("Some", "Some"),
                 Much = TranslationService.GetString("Much", "Much"),
                 QuestionOf = $"Question {index} of {totalQuestions}",
-                ShowButtons = true
+                ShowButtons = true,
+                GiftDescriptionGuid = q.GiftDescriptionGuid,
             };
 
+#if DEBUG
+            // Apply debug answer if set
+            if (debugUserValues.TryGetValue(q.QuestionGuid, out var debugValue))
+                questionVm.UserValue = debugValue;
+
+
+            WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(totalQuestions));
+#endif
+
             if (index == 1)
-            {
                 questionVm.QuestionMargin = new Thickness(30, 30, 30, 10);
-            }
 
             if (index == totalQuestions)
-            {
                 questionVm.QuestionMargin = new Thickness(30, 10, 30, 100);
-            }
 
             Questions.Add(questionVm);
-
             index++;
         }
 
@@ -94,7 +135,6 @@ public partial class SurveyViewModel : BaseViewModel
 
         QuestionOf = $"{question} {currentPage} {of} {TranslationService.TotalQuestions}";
     }
-
 
     [ObservableProperty]
     private string nextPage = string.Empty;
@@ -118,7 +158,7 @@ public partial class SurveyViewModel : BaseViewModel
             TranslationService.GetString("No", "No"));
 
         if (result)
-            await NavBack();
+            await NavBack(Routes.WelcomePage);
     }
 
     [RelayCommand]
@@ -128,10 +168,9 @@ public partial class SurveyViewModel : BaseViewModel
 
         foreach (var q in Questions)
         {
-            if (q.UserValue == Enums.UserValue.DidNotAnswer)
+            if (q.UserValue == UserValue.DidNotAnswer)
             {
                 q.MarkQuestionUnanswered();
-
                 if (firstUnanswered == null)
                     firstUnanswered = q;
             }
@@ -139,19 +178,57 @@ public partial class SurveyViewModel : BaseViewModel
 
         if (firstUnanswered != null)
         {
-            // Optional: show message
             await NotifyUserAsync(
                 TranslationService.GetString("Incomplete", "Incomplete"),
                 TranslationService.GetString("PleaseAnswerAllQuestions", "Please answer all questions."),
                 TranslationService.GetString("OK", "OK"));
 
             var index = Questions.IndexOf(firstUnanswered);
-
             WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(index));
             return;
         }
 
-        await NavigationService.NavigateAsync(Routes.ResultsPage);
-    }
+        // Tally how many questions exist for each gift
+        var giftCounts = Questions
+            .GroupBy(q => q.Gift)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Count()
+            );
 
+        // Generate UserGiftScore list including Score and MaxScore
+        var giftScores = Questions
+            .GroupBy(q => q.Gift)
+            .Select(group =>
+            {
+                var gift = group.Key;
+                var score = group.Sum(q => (int)q.UserValue);
+                var maxScore = giftCounts[gift] * 3; // max per question = 3
+                var giftGuid = group.Select(q => q.GiftDescriptionGuid).FirstOrDefault();
+
+                return new UserGiftScore
+                {
+                    GiftName = gift.ToString(),
+                    Score = score,
+                    MaxScore = maxScore,
+                    Gift = gift,
+                    GiftDescriptionGuid = giftGuid
+                };
+            })
+            .OrderByDescending(gs => gs.Score)
+            .ToList();
+
+        var result = new SurveyResult
+        {
+            DateTaken = DateTime.UtcNow,
+            Scores = giftScores
+        };
+
+        await DatabaseService.SaveUserGiftResultAsync(result);
+
+        await NavigationService.NavigateAsync(Routes.ResultsPage, new Dictionary<string, object>
+        {
+            ["UserGiftResult"] = result
+        });
+    }
 }

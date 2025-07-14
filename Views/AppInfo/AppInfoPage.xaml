@@ -6,6 +6,7 @@
     xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.AppInfo;assembly=SpiritualGiftsSurvey"
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
+    xmlns:r="clr-namespace:SpiritualGiftsSurvey.Routing"
     x:DataType="vm:AppInfoViewModel"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
@@ -37,7 +38,8 @@
                     HeightRequest="40"
                     BackgroundColor="Transparent"
                     Source="{StaticResource BackArrow}"
-                    Command="{Binding NavButtonCommand}" />
+                    Command="{Binding NavBackCommand}"
+                    CommandParameter="{x:Static r:Routes.WelcomePage}" />
 
                 <!-- Title -->
                 <c:TitleLabel 
@@ -58,7 +60,8 @@
                     IsVisible="False"
                     IsEnabled="False"
                     Source="{StaticResource BackArrowRight}"
-                    Command="{Binding NavButtonCommand}" />
+                    Command="{Binding NavBackCommand}"
+                    CommandParameter="{x:Static r:Routes.WelcomePage}" />
             </Grid>
 
             <!-- MAIN CONTENT -->

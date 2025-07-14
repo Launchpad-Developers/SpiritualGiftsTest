@@ -7,6 +7,7 @@
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:shared="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Settings"
+    xmlns:r="clr-namespace:SpiritualGiftsSurvey.Routing"
     x:DataType="vm:SettingsViewModel"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
@@ -37,7 +38,8 @@
                              HeightRequest="40"
                              BackgroundColor="Transparent"
                              Source="{StaticResource BackArrow}"
-                             Command="{Binding NavButtonCommand}" />
+                             Command="{Binding NavBackCommand}"
+                             CommandParameter="{x:Static r:Routes.WelcomePage}" />
 
                 <!-- Title -->
                 <c:TitleLabel Grid.Column="1"
@@ -57,7 +59,8 @@
                              IsVisible="False"
                              IsEnabled="False"
                              Source="{StaticResource BackArrowRight}"
-                             Command="{Binding NavButtonCommand}" />
+                             Command="{Binding NavBackCommand}"
+                             CommandParameter="{x:Static r:Routes.WelcomePage}" />
             </Grid>
 
             <!-- MAIN CONTENT -->

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    x:Class="SpiritualGiftsSurvey.Views.Controls.GiftScoreView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Controls"
+    x:DataType="vm:GiftScoreViewModel"
+    x:Name="Root">
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer 
+            Command="{Binding TapCommand, Source={x:Reference Root}}"
+            CommandParameter="{Binding .}" />
+    </ContentView.GestureRecognizers>
+
+    <Border StrokeThickness="2"
+            Stroke="DarkSlateGray"
+            BackgroundColor="White"
+            Padding="5"
+            Margin="0,4"
+            StrokeShape="RoundRectangle 8">
+
+        <VerticalStackLayout Spacing="8">
+            <Grid ColumnDefinitions="*,Auto" Margin="10,6,10,0">
+                <Label Text="{Binding GiftName}" FontSize="{OnIdiom Phone=24, Tablet=30}" TextColor="Black" VerticalOptions="Center" />
+                <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto" ColumnSpacing="6">
+                    <ImageButton 
+                        Grid.Column="0"
+                        IsVisible="{Binding ShowMedal}"
+                        Source="{StaticResource Medal}"
+                        BackgroundColor="{Binding MedalColor}"
+                        HeightRequest="36"
+                        WidthRequest="36"
+                        Padding="7,9,7,7"
+                        CornerRadius="18"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        BorderWidth="0"
+                        InputTransparent="True" />
+                    <Label Text="{Binding Score}"
+                           Grid.Column="1"
+                           FontSize="{OnIdiom Phone=24, Tablet=30}" 
+                           TextColor="Black" 
+                           VerticalOptions="Center" />
+                </Grid>
+            </Grid>
+
+            <!-- Custom inline progress bar -->
+            <Grid x:Name="BarContainer"
+                  HeightRequest="{OnIdiom Phone=12, Tablet=30}"
+                  HorizontalOptions="Fill"
+                  BackgroundColor="Transparent"
+                  VerticalOptions="Center"
+                  Margin="{OnIdiom Phone='10,0,10,6', Tablet='0,4,0,12'}">
+                <!-- Track -->
+                <BoxView Color="{StaticResource AzureBlue}"
+                         CornerRadius="4"
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill" />
+                <!-- Fill -->
+                <BoxView x:Name="ProgressFill"
+                         Color="{StaticResource EmeraldGreen}"
+                         CornerRadius="4"
+                         VerticalOptions="Fill"
+                         HorizontalOptions="Start"
+                         WidthRequest="0" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

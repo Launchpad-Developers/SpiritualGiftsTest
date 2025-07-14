@@ -4,15 +4,72 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
-    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Results;assembly=SpiritualGiftsSurvey"  
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Results"
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
-    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-    ios:NavigationPage.HideNavigationBarSeparator="true"
     x:DataType="vm:ResultsViewModel"
-    FlowDirection="{Binding FlowDirection}"
+    x:Name="Page"
     NavigationPage.HasNavigationBar="False"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="False"
+    FlowDirection="{Binding FlowDirection}">
 
-    <!-- …your page layout here… -->
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,*">
+            <!-- BG -->
+            <Image Source="mainpagebackground"
+                   Aspect="Fill"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill"
+                   Grid.RowSpan="2" />
 
+            <!-- NAVBAR -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,Auto"
+                  Padding="10"
+                  VerticalOptions="Start"
+                  BackgroundColor="Transparent">
+                <c:TitleLabel Grid.Column="0"
+                              HorizontalOptions="Center"
+                              VerticalOptions="Center"
+                              NewStyle="{StaticResource NavTitleLabelStyle}"
+                              LabelText="{Binding PageTopic}" />
+            </Grid>
+
+            <!-- MAIN CONTENT -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="20,20,20,40" Spacing="30">
+
+                    <!-- New CollectionView with GiftScoreView -->
+                    <CollectionView ItemsSource="{Binding AllGiftScores}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <c:GiftScoreView TapCommand="{Binding BindingContext.ViewGiftDescriptionCommand, Source={x:Reference Name=Page}}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+
+                    <!-- User Info -->
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="10">
+                        <Entry Placeholder="{Binding FirstNamePlaceholder}" Text="{Binding FirstName}" />
+                        <Entry Placeholder="{Binding LastNamePlaceholder}" Text="{Binding LastName}" Grid.Column="1" />
+                    </Grid>
+
+                    <Entry Placeholder="{Binding EmailPlaceholder}" Text="{Binding Email}" />
+
+                    <!-- Continue -->
+                    <Button 
+                        Text="{Binding ContinueButtonText}"
+                        Command="{Binding ContinueCommand}"
+                        BackgroundColor="{StaticResource ButtonColor}"
+                        TextColor="White"
+                        FontSize="{OnIdiom Phone=24, Tablet=34}"
+                        HeightRequest="50"
+                        Margin="40"
+                        FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
 </views:BasePage>

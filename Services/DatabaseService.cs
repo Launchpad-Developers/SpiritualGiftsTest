@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Messages;
 using SpiritualGiftsSurvey.Models;
 using SQLite;
@@ -13,13 +14,15 @@ public interface IDatabaseService
     List<LanguageOption> GetLanguageOptions(string languageCode);
     List<Question> GetQuestions(string languageCode);
     List<GiftDescription> GetGiftDescriptions(string languageCode);
+    GiftDescription? GetGiftDescription(string languageCode, Gifts gift);
+    GiftDescription? GetGiftDescription(Guid giftDescriptionGuid);
     List<Verse> GetVerses(Guid giftDescriptionGuid);
     List<AppString> GetAppStrings(string languageCode);
     int GetQuestionsCount(string languageCode);
     DatabaseInfo? GetDatabaseInfo();
     Task<bool> RefreshDatabaseAsync(RootModel? rootModel = null);
-    Task SaveUserGiftResultAsync(UserGiftResult result);
-    List<UserGiftResult> GetAllUserGiftResults();
+    Task SaveUserGiftResultAsync(SurveyResult result);
+    List<SurveyResult> GetAllUserGiftResults();
     Task ClearUserGiftDataAsync();
 }
 
@@ -93,6 +96,25 @@ public class DatabaseService : IDatabaseService
                    .ToList();
     }
 
+    public GiftDescription? GetGiftDescription(string languageCode, Gifts gift)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        var translation = conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
+        if (translation == null) return null;
+
+        return conn.Table<GiftDescription>()
+                   .FirstOrDefault(x => x.TranslationGuid == translation.TranslationGuid && x.Gift == gift);
+    }
+
+    public GiftDescription? GetGiftDescription(Guid giftDescriptionGuid)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        return conn.Table<GiftDescription>()
+                   .FirstOrDefault(x => x.GiftDescriptionGuid == giftDescriptionGuid);
+    }
+
     public List<Verse> GetVerses(Guid giftDescriptionGuid)
     {
         using var conn = new SQLiteConnection(DatabasePath);
@@ -156,7 +178,7 @@ public class DatabaseService : IDatabaseService
         conn.CreateTable<GiftDescription>();
         conn.CreateTable<Reflection>();
         conn.CreateTable<Verse>();
-        conn.CreateTable<UserGiftResult>();
+        conn.CreateTable<SurveyResult>();
         conn.CreateTable<UserGiftScore>();
 
         // Clear app data only
@@ -189,8 +211,14 @@ public class DatabaseService : IDatabaseService
 
             foreach (var question in translation.Questions)
             {
-                question.TranslationGuid = translation.TranslationGuid; 
-                Debug.WriteLine($"Loaded question: {question.QuestionText}");
+                question.TranslationGuid = translation.TranslationGuid;
+
+                var match = translation.GiftDescriptions.FirstOrDefault(gd => gd.Gift == question.Gift);
+                if (match != null)
+                {
+                    question.GiftDescriptionGuid = match.GiftDescriptionGuid;
+                }
+
                 conn.Insert(question);
             }
 
@@ -220,10 +248,10 @@ public class DatabaseService : IDatabaseService
         return true;
     }
 
-    public async Task SaveUserGiftResultAsync(UserGiftResult result)
+    public async Task SaveUserGiftResultAsync(SurveyResult result)
     {
         using var conn = new SQLiteConnection(DatabasePath);
-        conn.CreateTable<UserGiftResult>();
+        conn.CreateTable<SurveyResult>();
         conn.CreateTable<UserGiftScore>();
 
         conn.Insert(result);
@@ -237,21 +265,21 @@ public class DatabaseService : IDatabaseService
         await Task.CompletedTask;
     }
 
-    public List<UserGiftResult> GetAllUserGiftResults()
+    public List<SurveyResult> GetAllUserGiftResults()
     {
         using var conn = new SQLiteConnection(DatabasePath);
-        conn.CreateTable<UserGiftResult>();
+        conn.CreateTable<SurveyResult>();
 
-        return conn.Table<UserGiftResult>().OrderByDescending(x => x.DateTaken).ToList();
+        return conn.Table<SurveyResult>().OrderByDescending(x => x.DateTaken).ToList();
     }
 
     public async Task ClearUserGiftDataAsync()
     {
         using var conn = new SQLiteConnection(DatabasePath);
-        conn.CreateTable<UserGiftResult>();
+        conn.CreateTable<SurveyResult>();
         conn.CreateTable<UserGiftScore>();
 
-        conn.DeleteAll<UserGiftResult>();
+        conn.DeleteAll<SurveyResult>();
         conn.DeleteAll<UserGiftScore>();
 
         await Task.CompletedTask;

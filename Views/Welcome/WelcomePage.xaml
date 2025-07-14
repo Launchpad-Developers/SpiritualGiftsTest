@@ -171,7 +171,9 @@
                 TextColor="White"
                 HeightRequest="50"
                 Margin="40"
+                FontSize="{OnIdiom Phone=24, Tablet=34}"
                 HorizontalOptions="Fill"
+                IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}"
                 VerticalOptions="End" />
         </Grid>
     </ContentPage.Content>

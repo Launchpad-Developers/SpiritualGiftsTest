@@ -138,6 +138,11 @@
                              Glyph="{x:Static fonts:IconFontGlyphs.Plus}"
                              Color="{StaticResource White}" />
 
+            <FontImageSource x:Key="Medal" 
+                             FontFamily="FA6Solid"
+                             Glyph="{x:Static fonts:IconFontGlyphs.Medal}"
+                             Color="{StaticResource DarkGray}" />
+
             <!--Stale Styles-->
             <Style x:Key="SubjectLarge" TargetType="{x:Type Label}">
                 <Setter Property="HorizontalTextAlignment" Value="Center" />

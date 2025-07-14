@@ -21,6 +21,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     protected INavigationService NavigationService => AggregatedServices.NavigationService;
     protected IAnalyticsService Analytics => AggregatedServices.AnalyticsService;
     protected IAppInfoService AppInfoService => AggregatedServices.AppInfoService;
+    protected IEmailService EmailService => AggregatedServices.EmailService;
 
     readonly IPreferences Prefs;
 
@@ -101,20 +102,20 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     }
 
     [RelayCommand]
-    private async Task OnNavButtonAsync(string page)
+    private async Task OnNavButtonAsync(string route)
     {
         if (IsLoading) return;
 
-        if (!string.IsNullOrEmpty(page))
+        if (!string.IsNullOrEmpty(route))
         {
             if (Prefs.Get(nameof(ShowInstructable), true))
                 ShowInstructable = true;
             else
-                await PerformNavigation(page);
+                await PerformNavigation(route);
         }
         else
         {
-            await NavBack();
+            await NavBack(route);
         }
     }
 
@@ -123,11 +124,13 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         throw new NotImplementedException("InitAsync must be implemented in derived ViewModels.");
     }
 
-    protected async Task NavBack()
+
+    [RelayCommand]
+    protected async Task NavBack(string route)
     {
         try
         {
-            await NavigationService.GoBackToRootAsync();
+            await NavigationService.GoBackAsync(route);
         }
         catch (Exception ex)
         {
@@ -147,6 +150,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         {
             ShowInstructable = false;
             await PerformNavigation(page);
+            NavButtonText = TranslationService.GetString("Begin", "Got it!");
         }
     }
 

@@ -82,6 +82,9 @@
     <Compile Update="Views\Controls\TitleLabel.xaml.cs">
       <DependentUpon>TitleLabel.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GiftDescription\GiftDescriptionPage.xaml.cs">
+      <DependentUpon>GiftDescriptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Reporting\ReportingPage.xaml.cs">
       <DependentUpon>ReportingPage.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,12 @@
 
 
   <ItemGroup>
+    <MauiXaml Update="Views\Controls\GiftScoreView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\GiftDescription\GiftDescriptionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\Splash\SplashPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

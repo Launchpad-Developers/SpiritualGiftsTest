@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage  
+    x:Class="SpiritualGiftsSurvey.Views.GiftDescription.GiftDescriptionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
+    xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.GiftDescription"
+    xmlns:r="clr-namespace:SpiritualGiftsSurvey.Routing"
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
+    x:DataType="vm:GiftDescriptionViewModel"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False"
+    FlowDirection="{Binding FlowDirection}">
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,*">
+            <!-- BG -->
+            <Image Source="mainpagebackground"
+                   Aspect="Fill"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill"
+                   Grid.RowSpan="2"/>
+
+            <!-- NAVBAR with Back -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="Auto,*,Auto"
+                  Padding="10"
+                  VerticalOptions="Start"
+                  BackgroundColor="Transparent">
+
+                <!-- Back -->
+                <ImageButton x:Name="BackArrow" 
+                    Grid.Column="0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    BackgroundColor="Transparent"
+                    Source="{StaticResource BackArrow}"
+                    Command="{Binding NavBackCommand}"
+                    CommandParameter="{x:Static r:Routes.ResultsPage}" />
+
+                <!-- Title -->
+                <c:TitleLabel 
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    NewStyle="{StaticResource NavTitleLabelStyle}"
+                    LabelText="{Binding PageTopic}"
+                    Margin="0,0,20,0"/>
+
+                <ImageButton x:Name="BackArrowRight"
+                    Grid.Column="2"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    BackgroundColor="Transparent"
+                    IsVisible="False"
+                    IsEnabled="False"
+                    Source="{StaticResource BackArrowRight}"
+                    Command="{Binding NavBackCommand}"
+                    CommandParameter="{x:Static r:Routes.ResultsPage}" />
+            </Grid>
+
+            <!-- Content -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="20" Spacing="20">
+                    <Label Text="{Binding GiftName}"
+                           FontSize="Title"
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+
+                    <Label Text="{Binding GiftDescriptionText}"
+                           TextColor="Black"
+                           FontSize="Medium"
+                           LineBreakMode="WordWrap" />
+
+                    <Label Text="{Binding GiftScriptures}"
+                           TextColor="Black"
+                           FontSize="Large"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</views:BasePage>

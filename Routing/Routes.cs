@@ -8,6 +8,7 @@ public static class Routes
     public static string WelcomePage => nameof(WelcomePage);
     public static string SurveyPage => nameof(SurveyPage);
     public static string ResultsPage => nameof(ResultsPage);
+    public static string GiftDescriptionPage => nameof(GiftDescriptionPage);
     public static string ReportingPage => nameof(ReportingPage);
     public static string SendPage => nameof(SendPage);
     public static string SettingsPage => nameof(SettingsPage);
