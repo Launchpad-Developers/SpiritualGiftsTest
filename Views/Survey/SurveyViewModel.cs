@@ -2,10 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SpiritualGiftsSurvey.Enums;
+using SpiritualGiftsSurvey.Helpers;
 using SpiritualGiftsSurvey.Messages;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Utilities;
 using SpiritualGiftsSurvey.Views.Controls;
 using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
@@ -48,36 +50,7 @@ public partial class SurveyViewModel : BaseViewModel
         var shuffledQuestions = questions.OrderBy(_ => random.Next()).ToList();
 
 #if DEBUG
-        // Limit: max 2 per Gift
-        var limitPerGift = 2;
-        var giftCounter = new Dictionary<Gifts, int>();
-
-        // Store random debug answers
-        var debugUserValues = new Dictionary<Guid, UserValue>();
-
-        shuffledQuestions = shuffledQuestions
-            .Where(q =>
-            {
-                if (!giftCounter.ContainsKey(q.Gift))
-                    giftCounter[q.Gift] = 0;
-
-                if (giftCounter[q.Gift] < limitPerGift)
-                {
-                    giftCounter[q.Gift]++;
-
-                    // Pick random answer (not DidNotAnswer)
-                    var possibleValues = Enum.GetValues<UserValue>()
-                        .Where(v => v != UserValue.DidNotAnswer)
-                        .ToList();
-
-                    debugUserValues[q.QuestionGuid] = possibleValues[random.Next(possibleValues.Count)];
-
-                    return true;
-                }
-
-                return false;
-            })
-            .ToList();
+        var debugUserValues = DebugHelper.ApplyDebugQuestionFilters(ref shuffledQuestions, random);
 #endif
 
         totalQuestions = shuffledQuestions.Count;
@@ -102,10 +75,12 @@ public partial class SurveyViewModel : BaseViewModel
 #if DEBUG
             // Apply debug answer if set
             if (debugUserValues.TryGetValue(q.QuestionGuid, out var debugValue))
+            {
                 questionVm.UserValue = debugValue;
 
-
-            WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(totalQuestions));
+                if (debugValue == UserValue.DidNotAnswer)
+                    questionVm.MarkQuestionUnanswered();
+            }
 #endif
 
             if (index == 1)
@@ -118,8 +93,19 @@ public partial class SurveyViewModel : BaseViewModel
             index++;
         }
 
+#if DEBUG
+        WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(totalQuestions - 1));
+#endif
+
+
         UpdateQuestionLabel(_currentPage);
         IsLoading = false;
+    }
+
+    public override void RefreshViewModel()
+    {
+        ShowConfirmButton = false;
+        Questions.Clear();
     }
 
     [RelayCommand]

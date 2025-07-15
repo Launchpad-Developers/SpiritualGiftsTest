@@ -59,6 +59,13 @@ public partial class SendViewModel : BaseViewModel
         PageTopic = TranslationService.GetString("SendTitle", "Send Your Results");
     }
 
+    public override void RefreshViewModel()
+    {
+        FirstName = string.Empty;
+        LastName = string.Empty;
+        Email = string.Empty;
+    }
+
     [RelayCommand]
     private async Task ContinueAsync()
     {

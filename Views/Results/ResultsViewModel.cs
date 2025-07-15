@@ -13,19 +13,15 @@ namespace SpiritualGiftsSurvey.Views.Results;
 [QueryProperty(nameof(UserGiftResult), "UserGiftResult")]
 public partial class ResultsViewModel : BaseViewModel
 {
-    private readonly INavigationService _navigationService;
-
     public ResultsViewModel(
         IAggregatedServices aggregatedServices,
-        IPreferences preferences,
-        INavigationService navigationService)
+        IPreferences preferences)
         : base(aggregatedServices, preferences)
     {
-        _navigationService = navigationService;
+
     }
 
     [ObservableProperty] private SurveyResult? userGiftResult;
-
     [ObservableProperty] private string continueButtonText = string.Empty;
 
     public ObservableCollection<GiftScoreViewModel> AllGiftScores { get; } = new();
@@ -43,7 +39,7 @@ public partial class ResultsViewModel : BaseViewModel
         foreach (var score in value.Scores.OrderByDescending(x => x.Score))
         {
             var localizedGiftName = TranslationService.GetString(score.Gift.ToString(), score.Gift.ToString());
-            AllGiftScores.Add(new GiftScoreViewModel(score, localizedGiftName));
+            AllGiftScores.Add(new GiftScoreViewModel(score, localizedGiftName, ViewGiftDescriptionCommand));
         }
     }
 
@@ -53,20 +49,31 @@ public partial class ResultsViewModel : BaseViewModel
         PageTopic = TranslationService.GetString("SurveyResultsTitle", "Survey Results");
     }
 
+    public override void RefreshViewModel()
+    {
+        return;
+    }
+
     [RelayCommand]
     private async Task ViewGiftDescriptionAsync(GiftScoreViewModel vm)
     {
         if (vm?.Model == null) return;
 
-        await _navigationService.NavigateAsync("GiftDescriptionPage", new Dictionary<string, object>
+        await NavigationService.NavigateAsync(Routes.GiftDescriptionPage, new Dictionary<string, object>
         {
-            ["Gift"] = vm.Model
+            ["Gift"] = vm.Model,
+            ["UserGiftResult"] = UserGiftResult
         });
     }
 
     [RelayCommand]
     private async Task ContinueAsync()
     {
-        await _navigationService.GoBackAsync(Routes.WelcomePage);
+        if (UserGiftResult == null) return;
+
+        await NavigationService.NavigateAsync(Routes.SendPage, new Dictionary<string, object>
+        {
+            ["UserGiftResult"] = UserGiftResult
+        });
     }
 }

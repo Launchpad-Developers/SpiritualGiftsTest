@@ -1,15 +1,18 @@
 ﻿using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Models;
+using System.Windows.Input;
 
 namespace SpiritualGiftsSurvey.Views.Controls;
 
 public class GiftScoreViewModel
 {
-    public GiftScoreViewModel(UserGiftScore model, string localizedGiftName)
+    public GiftScoreViewModel(UserGiftScore model, string localizedGiftName, ICommand command)
     {
         Model = model;
 
         GiftName = localizedGiftName;
+
+        ViewGiftDescriptionCommand = command;
 
         Progress = model.MaxScore > 0
             ? (double)model.Score / model.MaxScore
@@ -31,4 +34,6 @@ public class GiftScoreViewModel
     public double Progress { get; }
     public bool ShowMedal { get; }
     public Color MedalColor { get; }
+
+    public ICommand ViewGiftDescriptionCommand { get; }
 }

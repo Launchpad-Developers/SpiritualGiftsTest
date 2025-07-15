@@ -16,4 +16,9 @@ public class SplashViewModel : BaseViewModel
     {
         return;
     }
+
+    public override void RefreshViewModel()
+    {
+        return;
+    }
 }

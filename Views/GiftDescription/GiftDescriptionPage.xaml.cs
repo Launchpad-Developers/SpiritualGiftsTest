@@ -10,11 +10,9 @@ public partial class GiftDescriptionPage : BasePage
 		InitializeComponent();
     }
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override void OnAppearing()
     {
-        base.OnNavigatedTo(args);
-
-        ViewModel.InitAsync();
+        base.OnAppearing();
 
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {

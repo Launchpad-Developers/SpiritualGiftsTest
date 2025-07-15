@@ -245,6 +245,108 @@
 
                     </HorizontalStackLayout>
 
+                    <!-- DEBUG SETTINGS -->
+                    <StackLayout IsVisible="{Binding ShowDebugOptions}"
+                        Padding="0"
+                        Spacing="20">
+
+                        <Label Text="Debug Options"
+                            FontSize="Title"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            HorizontalOptions="Start" />
+
+                        <!-- Total Topics -->
+                        <Grid ColumnDefinitions="*,Auto,Auto"
+                            VerticalOptions="Center">
+                            <Label Text="Total Topics"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                FontSize="Body" />
+                            <Label Grid.Column="1"
+                                Text="{Binding TotalTopics}"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                Margin="10,0" />
+                            <Stepper Grid.Column="2"
+                                Minimum="0"
+                                Maximum="200"
+                                Increment="1"
+                                Value="{Binding TotalTopics}" />
+                        </Grid>
+
+                        <!-- Topic Limit -->
+                        <Grid ColumnDefinitions="*,Auto,Auto"
+                            VerticalOptions="Center">
+                            <Label Text="Topic Limit"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                FontSize="Body" />
+                            <Label Grid.Column="1"
+                                Text="{Binding TopicLimit}"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                Margin="10,0" />
+                            <Stepper Grid.Column="2"
+                                Minimum="0"
+                                Maximum="50"
+                                Increment="1"
+                                Value="{Binding TopicLimit}" />
+                        </Grid>
+
+                        <!-- Total Questions -->
+                        <Grid VerticalOptions="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{OnIdiom Phone=20, Tablet=80}" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1"
+                                Text="Total Questions"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                FontSize="Body"
+                                FontAttributes="Bold"/>
+                            <Label Grid.Column="2"
+                                Text="{Binding TotalQuestions}"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                Margin="10,0"
+                                FontAttributes="Bold"/>
+                        </Grid>
+
+                        <!-- Allow Unanswered Questions -->
+                        <Grid ColumnDefinitions="*,Auto"
+                            VerticalOptions="Center">
+                            <Label Text="Allow Unanswered Questions"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                FontSize="Body" />
+                            <Switch Grid.Column="1"
+                                IsToggled="{Binding AllowUnansweredQuestions}" />
+                        </Grid>
+
+                        <!-- Total Unanswered Questions -->
+                        <Grid ColumnDefinitions="*,Auto,Auto"
+                            VerticalOptions="Center"
+                            IsVisible="{Binding ShowUnansweredQuestionControls}">
+                            <Label Text="Total Unanswered Questions"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                FontSize="Body" />
+                            <Label Grid.Column="1"
+                                Text="{Binding TotalUnansweredQuestions}"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                Margin="10,0" />
+                            <Stepper Grid.Column="2"
+                                Minimum="0"
+                                Maximum="100"
+                                Increment="1"
+                                Value="{Binding TotalUnansweredQuestions}" />
+                        </Grid>
+                    </StackLayout>
+
                 </StackLayout>
             </ScrollView>
 

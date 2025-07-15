@@ -111,6 +111,9 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
                 MuchButtonColor = _emeraldGreen;
                 break;
         }
+
+        // Ensure border turns green when answered
+        BorderColor = _emeraldGreen;
     }
 
     partial void OnAnsweredChanged(bool value)
@@ -121,7 +124,14 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
 
     public void MarkQuestionUnanswered()
     {
+        Answered = false;
         BorderColor = _dangerRed ?? Colors.Red;
+
+        // Optional: reset button highlights too
+        NotAtAllButtonColor = _azureBlue;
+        LittleButtonColor = _azureBlue;
+        SomeButtonColor = _azureBlue;
+        MuchButtonColor = _azureBlue;
     }
 
     private static Color GetResourceColor(string key, Color fallback)

@@ -128,6 +128,11 @@ public partial class AppInfoViewModel : BaseViewModel
         DatabaseDate = $"Last updated {formatted}";
     }
 
+    public override void RefreshViewModel()
+    {
+        return;
+    }
+
     [ObservableProperty]
     private string createdBy = string.Empty;
 

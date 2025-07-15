@@ -42,21 +42,13 @@
                     <CollectionView ItemsSource="{Binding AllGiftScores}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <c:GiftScoreView TapCommand="{Binding BindingContext.ViewGiftDescriptionCommand, Source={x:Reference Name=Page}}" />
+                                <c:GiftScoreView />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
                         </CollectionView.ItemsLayout>
                     </CollectionView>
-
-                    <!-- User Info -->
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="10">
-                        <Entry Placeholder="{Binding FirstNamePlaceholder}" Text="{Binding FirstName}" />
-                        <Entry Placeholder="{Binding LastNamePlaceholder}" Text="{Binding LastName}" Grid.Column="1" />
-                    </Grid>
-
-                    <Entry Placeholder="{Binding EmailPlaceholder}" Text="{Binding Email}" />
 
                     <!-- Continue -->
                     <Button 

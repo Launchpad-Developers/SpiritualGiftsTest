@@ -15,8 +15,6 @@ public partial class SettingsPage : BasePage
     {
         base.OnAppearing();
 
-        ViewModel.InitAsync();
-
         if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
         {
             BackArrow.IsVisible = false;

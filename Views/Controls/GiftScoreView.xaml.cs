@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace SpiritualGiftsSurvey.Views.Controls;
@@ -10,6 +11,22 @@ public partial class GiftScoreView : ContentView
         SizeChanged += OnSizeChanged;
     }
 
+    protected override void OnBindingContextChanged()
+    {
+        base.OnBindingContextChanged();
+
+        GestureRecognizers.Clear();
+
+        var tapGesture = new TapGestureRecognizer();
+        tapGesture.Tapped += (sender, e) =>
+        {
+            ((GiftScoreViewModel)BindingContext).ViewGiftDescriptionCommand?.Execute(BindingContext);
+        };
+
+        GestureRecognizers.Add(tapGesture);
+    }
+
+
     public static readonly BindableProperty TapCommandProperty =
         BindableProperty.Create(
             nameof(TapCommand),
@@ -20,7 +37,11 @@ public partial class GiftScoreView : ContentView
     public ICommand? TapCommand
     {
         get => (ICommand?)GetValue(TapCommandProperty);
-        set => SetValue(TapCommandProperty, value);
+        set
+        {
+            Debug.WriteLine($"TapCommand bound: {value?.GetType().Name ?? "null"}");
+            SetValue(TapCommandProperty, value);
+        }
     }
 
     private void OnSizeChanged(object? sender, EventArgs e)

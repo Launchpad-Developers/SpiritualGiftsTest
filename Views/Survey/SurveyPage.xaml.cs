@@ -17,11 +17,4 @@ public partial class SurveyPage : BasePage
         });
 
     }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        ((SurveyViewModel)ViewModel).InitAsync();
-    }
 }

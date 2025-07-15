@@ -11,4 +11,14 @@ public partial class ReportingViewModel : BaseViewModel
     {
 
     }
+
+    public override void RefreshViewModel()
+    {
+        return;
+    }
+
+    public override void InitAsync()
+    {
+        return;
+    }
 }

@@ -7,13 +7,8 @@
     x:DataType="vm:GiftScoreViewModel"
     x:Name="Root">
 
-    <ContentView.GestureRecognizers>
-        <TapGestureRecognizer 
-            Command="{Binding TapCommand, Source={x:Reference Root}}"
-            CommandParameter="{Binding .}" />
-    </ContentView.GestureRecognizers>
-
-    <Border StrokeThickness="2"
+    <Border x:Name="GiftScore" 
+            StrokeThickness="2"
             Stroke="DarkSlateGray"
             BackgroundColor="White"
             Padding="5"
@@ -23,7 +18,11 @@
         <VerticalStackLayout Spacing="8">
             <Grid ColumnDefinitions="*,Auto" Margin="10,6,10,0">
                 <Label Text="{Binding GiftName}" FontSize="{OnIdiom Phone=24, Tablet=30}" TextColor="Black" VerticalOptions="Center" />
-                <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto" ColumnSpacing="6">
+                <Grid Grid.Column="1" ColumnSpacing="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="{OnIdiom Phone=30, Tablet=60}" />
+                    </Grid.ColumnDefinitions>
                     <ImageButton 
                         Grid.Column="0"
                         IsVisible="{Binding ShowMedal}"
@@ -41,7 +40,10 @@
                            Grid.Column="1"
                            FontSize="{OnIdiom Phone=24, Tablet=30}" 
                            TextColor="Black" 
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
                 </Grid>
             </Grid>
 

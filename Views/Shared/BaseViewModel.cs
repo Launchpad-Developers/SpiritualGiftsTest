@@ -119,14 +119,12 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         }
     }
 
-    public virtual void InitAsync()
-    {
-        throw new NotImplementedException("InitAsync must be implemented in derived ViewModels.");
-    }
+    public abstract void InitAsync();
+    public abstract void RefreshViewModel();
 
 
     [RelayCommand]
-    protected async Task NavBack(string route)
+    protected virtual async Task NavBack(string route)
     {
         try
         {

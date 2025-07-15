@@ -8,11 +8,4 @@ public partial class ResultsPage : BasePage
     {
         InitializeComponent();
     }
-
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-
-        ViewModel.InitAsync();
-    }
 }

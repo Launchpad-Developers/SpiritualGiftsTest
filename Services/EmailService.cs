@@ -1,6 +1,7 @@
 ﻿using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Utilities;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
@@ -52,10 +53,28 @@ public class EmailService : IEmailService
             await Email.Default.ComposeAsync(message);
             return true;
         }
-        catch (Exception)
+        catch (FeatureNotSupportedException ex)
         {
-            return false;
+            // Email is not supported on this device
+            Debug.WriteLine($"Email not supported: {ex.Message}");
         }
+        catch (PermissionException ex)
+        {
+            // Permission was not granted
+            Debug.WriteLine($"Permission error: {ex.Message}");
+        }
+        catch (ArgumentNullException ex)
+        {
+            // One of the required fields (e.g., recipient) is null
+            Debug.WriteLine($"Argument null: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // General catch-all for unexpected errors
+            Debug.WriteLine($"Unexpected error: {ex.Message}");
+        }
+
+        return false;
     }
 
     private string GenerateHtmlEmail(SurveyResult result)

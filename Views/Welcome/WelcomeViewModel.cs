@@ -46,6 +46,11 @@ public partial class WelcomeViewModel : BaseViewModel
         }
     }
 
+    public override void RefreshViewModel()
+    {
+        NavButtonText = TranslationService.GetString("Begin", "Begin");
+    }
+
     public override async void InitAsync()
     {
         if (!RequiresInitialzation)

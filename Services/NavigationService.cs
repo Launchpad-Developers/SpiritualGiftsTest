@@ -7,6 +7,7 @@ public interface INavigationService
     Task<bool> NavigateAsync(string route);
     Task<bool> NavigateAsync(string route, IDictionary<string, object> parameters);
     Task<bool> GoBackAsync(string route);
+    Task<bool> GoBackAsync(string route, IDictionary<string, object> parameters);
 }
 
 public class NavigationService : INavigationService
@@ -44,6 +45,20 @@ public class NavigationService : INavigationService
         try
         {
             await Shell.Current.GoToAsync($"//{route}");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"GoBack failed: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> GoBackAsync(string route, IDictionary<string, object> parameters)
+    {
+        try
+        {
+            await Shell.Current.GoToAsync($"//{route}", true, parameters);
             return true;
         }
         catch (Exception ex)

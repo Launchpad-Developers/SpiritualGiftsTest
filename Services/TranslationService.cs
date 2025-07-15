@@ -40,7 +40,7 @@ public partial class TranslationService : ObservableObject, ITranslationService
     private FlowDirection flowDirection = FlowDirection.LeftToRight;
 
     [ObservableProperty]
-    private int totalQuestions = AppConstants.TotalQuestions;
+    private int totalQuestions = Preferences.Get(AppConstants.DebugTotalQuestionsKey, 0);
 
     [ObservableProperty]
     private IEnumerable<LanguageOption> languageOptions = Enumerable.Empty<LanguageOption>();

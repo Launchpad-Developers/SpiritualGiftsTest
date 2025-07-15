@@ -11,6 +11,20 @@ public partial class BasePage : ContentPage
         ViewModel = viewModel;
         BindingContext = viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        ViewModel.RefreshViewModel();
+    }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        ViewModel.InitAsync();
+    }
 }
 
 

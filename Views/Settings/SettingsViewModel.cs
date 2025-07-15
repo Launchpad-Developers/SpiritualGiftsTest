@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SpiritualGiftsSurvey.Helpers;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Utilities;
 using SpiritualGiftsSurvey.Views.Shared;
 using System.Collections.ObjectModel;
 using System.Runtime.Versioning;
@@ -20,41 +21,27 @@ public partial class SettingsViewModel : BaseViewModel
     {
     }
 
-    [ObservableProperty]
-    private string header = string.Empty;
+    [ObservableProperty] private string header = string.Empty;
+    [ObservableProperty] private List<LanguageOption> languageOptions = new();
+    [ObservableProperty] private LanguageOption? selectedLanguage;
+    [ObservableProperty] private string languageTitle = string.Empty;
+    [ObservableProperty] private string currentLanguageTitle = string.Empty;
+    [ObservableProperty] private string newReportingEmail = string.Empty;
+    [ObservableProperty] private string restoreDatabase = string.Empty;
+    [ObservableProperty] private string clearData = string.Empty;
+    [ObservableProperty] private string reportingEmailsTitle = string.Empty;
+    [ObservableProperty] private string addReportingEmailPlaceholder = string.Empty;
+    [ObservableProperty] private bool showLanguagePicker;
+    [ObservableProperty] private bool showCollectionView;
+    [ObservableProperty] private int totalTopics;
+    [ObservableProperty] private int topicLimit;
+    [ObservableProperty] private int totalQuestions;
+    [ObservableProperty] private int totalUnansweredQuestions;
+    [ObservableProperty] private bool showDebugOptions;
 
     [ObservableProperty]
-    private List<LanguageOption> languageOptions = new();
-
-    [ObservableProperty]
-    private LanguageOption? selectedLanguage;
-
-    [ObservableProperty]
-    private string languageTitle = string.Empty;
-
-    [ObservableProperty]
-    private string currentLanguageTitle = string.Empty;
-
-    [ObservableProperty]
-    private string newReportingEmail = string.Empty;
-
-    [ObservableProperty]
-    private string restoreDatabase = string.Empty;
-
-    [ObservableProperty]
-    private string clearData = string.Empty;
-
-    [ObservableProperty]
-    private string reportingEmailsTitle = string.Empty;
-
-    [ObservableProperty]
-    private string addReportingEmailPlaceholder = string.Empty;
-
-    [ObservableProperty]
-    private bool showLanguagePicker;
-
-    [ObservableProperty]
-    private bool showCollectionView;
+    [NotifyPropertyChangedFor(nameof(ShowUnansweredQuestionControls))]
+    private bool allowUnansweredQuestions;
 
     [ObservableProperty]
     private Color addReportingEmailTextColor =
@@ -82,6 +69,7 @@ public partial class SettingsViewModel : BaseViewModel
     private string _removeEmailMessage = string.Empty;
 
     public ObservableCollection<string> ReportingEmails { get; private set; } = new();
+    public bool ShowUnansweredQuestionControls => AllowUnansweredQuestions;
 
     public override void InitAsync()
     {
@@ -133,6 +121,20 @@ public partial class SettingsViewModel : BaseViewModel
         _removeEmailMessage = TranslationService.GetString("RemoveEmailMessage", "Remove {0} from the reporting list?");
 
         ShowCollectionView = ReportingEmails.Any();
+
+#if DEBUG
+        ShowDebugOptions = true;
+        AllowUnansweredQuestions = Preferences.Get(AppConstants.DebugAllowUnansweredQuestionsKey, false);
+        TotalTopics = Preferences.Get(AppConstants.DebugTotalTopicsKey, 0);
+        TotalQuestions = Preferences.Get(AppConstants.DebugTotalQuestionsKey, 0);
+        TopicLimit = Preferences.Get(AppConstants.DebugQuestionsPerTopicKey, 0);
+        TotalUnansweredQuestions = Preferences.Get(AppConstants.DebugTotalUnansweredQuestionsKey, 0);
+#endif
+    }
+
+    public override void RefreshViewModel()
+    {
+        return;
     }
 
     private bool _emailIsError;
@@ -201,18 +203,6 @@ public partial class SettingsViewModel : BaseViewModel
         ShowCollectionView = ReportingEmails.Any();
     }
 
-    partial void OnSelectedLanguageChanged(LanguageOption? value)
-    {
-        if (value == null)
-            return;
-
-        _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
-
-        LanguageOptions = TranslationService.GetLanguageOptions();
-        LanguageTitle = TranslationService.CurrentLanguageDisplayName;
-        ShowLanguagePicker = false;
-    }
-
     [RelayCommand]
     private async Task RestoreDatabaseAsync()
     {
@@ -256,5 +246,46 @@ public partial class SettingsViewModel : BaseViewModel
         IsLoading = false;
 
         await NotifyUserAsync(_dataClearedTitle, _dataClearedMessage, _ok);
+    }
+
+    partial void OnSelectedLanguageChanged(LanguageOption? value)
+    {
+        if (value == null)
+            return;
+
+        _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
+
+        LanguageOptions = TranslationService.GetLanguageOptions();
+        LanguageTitle = TranslationService.CurrentLanguageDisplayName;
+        ShowLanguagePicker = false;
+    }
+
+    partial void OnAllowUnansweredQuestionsChanged(bool value)
+    {
+        Preferences.Set(AppConstants.DebugAllowUnansweredQuestionsKey, value);
+    }
+
+    partial void OnTotalTopicsChanged(int value)
+    {
+        Preferences.Set(AppConstants.DebugTotalTopicsKey, value);
+
+        TotalQuestions = TotalTopics * TopicLimit;
+    }
+
+    partial void OnTopicLimitChanged(int value)
+    {
+        Preferences.Set(AppConstants.DebugQuestionsPerTopicKey, value);
+
+        TotalQuestions = TotalTopics * TopicLimit;
+    }
+
+    partial void OnTotalQuestionsChanged(int value)
+    {
+        Preferences.Set(AppConstants.DebugTotalQuestionsKey, TotalQuestions);
+    }
+
+    partial void OnTotalUnansweredQuestionsChanged(int value)
+    {
+        Preferences.Set(AppConstants.DebugTotalUnansweredQuestionsKey, value);
     }
 }
