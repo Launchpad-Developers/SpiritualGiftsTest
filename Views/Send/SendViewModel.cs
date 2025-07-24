@@ -16,37 +16,23 @@ public partial class SendViewModel : BaseViewModel
     {
     }
 
-
     private string _requiredTitle = string.Empty;
     private string _pleaseEnterName = string.Empty;
     private string _ok = string.Empty;
 
-    [ObservableProperty]
-    private SurveyResult? userGiftResult;
-
-    [ObservableProperty]
-    private string firstName = string.Empty;
-
-    [ObservableProperty]
-    private string lastName = string.Empty;
-
-    [ObservableProperty]
-    private string email = string.Empty;
-
-    [ObservableProperty]
-    private string firstNamePlaceholder = string.Empty;
-
-    [ObservableProperty]
-    private string lastNamePlaceholder = string.Empty;
-
-    [ObservableProperty]
-    private string emailPlaceholder = string.Empty;
-
-    [ObservableProperty]
-    private string continueButtonText = string.Empty;
+    [ObservableProperty] private SurveyResult? userGiftResult;
+    [ObservableProperty] private string firstName = string.Empty;
+    [ObservableProperty] private string lastName = string.Empty;
+    [ObservableProperty] private string email = string.Empty;
+    [ObservableProperty] private string firstNamePlaceholder = string.Empty;
+    [ObservableProperty] private string lastNamePlaceholder = string.Empty;
+    [ObservableProperty] private string emailPlaceholder = string.Empty;
+    [ObservableProperty] private string continueButtonText = string.Empty;
 
     public override void InitAsync()
     {
+        IsLoading = true;
+
         FirstNamePlaceholder = TranslationService.GetString("FirstName", "First Name");
         LastNamePlaceholder = TranslationService.GetString("LastName", "Last Name");
         EmailPlaceholder = TranslationService.GetString("Email", "Email");
@@ -78,6 +64,8 @@ public partial class SendViewModel : BaseViewModel
         if (UserGiftResult is null)
             return;
 
+        IsLoading = true;
+
         UserGiftResult.FirstName = FirstName.Trim();
         UserGiftResult.LastName = LastName.Trim();
         UserGiftResult.Email = Email.Trim();
@@ -89,6 +77,8 @@ public partial class SendViewModel : BaseViewModel
         await DatabaseService.SaveUserGiftResultAsync(UserGiftResult);
 
         await NavigationService.GoBackAsync(Routes.WelcomePage);
+
+        IsLoading = false;
     }
 
     partial void OnUserGiftResultChanged(SurveyResult? value)
@@ -96,6 +86,10 @@ public partial class SendViewModel : BaseViewModel
         if (value == null || value.Scores == null)
             return;
 
+        IsLoading = true;
+
         value.RankGifts();
+
+        IsLoading = false;
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpiritualGiftsSurvey.Views.Controls.LoadingOverlay"
+             x:Name="Root"
+             IsVisible="{Binding IsBusy, Source={x:Reference Root}}">
+    <Grid>
+        <BoxView BackgroundColor="#222222" Opacity="0.65" />
+
+        <StackLayout 
+            Orientation="Vertical"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="300"
+            HeightRequest="100">
+            <ActivityIndicator 
+                IsRunning="True"
+                Color="{StaticResource WhiteSmoke}" />
+            <Label 
+                Text="{Binding Message, Source={x:Reference Root}}"
+                TextColor="{StaticResource WhiteSmoke}"
+                FontSize="{OnIdiom Phone=16, Tablet=22}"
+                HorizontalOptions="Center" />
+        </StackLayout>
+    </Grid>
+</ContentView>

@@ -25,18 +25,16 @@
                 Grid.RowSpan="2"/>
 
             <!-- NAVBAR -->
-            <Grid Grid.Row="0" 
-                ColumnDefinitions="Auto,*,Auto"
-                Padding="10"
-                VerticalOptions="Start"
-                BackgroundColor="White">
+            <c:NavBar 
+                Grid.Row="0" 
+                Title="{Binding PageTopic}"
+                ShowLeftButton="false"
+                ShowRightButton="false"
+                BackgroundColor="White" />
 
-                <c:TitleLabel Grid.Column="1" Grid.ColumnSpan="3"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    NewStyle="{StaticResource NavTitleLabelStyle}"
-                    LabelText="{Binding PageTopic}" />
-            </Grid>
+            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
+                              IsBusy="{Binding IsLoading}" 
+                              Message="{Binding LoadingText}" />
 
             <Grid Grid.Row="1">
                 
@@ -50,7 +48,14 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:QuestionViewModel">
-                            <c:QuestionView Question="{Binding .}" />
+                            <c:QuestionView Question="{Binding .}">
+                                <c:QuestionView.Margin>
+                                    <MultiBinding Converter="{StaticResource ItemMarginConverter}">
+                                        <Binding Path="IsFirst" />
+                                        <Binding Path="IsLast" />
+                                    </MultiBinding>
+                                </c:QuestionView.Margin>
+                            </c:QuestionView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -58,7 +63,7 @@
                 <!-- Top fade -->
                 <BoxView
                     VerticalOptions="Start"
-                    HeightRequest="50"
+                    HeightRequest="{OnIdiom Phone=50, Tablet=100}"
                     InputTransparent="True">
                     <BoxView.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -71,7 +76,7 @@
                 <!-- Bottom fade -->
                 <BoxView
                     VerticalOptions="End"
-                    HeightRequest="50"
+                    HeightRequest="{OnIdiom Phone=50, Tablet=100}"
                     InputTransparent="True">
                     <BoxView.Background>
                         <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
@@ -84,15 +89,15 @@
                 <!-- Confirm button pinned at bottom on top of content -->
                 <Button
                     Command="{Binding FinishCommand}"
-                    CommandParameter="{Binding NextPage}"
-                    Margin="40"
-                    HeightRequest="50"
+                    CommandParameter="{Binding NextPageParameter}"
                     HorizontalOptions="Fill"
                     VerticalOptions="End"
                     BackgroundColor="{StaticResource EmeraldGreen}"
                     IsVisible="{Binding ShowConfirmButton}"
-                    Text="{Binding NavButtonText}"
-                    FontSize="{OnIdiom Phone=24, Tablet=34}"
+                    Text="{Binding ContinueText}"
+                    Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
+                    HeightRequest="{OnIdiom Phone=50, Tablet=80}"
+                    FontSize="{OnIdiom Phone=30, Tablet=40}"
                     Padding="0" />
             </Grid>
         </Grid>

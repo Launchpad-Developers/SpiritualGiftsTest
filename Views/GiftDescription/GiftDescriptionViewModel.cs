@@ -32,6 +32,8 @@ public partial class GiftDescriptionViewModel : BaseViewModel
         if (value == null) 
             return;
 
+        IsLoading = true;
+
         var gift = value.GiftName.ToGiftEnum();
         var verses = DatabaseService.GetVerses(value.GiftDescriptionGuid);
         var desc = DatabaseService.GetGiftDescription(TranslationService.CurrentLanguageCode, Gift.Gift);
@@ -40,12 +42,16 @@ public partial class GiftDescriptionViewModel : BaseViewModel
         GiftDescriptionText = desc?.Description ?? "No description found";
         GiftScriptures = string.Join("\n", verses?.Select(v => v.Reference) ?? []);
         PageTopic = string.Format(TranslationService.GetString("TheGiftOf", "The gift of {0}"), GiftName);
+
+        IsLoading = false;
     }
 
     protected override async Task NavBack(string route)
     {
         try
         {
+            IsLoading = true;
+
             await NavigationService.GoBackAsync(Routes.ResultsPage, new Dictionary<string, object>
             {
                 ["UserGiftResult"] = UserGiftResult
@@ -55,14 +61,23 @@ public partial class GiftDescriptionViewModel : BaseViewModel
         {
             Analytics.TrackEvent("NavBackFailure", new Dictionary<string, string>() { { "Message", ex.Message } });
         }
+        finally 
+        { 
+            IsLoading = false; 
+        }
     }
 
     public override void InitAsync()
     {
+        IsLoading = true;
+
         // Load UI label text via TranslationService
         ScriptureLabel = TranslationService.GetString("Scriptures", "Scriptures");
         DescriptionLabel = TranslationService.GetString("Description", "Description");
+
+        IsLoading = false;
     }
+
     public override void RefreshViewModel()
     {
         return;

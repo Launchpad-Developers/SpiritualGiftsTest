@@ -20,20 +20,22 @@ public partial class WelcomeViewModel : BaseViewModel
 
     public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
 
-    [ObservableProperty]
-    private string tapTo = string.Empty;
-
-    [ObservableProperty]
-    private string navigate = string.Empty;
-
-    [ObservableProperty]
-    private string nextPage = string.Empty;
+    [ObservableProperty] private string tapTo = string.Empty;
+    [ObservableProperty] private string navigate = string.Empty;
+    [ObservableProperty] private string beginText = string.Empty;
+    [ObservableProperty] private string confirmText = string.Empty;
 
     [RelayCommand]
     private async Task OpenInfoAsync()
     {
         if (!IsLoading)
+        {
+            IsLoading = true;
+
             await PerformNavigation(Routes.AppInfoPage);
+
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
@@ -41,14 +43,35 @@ public partial class WelcomeViewModel : BaseViewModel
     {
         if (!IsLoading)
         {
+            IsLoading = true;
+
             await PerformNavigation(Routes.SettingsPage);
-            return;
+
+            IsLoading = false;
         }
+    }
+
+    [RelayCommand]
+    private void OnBegin()
+    {
+        ShowInstructable = true;
+    }
+
+    [RelayCommand]
+    private async Task OnConfirmAsync(string page)
+    {
+        ShowInstructable = false;
+
+        IsLoading = true;
+
+        await PerformNavigation(page);
+
+        IsLoading = false;
     }
 
     public override void RefreshViewModel()
     {
-        NavButtonText = TranslationService.GetString("Begin", "Begin");
+        return;
     }
 
     public override async void InitAsync()
@@ -73,10 +96,12 @@ public partial class WelcomeViewModel : BaseViewModel
         FlowDirection = TranslationService.FlowDirection;
         LoadingText = TranslationService.GetString("Loading", "Loading");
         PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gift Survey");
-        NavButtonText = TranslationService.GetString("Begin", "Begin");
+        BeginText = TranslationService.GetString("Begin", "Begin");
+        ConfirmText = TranslationService.GetString("GotIt", "Got it!");
         TapTo = TranslationService.GetString("ScrollTo", "Scroll to");
         Navigate = TranslationService.GetString("Navigate", "navigate");
-        NextPage = TranslationService.GetString("SurveyPage", "SurveyPage");
+        
+        NextPageParameter = TranslationService.GetString("SurveyPage", "SurveyPage");
 
         IsLoading = false;
     }

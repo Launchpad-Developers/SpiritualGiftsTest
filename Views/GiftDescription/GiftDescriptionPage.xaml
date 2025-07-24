@@ -14,71 +14,47 @@
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
-            <!-- BG -->
+            
             <Image Source="mainpagebackground"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
-                   Grid.RowSpan="2"/>
+                   Grid.RowSpan="2" />
 
-            <!-- NAVBAR with Back -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="Auto,*,Auto"
-                  Padding="10"
-                  VerticalOptions="Start"
-                  BackgroundColor="Transparent">
+            <c:NavBar 
+                Grid.Row="0" 
+                Title="{Binding PageTopic}"
+                ShowLeftButton="true"
+                ShowRightButton="false"
+                LeftCommand="{Binding NavBackCommand}"
+                RightCommand="{Binding NavBackCommand}"
+                LeftIcon="{StaticResource BackArrow}"
+                RightIcon="{StaticResource BackArrowRight}"
+                LeftCommandParameter="{x:Static r:Routes.ResultsPage}"
+                RightCommandParameter="{x:Static r:Routes.ResultsPage}" />
 
-                <!-- Back -->
-                <ImageButton x:Name="BackArrow" 
-                    Grid.Column="0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    Source="{StaticResource BackArrow}"
-                    Command="{Binding NavBackCommand}"
-                    CommandParameter="{x:Static r:Routes.ResultsPage}" />
-
-                <!-- Title -->
-                <c:TitleLabel 
-                    Grid.Column="1"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    NewStyle="{StaticResource NavTitleLabelStyle}"
-                    LabelText="{Binding PageTopic}"
-                    Margin="0,0,20,0"/>
-
-                <ImageButton x:Name="BackArrowRight"
-                    Grid.Column="2"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    IsVisible="False"
-                    IsEnabled="False"
-                    Source="{StaticResource BackArrowRight}"
-                    Command="{Binding NavBackCommand}"
-                    CommandParameter="{x:Static r:Routes.ResultsPage}" />
-            </Grid>
-
-            <!-- Content -->
+            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
+                              IsBusy="{Binding IsLoading}" 
+                              Message="{Binding LoadingText}" />
+            
             <ScrollView Grid.Row="1">
-                <VerticalStackLayout Padding="20" Spacing="20">
+                <VerticalStackLayout 
+                    Padding="{OnIdiom Phone=20, Tablet=40}" 
+                    Spacing="{OnIdiom Phone=20, Tablet=30}">
+
                     <Label Text="{Binding GiftName}"
-                           FontSize="Title"
+                           FontSize="{OnIdiom Phone=24, Tablet=32}"
                            FontAttributes="Bold"
                            TextColor="Black" />
 
                     <Label Text="{Binding GiftDescriptionText}"
+                           FontSize="{OnIdiom Phone=16, Tablet=22}"
                            TextColor="Black"
-                           FontSize="Medium"
                            LineBreakMode="WordWrap" />
 
                     <Label Text="{Binding GiftScriptures}"
+                           FontSize="{OnIdiom Phone=18, Tablet=26}"
                            TextColor="Black"
-                           FontSize="Large"
                            LineBreakMode="WordWrap" />
                 </VerticalStackLayout>
             </ScrollView>

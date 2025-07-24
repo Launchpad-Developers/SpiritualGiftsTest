@@ -57,37 +57,26 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
 
     #endregion
 
-    [ObservableProperty]
-    private FlowDirection flowDirection;
-
-    [ObservableProperty]
-    private string title = string.Empty;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowControls))]
+    [NotifyPropertyChangedFor(nameof(ShowNavButton))]
     private bool isLoading;
-
-    [ObservableProperty]
-    private string loadingText = string.Empty;
-
-    [ObservableProperty]
-    private string pageTopic = string.Empty;
-
-    [ObservableProperty]
-    private string navButtonText = string.Empty;
-
-    [ObservableProperty]
-    private string questionOf = string.Empty;
-
-    [ObservableProperty]
-    private bool isTablet;
-
-    [ObservableProperty]
-    private bool showInstructable;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShowControls))]
     private bool errorVisible;
+
+    [ObservableProperty] private FlowDirection flowDirection;
+    [ObservableProperty] private string title = string.Empty;
+    [ObservableProperty] private string loadingText = string.Empty;
+    [ObservableProperty] private string pageTopic = string.Empty;
+    [ObservableProperty] private string questionOf = string.Empty;
+    [ObservableProperty] private string nextPageParameter = string.Empty;
+    [ObservableProperty] private bool isTablet;
+    [ObservableProperty] private bool showInstructable;
+
+    public bool ShowNavButton => !IsLoading;
 
     protected bool RequiresInitialzation { get; set; } = true;
 
@@ -133,22 +122,6 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         catch (Exception ex)
         {
             Analytics.TrackEvent("NavBackFailure", new Dictionary<string, string>() { { "Message", ex.Message } });
-        }
-    }
-
-    [RelayCommand]
-    private async Task OnConfirmAsync(string page)
-    {
-        if (!ShowInstructable)
-        {
-            ShowInstructable = true;
-            NavButtonText = TranslationService.GetString("GotIt", "Got it!");
-        }
-        else
-        {
-            ShowInstructable = false;
-            await PerformNavigation(page);
-            NavButtonText = TranslationService.GetString("Begin", "Got it!");
         }
     }
 

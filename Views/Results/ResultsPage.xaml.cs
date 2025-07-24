@@ -8,4 +8,10 @@ public partial class ResultsPage : BasePage
     {
         InitializeComponent();
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        ResultsCollectionView.ScrollTo(0, position: ScrollToPosition.Start, animate: false);
+        base.OnNavigatedTo(args);
+    }
 }

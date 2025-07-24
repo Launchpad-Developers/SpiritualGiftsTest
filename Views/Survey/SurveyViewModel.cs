@@ -27,19 +27,23 @@ public partial class SurveyViewModel : BaseViewModel
     {
     }
 
-    [ObservableProperty]
-    private bool showConfirmButton;
+    [ObservableProperty] private bool showConfirmButton;
+    [ObservableProperty] private string continueText = string.Empty;
+    [ObservableProperty] private int pageNumber;
+    [ObservableProperty] private bool showBackNav;
+    [ObservableProperty] private bool showForwardNav;
 
     public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
 
     public override void InitAsync()
     {
         IsLoading = true;
+
         FlowDirection = TranslationService.FlowDirection;
 
         PageTopic = TranslationService.GetString("AppTitle", "Spiritual Gifts Survey");
         LoadingText = TranslationService.GetString("Loading", "Loading");
-        NavButtonText = TranslationService.GetString("Continue", "Continue");
+        ContinueText = TranslationService.GetString("Continue", "Continue");
 
         // Get all questions from the database
         var questions = DatabaseService.GetQuestions(TranslationService.CurrentLanguageCode);
@@ -99,13 +103,20 @@ public partial class SurveyViewModel : BaseViewModel
 
 
         UpdateQuestionLabel(_currentPage);
+
+        for (int i = 0; i < Questions.Count; i++)
+        {
+            Questions[i].IsFirst = (i == 0);
+            Questions[i].IsLast = (i == Questions.Count - 1);
+        }
+
         IsLoading = false;
     }
 
     public override void RefreshViewModel()
     {
-        ShowConfirmButton = false;
         Questions.Clear();
+        ShowConfirmButton = false;
     }
 
     [RelayCommand]
@@ -121,18 +132,6 @@ public partial class SurveyViewModel : BaseViewModel
 
         QuestionOf = $"{question} {currentPage} {of} {TranslationService.TotalQuestions}";
     }
-
-    [ObservableProperty]
-    private string nextPage = string.Empty;
-
-    [ObservableProperty]
-    private int pageNumber;
-
-    [ObservableProperty]
-    private bool showBackNav;
-
-    [ObservableProperty]
-    private bool showForwardNav;
 
     [RelayCommand]
     private async Task OnLeaveSurveyAsync()
@@ -150,6 +149,8 @@ public partial class SurveyViewModel : BaseViewModel
     [RelayCommand]
     private async Task FinishAsync()
     {
+        IsLoading = true;
+
         QuestionViewModel? firstUnanswered = null;
 
         foreach (var q in Questions)
@@ -164,6 +165,8 @@ public partial class SurveyViewModel : BaseViewModel
 
         if (firstUnanswered != null)
         {
+            IsLoading = false;
+
             await NotifyUserAsync(
                 TranslationService.GetString("Incomplete", "Incomplete"),
                 TranslationService.GetString("PleaseAnswerAllQuestions", "Please answer all questions."),
@@ -216,5 +219,7 @@ public partial class SurveyViewModel : BaseViewModel
         {
             ["UserGiftResult"] = result
         });
+
+        IsLoading = false;
     }
 }

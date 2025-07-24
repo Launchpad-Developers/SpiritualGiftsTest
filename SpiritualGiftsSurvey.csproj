@@ -47,10 +47,15 @@
 		  <ForegroundFile>Resources\AppIcon\appiconfg.svg</ForegroundFile>
 		</MauiIcon>
 		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#6082B6" />
+		<MauiIcon Include="Resources\Images\splashicon.svg">
+		  <Color>#6082B6</Color>
+		  <ForegroundFile>Resources\AppIcon\appiconfg.svg</ForegroundFile>
+		</MauiIcon>
 
 		<!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Images\splashicon.svg" Color="#FFFFFF" />
 
-		<!-- Images -->
+    <!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 
 		<!-- Custom Fonts -->
@@ -61,21 +66,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="secrets.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="secrets.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
+	  <MauiImage Remove="Resources\Images\splashicon.svg" />
 	</ItemGroup>
 
   <ItemGroup>
     <Compile Update="Views\AppInfo\AppInfoPage.xaml.cs">
       <DependentUpon>AppInfoPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Controls\ASLabelCell.xaml.cs">
-      <DependentUpon>ASLabelCell.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Controls\QuestionView.xaml.cs">
       <DependentUpon>QuestionView.xaml</DependentUpon>
@@ -125,12 +121,23 @@
     <MauiXaml Update="Views\Controls\GiftScoreView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\Controls\LoadingOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Controls\NavBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\GiftDescription\GiftDescriptionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Splash\SplashPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Resources\Styles\" />
   </ItemGroup>
 
 </Project>

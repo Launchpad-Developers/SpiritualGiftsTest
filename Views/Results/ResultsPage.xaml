@@ -22,24 +22,25 @@
                    Grid.RowSpan="2" />
 
             <!-- NAVBAR -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="*,Auto"
-                  Padding="10"
-                  VerticalOptions="Start"
-                  BackgroundColor="Transparent">
-                <c:TitleLabel Grid.Column="0"
-                              HorizontalOptions="Center"
-                              VerticalOptions="Center"
-                              NewStyle="{StaticResource NavTitleLabelStyle}"
-                              LabelText="{Binding PageTopic}" />
-            </Grid>
+            <c:NavBar Grid.Row="0" 
+                Title="{Binding PageTopic}"
+                ShowLeftButton="False"
+                ShowRightButton="False" />
+
+            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
+                              IsBusy="{Binding IsLoading}" 
+                              Message="{Binding LoadingText}" />
 
             <!-- MAIN CONTENT -->
             <ScrollView Grid.Row="1">
-                <VerticalStackLayout Padding="20,20,20,40" Spacing="30">
+                <VerticalStackLayout 
+                    Padding="{OnIdiom Phone='20,20,20,40', Tablet='40,40,40,80'}" 
+                    Spacing="{OnIdiom Phone=30, Tablet=60}">
 
                     <!-- New CollectionView with GiftScoreView -->
-                    <CollectionView ItemsSource="{Binding AllGiftScores}">
+                    <CollectionView
+                        x:Name="ResultsCollectionView" 
+                        ItemsSource="{Binding AllGiftScores}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <c:GiftScoreView />
@@ -54,12 +55,15 @@
                     <Button 
                         Text="{Binding ContinueButtonText}"
                         Command="{Binding ContinueCommand}"
-                        BackgroundColor="{StaticResource ButtonColor}"
+                        BackgroundColor="{StaticResource EmeraldGreen}"
                         TextColor="White"
-                        FontSize="{OnIdiom Phone=24, Tablet=34}"
-                        HeightRequest="50"
-                        Margin="40"
-                        FontAttributes="Bold" />
+                        HorizontalOptions="Fill"
+                        VerticalOptions="End"
+                        Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
+                        HeightRequest="{OnIdiom Phone=50, Tablet=80}"
+                        FontSize="{OnIdiom Phone=30, Tablet=40}"
+                        FontAttributes="Bold"
+                        Padding="0" />
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

@@ -9,16 +9,16 @@ public partial class AppInfoPage : BasePage
         InitializeComponent();
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
+    //protected override void OnAppearing()
+    //{
+    //    base.OnAppearing();
 
-        if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
-        {
-            BackArrow.IsVisible = false;
-            BackArrow.IsEnabled = false;
-            BackArrowRight.IsVisible = true;
-            BackArrowRight.IsEnabled = true;
-        }
-    }
+    //    if (ViewModel.FlowDirection == FlowDirection.RightToLeft)
+    //    {
+    //        BackArrow.IsVisible = false;
+    //        BackArrow.IsEnabled = false;
+    //        BackArrowRight.IsVisible = true;
+    //        BackArrowRight.IsEnabled = true;
+    //    }
+    //}
 }

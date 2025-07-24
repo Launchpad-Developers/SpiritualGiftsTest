@@ -81,6 +81,12 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
     private Color muchButtonColor;
 
     [ObservableProperty]
+    private bool isLast;
+
+    [ObservableProperty]
+    private bool isFirst;
+
+    [ObservableProperty]
     private Thickness questionMargin = new Thickness(30, 10, 30, 10);
 
     [RelayCommand]

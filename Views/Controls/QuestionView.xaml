@@ -22,7 +22,7 @@
             HorizontalOptions="Fill">
 
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10" />
+                <RoundRectangle CornerRadius="{OnIdiom Phone=10, Tablet=20}" />
             </Border.StrokeShape>
 
             <Grid>
@@ -30,21 +30,21 @@
                 <Label
                     Text="{Binding QuestionOf}"
                     TextColor="Gray"
-                    FontSize="12"
+                    FontSize="{OnIdiom Phone=12, Tablet=24}"
                     HorizontalOptions="Start"
                     VerticalOptions="Start" />
 
                 <!-- Main content -->
                 <VerticalStackLayout
                     HorizontalOptions="Center"
-                    Spacing="20"
-                    Padding="0,20,0,0">
+                    Spacing="{OnIdiom Phone=20, Tablet=40}"
+                    Padding="{OnIdiom Phone='0,20,0,0', Tablet='0,40,0,0'}">
                     <!-- Push down to leave room for QuestionOf -->
 
                     <Label
                         Text="{Binding QuestionText}"
                         TextColor="Black"
-                        FontSize="18"
+                        FontSize="{OnIdiom Phone=18, Tablet=30}"
                         LineBreakMode="WordWrap"
                         HorizontalOptions="Fill"
                         HorizontalTextAlignment="Center"
@@ -55,31 +55,44 @@
                         x:Name="ButtonsLayout"
                         Orientation="{OnIdiom Phone='Vertical', Tablet='Horizontal'}"
                         HorizontalOptions="Center"
-                        Spacing="15">
+                        Spacing="{OnIdiom Phone=15, Tablet=30}"
+                        Margin="{OnIdiom Phone=0, Tablet=20}">
 
-                        <Button Text="{Binding NotAtAll}"
+                        <Button 
+                            Text="{Binding NotAtAll}"
                             IsVisible="{Binding ShowButtons}"
                             Command="{Binding SetValueCommand}"
                             CommandParameter="{x:Static enums:UserValue.NotAtAll}"
-                            BackgroundColor="{Binding NotAtAllButtonColor}" />
+                            BackgroundColor="{Binding NotAtAllButtonColor}"
+                            FontSize="{OnIdiom Phone=12, Tablet=24}"
+                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
 
-                        <Button Text="{Binding Little}"
+                        <Button 
+                            Text="{Binding Little}"
                             IsVisible="{Binding ShowButtons}"
                             Command="{Binding SetValueCommand}"
                             CommandParameter="{x:Static enums:UserValue.Little}"
-                            BackgroundColor="{Binding LittleButtonColor}" />
+                            BackgroundColor="{Binding LittleButtonColor}"
+                            FontSize="{OnIdiom Phone=12, Tablet=24}"
+                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
 
-                        <Button Text="{Binding Some}"
+                        <Button 
+                            Text="{Binding Some}"
                             IsVisible="{Binding ShowButtons}"
                             Command="{Binding SetValueCommand}"
                             CommandParameter="{x:Static enums:UserValue.Some}"
-                            BackgroundColor="{Binding SomeButtonColor}" />
+                            BackgroundColor="{Binding SomeButtonColor}"
+                            FontSize="{OnIdiom Phone=12, Tablet=24}"
+                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
 
-                        <Button Text="{Binding Much}"
+                        <Button 
+                            Text="{Binding Much}"
                             IsVisible="{Binding ShowButtons}"
                             Command="{Binding SetValueCommand}"
                             CommandParameter="{x:Static enums:UserValue.Much}"
-                            BackgroundColor="{Binding MuchButtonColor}" />
+                            BackgroundColor="{Binding MuchButtonColor}"
+                            FontSize="{OnIdiom Phone=12, Tablet=24}"
+                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
                     </StackLayout>
                 </VerticalStackLayout>
             </Grid>

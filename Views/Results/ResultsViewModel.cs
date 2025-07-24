@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
@@ -31,6 +30,8 @@ public partial class ResultsViewModel : BaseViewModel
         if (value == null)
             return;
 
+        IsLoading = true;
+
         value.RankGifts();
 
         // Populate the view models
@@ -41,12 +42,25 @@ public partial class ResultsViewModel : BaseViewModel
             var localizedGiftName = TranslationService.GetString(score.Gift.ToString(), score.Gift.ToString());
             AllGiftScores.Add(new GiftScoreViewModel(score, localizedGiftName, ViewGiftDescriptionCommand));
         }
+
+        IsLoading = false;
     }
 
     public override void InitAsync()
     {
-        ContinueButtonText = TranslationService.GetString("Continue", "Continue");
-        PageTopic = TranslationService.GetString("SurveyResultsTitle", "Survey Results");
+        IsLoading = true;
+
+        if (string.IsNullOrEmpty(ContinueButtonText))
+        {
+            ContinueButtonText = TranslationService.GetString("Continue", "Continue");
+        }
+
+        if (string.IsNullOrEmpty(PageTopic))
+        {
+            PageTopic = TranslationService.GetString("SurveyResultsTitle", "Survey Results");
+        }
+
+        IsLoading = false;
     }
 
     public override void RefreshViewModel()
@@ -57,23 +71,33 @@ public partial class ResultsViewModel : BaseViewModel
     [RelayCommand]
     private async Task ViewGiftDescriptionAsync(GiftScoreViewModel vm)
     {
-        if (vm?.Model == null) return;
+        if (vm?.Model == null) 
+            return;
+
+        IsLoading = true;
 
         await NavigationService.NavigateAsync(Routes.GiftDescriptionPage, new Dictionary<string, object>
         {
             ["Gift"] = vm.Model,
             ["UserGiftResult"] = UserGiftResult
         });
+
+        IsLoading = false;
     }
 
     [RelayCommand]
     private async Task ContinueAsync()
     {
-        if (UserGiftResult == null) return;
+        if (UserGiftResult == null) 
+            return;
+
+        IsLoading = true;
 
         await NavigationService.NavigateAsync(Routes.SendPage, new Dictionary<string, object>
         {
             ["UserGiftResult"] = UserGiftResult
         });
+
+        IsLoading = false;
     }
 }

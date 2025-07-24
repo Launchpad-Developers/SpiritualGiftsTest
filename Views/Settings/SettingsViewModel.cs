@@ -78,6 +78,8 @@ public partial class SettingsViewModel : BaseViewModel
 
         RequiresInitialzation = false;
 
+        IsLoading = true;
+
         ReportingEmails.Clear();
         foreach (var email in EmailService.GetStoredEmails())
         {
@@ -130,6 +132,8 @@ public partial class SettingsViewModel : BaseViewModel
         TopicLimit = Preferences.Get(AppConstants.DebugQuestionsPerTopicKey, 0);
         TotalUnansweredQuestions = Preferences.Get(AppConstants.DebugTotalUnansweredQuestionsKey, 0);
 #endif
+
+        IsLoading = false;
     }
 
     public override void RefreshViewModel()
@@ -253,11 +257,15 @@ public partial class SettingsViewModel : BaseViewModel
         if (value == null)
             return;
 
+        IsLoading = true;
+
         _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
 
         LanguageOptions = TranslationService.GetLanguageOptions();
         LanguageTitle = TranslationService.CurrentLanguageDisplayName;
         ShowLanguagePicker = false;
+
+        IsLoading = false;
     }
 
     partial void OnAllowUnansweredQuestionsChanged(bool value)

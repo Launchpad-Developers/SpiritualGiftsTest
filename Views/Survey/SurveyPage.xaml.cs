@@ -17,4 +17,10 @@ public partial class SurveyPage : BasePage
         });
 
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        QuestionsCollectionView.ScrollTo(0, position: ScrollToPosition.Start, animate: false);
+        base.OnNavigatedTo(args);
+    }
 }

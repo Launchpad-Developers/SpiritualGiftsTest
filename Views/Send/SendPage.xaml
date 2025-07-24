@@ -3,6 +3,7 @@
     x:Class="SpiritualGiftsSurvey.Views.Send.SendPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Send;assembly=SpiritualGiftsSurvey"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -12,9 +13,19 @@
     Shell.NavBarIsVisible="False"
     FlowDirection="{Binding FlowDirection}">
 
+    <ContentPage.Resources>
+        <Style x:Key="EntryStyle" TargetType="Entry">
+            <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=22}" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="HeightRequest" Value="{OnIdiom Phone=50, Tablet=70}" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
-            <!-- BG -->
+            
+            <!-- BACKGROUND -->
             <Image Source="mainpagebackground"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
@@ -22,42 +33,45 @@
                    Grid.RowSpan="2" />
 
             <!-- NAVBAR -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="*,Auto"
-                  Padding="10"
-                  VerticalOptions="Start"
-                  BackgroundColor="Transparent">
-                <Label Grid.Column="0"
-                       Text="{Binding PageTopic}"
-                       FontAttributes="Bold"
-                       FontSize="Title"
-                       TextColor="Black"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
-            </Grid>
+            <c:NavBar Grid.Row="0" 
+                Title="{Binding PageTopic}"
+                ShowLeftButton="False"
+                ShowRightButton="False" />
 
-            <!-- MAIN CONTENT -->
+            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
+                              IsBusy="{Binding IsLoading}" 
+                              Message="{Binding LoadingText}" />
+            
+            <!-- MAIN FORM -->
             <ScrollView Grid.Row="1">
-                <VerticalStackLayout Padding="20,20,20,40" Spacing="30">
+                <VerticalStackLayout 
+                    Padding="{OnIdiom Phone='20,20,20,40', Tablet='40,40,40,80'}"
+                    Spacing="{OnIdiom Phone=20, Tablet=30}">
 
-                    <!-- User Info -->
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="10">
-                        <Entry Placeholder="{Binding FirstNamePlaceholder}" Text="{Binding FirstName}" />
-                        <Entry Placeholder="{Binding LastNamePlaceholder}" Text="{Binding LastName}" Grid.Column="1" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="{OnIdiom Phone=10, Tablet=20}">
+                        <Entry Placeholder="{Binding FirstNamePlaceholder}" 
+                               Text="{Binding FirstName}" 
+                               Style="{StaticResource EntryStyle}" />
+                        <Entry Grid.Column="1" 
+                               Placeholder="{Binding LastNamePlaceholder}" 
+                               Text="{Binding LastName}" 
+                               Style="{StaticResource EntryStyle}" />
                     </Grid>
 
-                    <Entry Placeholder="{Binding EmailPlaceholder}" Text="{Binding Email}" />
+                    <Entry Placeholder="{Binding EmailPlaceholder}" 
+                           Text="{Binding Email}" 
+                           Style="{StaticResource EntryStyle}" />
 
-                    <!-- Continue -->
                     <Button 
                         Text="{Binding ContinueButtonText}"
                         Command="{Binding ContinueCommand}"
-                        BackgroundColor="{StaticResource ButtonColor}"
+                        BackgroundColor="{StaticResource EmeraldGreen}"
                         TextColor="White"
+                        HeightRequest="{OnIdiom Phone=50, Tablet=80}"
+                        Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
                         FontSize="{OnIdiom Phone=24, Tablet=34}"
-                        HeightRequest="50"
-                        Margin="40"
-                        FontAttributes="Bold" />
+                        FontAttributes="Bold"
+                        CornerRadius="8" />
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

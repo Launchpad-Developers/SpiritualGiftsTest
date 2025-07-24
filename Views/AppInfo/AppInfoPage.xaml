@@ -14,7 +14,8 @@
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
-            <!-- BG -->
+            
+            <!-- BACKGROUND -->
             <Image 
                 Source="mainpagebackground"
                 VerticalOptions="Fill"
@@ -23,110 +24,67 @@
                 Grid.RowSpan="2" />
 
             <!-- NAVBAR -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="Auto,*,Auto"
-                  Padding="10"
-                  VerticalOptions="Start"
-                  BackgroundColor="Transparent">
+            <c:NavBar 
+                Grid.Row="0" 
+                Title="{Binding PageTopic}"
+                ShowLeftButton="true"
+                ShowRightButton="false"
+                LeftCommand="{Binding NavBackCommand}"
+                RightCommand="{Binding NavBackCommand}"
+                LeftIcon="{StaticResource BackArrow}"
+                RightIcon="{StaticResource BackArrowRight}"
+                LeftCommandParameter="{x:Static r:Routes.WelcomePage}"
+                RightCommandParameter="{x:Static r:Routes.WelcomePage}" />
 
-                <!-- Back -->
-                <ImageButton x:Name="BackArrow" 
-                    Grid.Column="0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    Source="{StaticResource BackArrow}"
-                    Command="{Binding NavBackCommand}"
-                    CommandParameter="{x:Static r:Routes.WelcomePage}" />
-
-                <!-- Title -->
-                <c:TitleLabel 
-                    Grid.Column="1"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    NewStyle="{StaticResource NavTitleLabelStyle}"
-                    LabelText="{Binding PageTopic}"
-                    Margin="0,0,20,0"/>
-
-                <ImageButton x:Name="BackArrowRight"
-                    Grid.Column="2"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    IsVisible="False"
-                    IsEnabled="False"
-                    Source="{StaticResource BackArrowRight}"
-                    Command="{Binding NavBackCommand}"
-                    CommandParameter="{x:Static r:Routes.WelcomePage}" />
-            </Grid>
-
+            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
+                              IsBusy="{Binding IsLoading}" 
+                              Message="{Binding LoadingText}" />
+            
             <!-- MAIN CONTENT -->
             <ScrollView Grid.Row="1">
                 <StackLayout VerticalOptions="Start"
                              HorizontalOptions="Fill"
-                             Margin="20,20,20,40">
+                             Margin="{OnIdiom Phone='20,20,20,40', Tablet='40,40,40,80'}">
 
                     <!-- Creator -->
-                    <Label Text="{Binding CreatedBy}"
-                           FontSize="Title"
+                    <Label Text="{Binding AppTitle}"
+                           FontSize="{OnIdiom Phone=24, Tablet=48}"
                            FontAttributes="Bold"
                            TextColor="Black"
-                           HorizontalOptions="Start" />
+                           HorizontalOptions="Center" />
 
-                    <Label Text="{Binding CreatedByDetail}"
-                           FontSize="Large"
-                           TextColor="Black"
-                           HorizontalOptions="Start"
-                           Margin="30,0,0,0" />
-
-
-                    <!-- Developed for-->
+                    <!-- Developed for -->
                     <Label Text="{Binding DevelopedFor}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="0,30,0,0"/>
+                           Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}"/>
 
                     <Label Text="{Binding CornerstoneUpc}"
-                           FontSize="Body"
-                           TextColor="{StaticResource DodgerBlue}"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           TextColor="{StaticResource AzureBlue}"
                            HorizontalOptions="Start"
-                           Margin="30,15,0,0">
+                           Margin="{OnIdiom Phone='30,15,0,0', Tablet='60,30,0,0'}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}"
                                                   CommandParameter="{Binding CornerstoneWebsite}" />
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!-- Developed by-->
+                    <!-- Developed by -->
                     <Label Text="{Binding DevelopedBy}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="0,30,0,0"/>
-
-                    <!--<Label Text="{Binding DeveloperName}"
-                           FontSize="Body"
-                           TextColor="{StaticResource DodgerBlue}"
-                           HorizontalOptions="Start"
-                           Margin="30,15,0,0">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SendEmailCommand}"
-                                                  CommandParameter="{Binding DeveloperEmail}" />
-                        </Label.GestureRecognizers>
-                    </Label>-->
+                           Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}"/>
 
                     <Label Text="{Binding Launchpad}"
-                           FontSize="Body"
-                           TextColor="{StaticResource DodgerBlue}"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           TextColor="{StaticResource AzureBlue}"
                            HorizontalOptions="Start"
-                           Margin="30,15,0,0">
+                           Margin="{OnIdiom Phone='30,15,0,0', Tablet='60,30,0,0'}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}"
                                                   CommandParameter="{Binding CompanyWebsite}" />
@@ -135,37 +93,37 @@
 
                     <!-- App Version -->
                     <Label Text="{Binding AppVersionLabel}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="0,30,0,0" />
+                           Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}" />
 
                     <Label Text="{Binding AppVersion}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="30,0,0,0" />
+                           Margin="{OnIdiom Phone='30,0,0,0', Tablet='60,0,0,0'}" />
 
                     <!-- DB Info -->
                     <Label Text="{Binding DatabaseLabel}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="0,30,0,0"/>
+                           Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}"/>
 
                     <Label Text="{Binding DatabaseVersion}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="30,0,0,0" />
+                           Margin="{OnIdiom Phone='30,0,0,0', Tablet='60,0,0,0'}" />
 
                     <Label Text="{Binding DatabaseDate}"
-                           FontSize="Body"
+                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
                            TextColor="Black"
                            HorizontalOptions="Start"
-                           Margin="30,0,0,0" />
+                           Margin="{OnIdiom Phone='30,0,0,0', Tablet='60,0,0,0'}" />
 
                 </StackLayout>
             </ScrollView>

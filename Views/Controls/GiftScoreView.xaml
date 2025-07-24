@@ -11,62 +11,72 @@
             StrokeThickness="2"
             Stroke="DarkSlateGray"
             BackgroundColor="White"
-            Padding="5"
-            Margin="0,4"
+            Padding="{OnIdiom Phone=5, Tablet=10}"
+            Margin="{OnIdiom Phone='0,4', Tablet='0,8'}"
             StrokeShape="RoundRectangle 8">
 
-        <VerticalStackLayout Spacing="8">
-            <Grid ColumnDefinitions="*,Auto" Margin="10,6,10,0">
-                <Label Text="{Binding GiftName}" FontSize="{OnIdiom Phone=24, Tablet=30}" TextColor="Black" VerticalOptions="Center" />
-                <Grid Grid.Column="1" ColumnSpacing="6">
+        <VerticalStackLayout Spacing="{OnIdiom Phone=8, Tablet=16}">
+
+            <Grid ColumnDefinitions="*,Auto" Margin="{OnIdiom Phone='10,6,10,0', Tablet='20,12,20,0'}">
+                <Label Text="{Binding GiftName}"
+                       FontSize="{OnIdiom Phone=24, Tablet=32}"
+                       TextColor="Black"
+                       VerticalOptions="Center" />
+
+                <Grid Grid.Column="1" ColumnSpacing="{OnIdiom Phone=6, Tablet=12}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="{OnIdiom Phone=30, Tablet=60}" />
                     </Grid.ColumnDefinitions>
+
                     <ImageButton 
                         Grid.Column="0"
                         IsVisible="{Binding ShowMedal}"
                         Source="{StaticResource Medal}"
                         BackgroundColor="{Binding MedalColor}"
-                        HeightRequest="36"
-                        WidthRequest="36"
-                        Padding="7,9,7,7"
-                        CornerRadius="18"
+                        HeightRequest="{OnIdiom Phone=36, Tablet=64}"
+                        WidthRequest="{OnIdiom Phone=36, Tablet=64}"
+                        Padding="{OnIdiom Phone='7,9,7,7', Tablet='12'}"
+                        CornerRadius="{OnIdiom Phone=18, Tablet=32}"
                         VerticalOptions="Center"
                         HorizontalOptions="Center"
                         BorderWidth="0"
                         InputTransparent="True" />
-                    <Label Text="{Binding Score}"
-                           Grid.Column="1"
-                           FontSize="{OnIdiom Phone=24, Tablet=30}" 
-                           TextColor="Black" 
+
+                    <Label Grid.Column="1"
+                           Text="{Binding Score}"
+                           FontSize="{OnIdiom Phone=24, Tablet=32}"
+                           TextColor="Black"
                            VerticalOptions="Center"
                            VerticalTextAlignment="Center"
                            HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"/>
+                           HorizontalTextAlignment="Center" />
                 </Grid>
             </Grid>
 
             <!-- Custom inline progress bar -->
             <Grid x:Name="BarContainer"
-                  HeightRequest="{OnIdiom Phone=12, Tablet=30}"
+                  HeightRequest="{OnIdiom Phone=12, Tablet=24}"
                   HorizontalOptions="Fill"
                   BackgroundColor="Transparent"
                   VerticalOptions="Center"
-                  Margin="{OnIdiom Phone='10,0,10,6', Tablet='0,4,0,12'}">
+                  Margin="{OnIdiom Phone='10,0,10,6', Tablet='20,4,20,12'}">
+
                 <!-- Track -->
                 <BoxView Color="{StaticResource AzureBlue}"
-                         CornerRadius="4"
+                         CornerRadius="{OnIdiom Phone=4, Tablet=6}"
                          HorizontalOptions="Fill"
                          VerticalOptions="Fill" />
+
                 <!-- Fill -->
                 <BoxView x:Name="ProgressFill"
                          Color="{StaticResource EmeraldGreen}"
-                         CornerRadius="4"
+                         CornerRadius="{OnIdiom Phone=4, Tablet=6}"
                          VerticalOptions="Fill"
                          HorizontalOptions="Start"
                          WidthRequest="0" />
             </Grid>
+                     
         </VerticalStackLayout>
     </Border>
 </ContentView>
