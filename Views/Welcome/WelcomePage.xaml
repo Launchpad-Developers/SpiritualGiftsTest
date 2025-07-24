@@ -16,10 +16,11 @@
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*,100">
-            <Image Source="mainpagebackground"
+            <Image Source="mainpagebackground.jpg"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
+                   ZIndex="0"
                    Grid.RowSpan="3"/>
 
             <c:NavBar Grid.Row="0" 
@@ -50,6 +51,7 @@
                     HorizontalOptions="Fill"
                     VerticalOptions="End"
                     BackgroundColor="{StaticResource EmeraldGreen}"
+                    TextColor="White"
                     IsVisible="{Binding ShowInstructable, Converter={StaticResource NegatedConverter}}"
                     Text="{Binding BeginText}"
                     Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"

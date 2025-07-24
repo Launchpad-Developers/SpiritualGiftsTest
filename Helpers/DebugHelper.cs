@@ -8,8 +8,8 @@ public static class DebugHelper
 {
     public static Dictionary<Guid, UserValue> ApplyDebugQuestionFilters(ref List<Question> questions, Random random)
     {
-        var topicLimit = Preferences.Get(AppConstants.DebugTotalTopicsKey, 0);
-        var questionsPerTopic = Preferences.Get(AppConstants.DebugQuestionsPerTopicKey, 0);
+        var topicLimit = Preferences.Get(AppConstants.DebugTotalTopicsKey, int.MaxValue);
+        var questionsPerTopic = Preferences.Get(AppConstants.DebugQuestionsPerTopicKey, int.MaxValue);
         var unansweredLimit = Preferences.Get(AppConstants.DebugAllowUnansweredQuestionsKey, false) ?
                               Preferences.Get(AppConstants.DebugTotalUnansweredQuestionsKey, 0) : 0;
 

@@ -26,7 +26,7 @@
         <Grid RowDefinitions="Auto,*">
             
             <!-- BACKGROUND -->
-            <Image Source="mainpagebackground"
+            <Image Source="mainpagebackground.jpg"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
@@ -49,18 +49,30 @@
                     Spacing="{OnIdiom Phone=20, Tablet=30}">
 
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="{OnIdiom Phone=10, Tablet=20}">
-                        <Entry Placeholder="{Binding FirstNamePlaceholder}" 
-                               Text="{Binding FirstName}" 
-                               Style="{StaticResource EntryStyle}" />
-                        <Entry Grid.Column="1" 
-                               Placeholder="{Binding LastNamePlaceholder}" 
-                               Text="{Binding LastName}" 
-                               Style="{StaticResource EntryStyle}" />
+                        <c:UnderlineEntry 
+                            Placeholder="{Binding FirstNamePlaceholder}" 
+                            Text="{Binding FirstName}" 
+                            BackgroundColor="Transparent"
+                            TextColor="Black"
+                            Margin="0,10"
+                            HeightRequest="50" />
+                        <c:UnderlineEntry 
+                            Grid.Column="1" 
+                            Placeholder="{Binding LastNamePlaceholder}" 
+                            Text="{Binding LastName}" 
+                            BackgroundColor="Transparent"
+                            TextColor="Black"
+                            Margin="0,10"
+                            HeightRequest="50"/>
                     </Grid>
 
-                    <Entry Placeholder="{Binding EmailPlaceholder}" 
-                           Text="{Binding Email}" 
-                           Style="{StaticResource EntryStyle}" />
+                    <c:UnderlineEntry 
+                        Placeholder="{Binding EmailPlaceholder}" 
+                        Text="{Binding Email}" 
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        Margin="0,10"
+                        HeightRequest="50" />
 
                     <Button 
                         Text="{Binding ContinueButtonText}"

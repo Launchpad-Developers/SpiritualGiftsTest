@@ -64,8 +64,9 @@
                             Command="{Binding SetValueCommand}"
                             CommandParameter="{x:Static enums:UserValue.NotAtAll}"
                             BackgroundColor="{Binding NotAtAllButtonColor}"
+                            TextColor="White"
                             FontSize="{OnIdiom Phone=12, Tablet=24}"
-                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
+                            WidthRequest="{OnIdiom Phone=80, Tablet=130}" />
 
                         <Button 
                             Text="{Binding Little}"
@@ -74,7 +75,8 @@
                             CommandParameter="{x:Static enums:UserValue.Little}"
                             BackgroundColor="{Binding LittleButtonColor}"
                             FontSize="{OnIdiom Phone=12, Tablet=24}"
-                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
+                            TextColor="White"
+                            WidthRequest="{OnIdiom Phone=80, Tablet=130}" />
 
                         <Button 
                             Text="{Binding Some}"
@@ -83,7 +85,8 @@
                             CommandParameter="{x:Static enums:UserValue.Some}"
                             BackgroundColor="{Binding SomeButtonColor}"
                             FontSize="{OnIdiom Phone=12, Tablet=24}"
-                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
+                            TextColor="White"
+                            WidthRequest="{OnIdiom Phone=80, Tablet=130}" />
 
                         <Button 
                             Text="{Binding Much}"
@@ -92,7 +95,8 @@
                             CommandParameter="{x:Static enums:UserValue.Much}"
                             BackgroundColor="{Binding MuchButtonColor}"
                             FontSize="{OnIdiom Phone=12, Tablet=24}"
-                            WidthRequest="{OnIdiom Phone=65, Tablet=130}" />
+                            TextColor="White"
+                            WidthRequest="{OnIdiom Phone=80, Tablet=130}" />
                     </StackLayout>
                 </VerticalStackLayout>
             </Grid>

@@ -17,7 +17,7 @@
             
             <!-- BACKGROUND -->
             <Image 
-                Source="mainpagebackground"
+                Source="mainpagebackground.jpg"
                 VerticalOptions="Fill"
                 HorizontalOptions="Fill"
                 Aspect="Fill"

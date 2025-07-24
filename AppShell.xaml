@@ -13,6 +13,7 @@
     xmlns:welcome="clr-namespace:SpiritualGiftsSurvey.Views.Welcome"
     xmlns:description="clr-namespace:SpiritualGiftsSurvey.Views.GiftDescription"
     xmlns:routing="clr-namespace:SpiritualGiftsSurvey.Routing"
+    BackgroundColor="{StaticResource ContentBackground}"
     Title="SpiritualGiftsSurvey">
 
     <ShellContent

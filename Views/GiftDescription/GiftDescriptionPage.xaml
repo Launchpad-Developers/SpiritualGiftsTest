@@ -14,8 +14,8 @@
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
-            
-            <Image Source="mainpagebackground"
+
+            <Image Source="mainpagebackground.jpg"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"

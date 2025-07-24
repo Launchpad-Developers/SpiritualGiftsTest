@@ -118,6 +118,13 @@
 
 
   <ItemGroup>
+    <MauiImage Update="Resources\Images\mainpagebackground.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </MauiImage>
+  </ItemGroup>
+
+
+  <ItemGroup>
     <MauiXaml Update="Views\Controls\GiftScoreView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

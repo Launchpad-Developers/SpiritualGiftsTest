@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:converters="clr-namespace:SpiritualGiftsSurvey.Converters"
-    xmlns:fonts="clr-namespace:SpiritualGiftsSurvey.Utilities"
+    xmlns:utils="clr-namespace:SpiritualGiftsSurvey.Utilities"
     x:Class="SpiritualGiftsSurvey.App">
     
     <Application.Resources>
@@ -30,52 +30,52 @@
             <!-- Image Button Icons -->
             <FontImageSource x:Key="Info" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.InfoCircle}"
+                             Glyph="{x:Static utils:IconFontGlyphs.InfoCircle}"
                              Color="{StaticResource DarkGray}" />
 
             <FontImageSource x:Key="Settings" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.Cog}"
+                             Glyph="{x:Static utils:IconFontGlyphs.Cog}"
                              Color="{StaticResource DarkGray}" />
 
             <FontImageSource x:Key="BackArrow" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.ArrowLeft}"
+                             Glyph="{x:Static utils:IconFontGlyphs.ArrowLeft}"
                              Color="Black" />
 
             <FontImageSource x:Key="BackArrowRight" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.ArrowRight}"
+                             Glyph="{x:Static utils:IconFontGlyphs.ArrowRight}"
                              Color="Black" />
 
             <FontImageSource x:Key="NavUpWhite" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.ChevronUp}"
+                             Glyph="{x:Static utils:IconFontGlyphs.ChevronUp}"
                              Color="White" />
 
             <FontImageSource x:Key="Swipe" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.HandBackPointUp}"
+                             Glyph="{x:Static utils:IconFontGlyphs.HandBackPointUp}"
                              Color="White" />
 
             <FontImageSource x:Key="NavDownWhite" 
                              FontFamily="FA6ProThin"
-                             Glyph="{x:Static fonts:IconFontGlyphs.ChevronDown}"
+                             Glyph="{x:Static utils:IconFontGlyphs.ChevronDown}"
                              Color="White" />
 
             <FontImageSource x:Key="DeleteEmail" 
                              FontFamily="FA6Solid"
-                             Glyph="{x:Static fonts:IconFontGlyphs.Backspace}"
+                             Glyph="{x:Static utils:IconFontGlyphs.Backspace}"
                              Color="{StaticResource DangerRed}" />
 
             <FontImageSource x:Key="AddEmail" 
                              FontFamily="FA6Solid"
-                             Glyph="{x:Static fonts:IconFontGlyphs.Plus}"
+                             Glyph="{x:Static utils:IconFontGlyphs.Plus}"
                              Color="White" />
 
             <FontImageSource x:Key="Medal" 
                              FontFamily="FA6Solid"
-                             Glyph="{x:Static fonts:IconFontGlyphs.Medal}"
+                             Glyph="{x:Static utils:IconFontGlyphs.Medal}"
                              Color="{StaticResource DarkGray}" />
 
             <Style x:Key="InstructableLabelStyle" TargetType="{x:Type Label}">
@@ -105,6 +105,15 @@
                 <On Platform="Android" Value="OpenSansSemi" />
                 <On Platform="iOS" Value="OpenSansSemi" />
             </OnPlatform>
+
+            <Style TargetType="Entry" x:Key="UnderlineEntry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=22}" />
+                <Setter Property="Margin" Value="0,10" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="PlaceholderColor" Value="Gray" />
+            </Style>
 
 
             <converters:NegatedConverter x:Key="NegatedConverter" />

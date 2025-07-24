@@ -8,17 +8,20 @@
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Survey;assembly=SpiritualGiftsSurvey"  
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="false"
     ios:NavigationPage.HideNavigationBarSeparator="true"  
     x:DataType="vm:SurveyViewModel"
     NavigationPage.HasBackButton="False" 
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    BackgroundColor="{StaticResource ContentBackground}"
+>
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
             <!-- BG -->
-            <Image Source="mainpagebackground"
+            <Image Source="mainpagebackground.jpg"
                 Aspect="Fill"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
@@ -37,7 +40,8 @@
                               Message="{Binding LoadingText}" />
 
             <Grid Grid.Row="1">
-                
+                <BoxView BackgroundColor="White" />
+
                 <CollectionView
                     x:Name="QuestionsCollectionView"
                     ItemsSource="{Binding Questions}"
@@ -95,6 +99,7 @@
                     BackgroundColor="{StaticResource EmeraldGreen}"
                     IsVisible="{Binding ShowConfirmButton}"
                     Text="{Binding ContinueText}"
+                    TextColor="White"
                     Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
                     HeightRequest="{OnIdiom Phone=50, Tablet=80}"
                     FontSize="{OnIdiom Phone=30, Tablet=40}"

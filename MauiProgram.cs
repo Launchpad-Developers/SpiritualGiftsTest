@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using SpiritualGiftsSurvey.Resources;
 using SpiritualGiftsSurvey.Services;
+using SpiritualGiftsSurvey.Utilities.Handlers;
 using SpiritualGiftsSurvey.Views.AppInfo;
 using SpiritualGiftsSurvey.Views.GiftDescription;
 using SpiritualGiftsSurvey.Views.Reporting;
@@ -41,6 +42,9 @@ public static class MauiProgram
 
         // SQLite Init
         SQLitePCL.Batteries.Init();
+
+        EntryHandlerExtensions.MapUnderlineEntryHandler();
+
 
         return builder.Build();
     }
