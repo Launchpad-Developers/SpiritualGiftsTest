@@ -19,6 +19,7 @@
             <Color x:Key="DarkGray">#4C4C4C</Color>
             <Color x:Key="ButtonColor">#34c1b9</Color>
             <Color x:Key="ButtonText">#f8f8f8</Color>
+            <Color x:Key="ContentBackground">#f8f8f8</Color>
 
             <!--Refreshed Styles-->
             <Style TargetType="NavigationPage" ApplyToDerivedTypes="true">
@@ -100,9 +101,15 @@
                 <On Platform="Android" Value="100" />
             </OnPlatform>
 
+            <OnPlatform x:Key="Title" x:TypeArguments="x:String">
+                <On Platform="Android" Value="OpenSansSemi" />
+                <On Platform="iOS" Value="OpenSansSemi" />
+            </OnPlatform>
+
+
             <converters:NegatedConverter x:Key="NegatedConverter" />
-            <converters:RadiusToShapeConverter x:Key="RadiusToShape" />
             <converters:ItemMarginConverter x:Key="ItemMarginConverter" />
+
 
         </ResourceDictionary>
     </Application.Resources>

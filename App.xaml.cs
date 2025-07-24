@@ -1,4 +1,6 @@
-﻿namespace SpiritualGiftsSurvey;
+﻿using System.Diagnostics;
+
+namespace SpiritualGiftsSurvey;
 
 public partial class App : Application
 {
@@ -14,8 +16,16 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        var shell = Services.GetRequiredService<AppShell>();
-        return new Window(shell);
+        try
+        {
+            var shell = Services.GetRequiredService<AppShell>();
+            return new Window(shell);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Startup crash: {ex}");
+            throw;
+        }
     }
 
     protected override void OnStart()

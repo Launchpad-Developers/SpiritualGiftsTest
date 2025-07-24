@@ -8,7 +8,6 @@
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     ios:NavigationPage.HideNavigationBarSeparator="true"
-    x:DataType="vm:ReportingViewModel"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">

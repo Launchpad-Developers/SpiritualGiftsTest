@@ -36,7 +36,7 @@
                         BackgroundColor="{Binding MedalColor}"
                         HeightRequest="{OnIdiom Phone=36, Tablet=64}"
                         WidthRequest="{OnIdiom Phone=36, Tablet=64}"
-                        Padding="{OnIdiom Phone='7,9,7,7', Tablet='12'}"
+                        Padding="{OnIdiom Phone='7', Tablet='12'}"
                         CornerRadius="{OnIdiom Phone=18, Tablet=32}"
                         VerticalOptions="Center"
                         HorizontalOptions="Center"

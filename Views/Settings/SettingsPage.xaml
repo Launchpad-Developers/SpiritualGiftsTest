@@ -98,7 +98,7 @@
                             StrokeShape="RoundRectangle 12"
                             BackgroundColor="White"
                             Padding="{OnIdiom Phone=10, Tablet=20}"
-                            Margin="{OnIdiom Phone='0,100,0', Tablet='0,20,0,0'}">
+                            Margin="{OnIdiom Phone='0,10,0,0', Tablet='0,20,0,0'}">
 
                         <VerticalStackLayout Spacing="{OnIdiom Phone=10, Tablet=20}">
                             <Grid ColumnDefinitions="*,Auto"

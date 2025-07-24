@@ -55,14 +55,14 @@
 
                     <!-- Developed for -->
                     <Label Text="{Binding DevelopedFor}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}"/>
 
                     <Label Text="{Binding CornerstoneUpc}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            TextColor="{StaticResource AzureBlue}"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='30,15,0,0', Tablet='60,30,0,0'}">
@@ -74,14 +74,14 @@
 
                     <!-- Developed by -->
                     <Label Text="{Binding DevelopedBy}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}"/>
 
                     <Label Text="{Binding Launchpad}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            TextColor="{StaticResource AzureBlue}"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='30,15,0,0', Tablet='60,30,0,0'}">
@@ -93,34 +93,34 @@
 
                     <!-- App Version -->
                     <Label Text="{Binding AppVersionLabel}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}" />
 
                     <Label Text="{Binding AppVersion}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='30,0,0,0', Tablet='60,0,0,0'}" />
 
                     <!-- DB Info -->
                     <Label Text="{Binding DatabaseLabel}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='0,30,0,0', Tablet='0,60,0,0'}"/>
 
                     <Label Text="{Binding DatabaseVersion}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='30,0,0,0', Tablet='60,0,0,0'}" />
 
                     <Label Text="{Binding DatabaseDate}"
-                           FontSize="{OnIdiom Phone='Body', Tablet=22}"
+                           FontSize="{OnIdiom Phone=12, Tablet=22}"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Margin="{OnIdiom Phone='30,0,0,0', Tablet='60,0,0,0'}" />

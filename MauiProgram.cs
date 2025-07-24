@@ -27,8 +27,8 @@ public static class MauiProgram
             {
                 fonts.AddFont("FA6Pro-Thin.ttf", "FA6ProThin");
                 fonts.AddFont("FA6-Solid.ttf", "FA6Solid");
-                fonts.AddFont("Kanit-SemiBold.ttf", "Kanit");
-                fonts.AddFont("MavenPro-Regular.ttf", "MavenPro");
+                fonts.AddFont("OpenSans-SemiBold.ttf", "OpenSansSemi");
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansReg");
             })
             .RegisterAppServices()
             .RegisterViewModels();

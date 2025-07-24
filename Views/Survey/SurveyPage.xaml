@@ -32,7 +32,7 @@
                 ShowRightButton="false"
                 BackgroundColor="White" />
 
-            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
+            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="2" 
                               IsBusy="{Binding IsLoading}" 
                               Message="{Binding LoadingText}" />
 
