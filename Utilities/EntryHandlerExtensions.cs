@@ -2,7 +2,6 @@
 
 #if IOS
 using UIKit;
-using CoreAnimation;
 using CoreGraphics;
 #endif
 
@@ -24,17 +23,27 @@ public static class EntryHandlerExtensions
 #elif IOS
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("BottomBorder", (handler, view) =>
         {
-            var nativeEntry = handler.PlatformView;
-            nativeEntry.BorderStyle = UITextBorderStyle.None;
-
-            var bottomLine = new CALayer
+            if (view is UnderlineEntry)
             {
-                Frame = new CGRect(0, nativeEntry.Frame.Height - 1, nativeEntry.Frame.Width, 1),
-                BackgroundColor = UIColor.Gray.CGColor
-            };
+                var nativeEntry = handler.PlatformView;
+                nativeEntry.BorderStyle = UITextBorderStyle.RoundedRect;
+                nativeEntry.BackgroundColor = UIColor.White;
 
-            nativeEntry.Layer.AddSublayer(bottomLine);
-            nativeEntry.ClipsToBounds = false;
+                nativeEntry.Layer.CornerRadius = 8;
+                nativeEntry.Layer.MasksToBounds = true;
+                nativeEntry.Layer.BorderWidth = 1;
+                nativeEntry.Layer.BorderColor = UIColor.LightGray.CGColor;
+                
+                nativeEntry.LeftView = new UIView(new CGRect(0, 0, 10, 0));
+                nativeEntry.LeftViewMode = UITextFieldViewMode.Always;
+            }
+
+            if (view is BorderlessEntry)
+            {
+                var nativeEntry = handler.PlatformView;
+                nativeEntry.BorderStyle = UITextBorderStyle.None; // no border
+                nativeEntry.BackgroundColor = UIColor.Clear;      // transparent so parent Border shows
+            }
         });
 #endif
     }

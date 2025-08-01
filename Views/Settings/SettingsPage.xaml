@@ -11,7 +11,8 @@
     x:DataType="vm:SettingsViewModel"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource ContentBackground}">
 
     <ContentPage.Resources>
         <Style x:Key="TitleLabelStyle" TargetType="Label">
@@ -35,7 +36,8 @@
                 VerticalOptions="Fill"
                 HorizontalOptions="Fill"
                 Aspect="Fill"
-                Grid.RowSpan="2" />
+                Grid.RowSpan="2"
+                IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
             <c:NavBar 
@@ -98,30 +100,49 @@
                             StrokeShape="RoundRectangle 12"
                             BackgroundColor="White"
                             Padding="{OnIdiom Phone=10, Tablet=20}"
-                            Margin="{OnIdiom Phone='0,10,0,0', Tablet='0,20,0,0'}">
+                            Margin="{OnIdiom Phone='0,10,0,0', Tablet='20,20,20,0'}">
 
                         <VerticalStackLayout Spacing="{OnIdiom Phone=10, Tablet=20}">
                             <Grid ColumnDefinitions="*,Auto"
                                   HorizontalOptions="Fill"
                                   VerticalOptions="Center">
 
-                                <Entry x:Name="AddReportingEmailEntry"
-                                       Grid.Column="0"
-                                       Placeholder="{Binding AddReportingEmailPlaceholder}"
-                                       Text="{Binding NewReportingEmail}"
-                                       TextColor="{Binding AddReportingEmailTextColor}"
-                                       TextChanged="Entry_TextChanged"
-                                       Keyboard="Email" />
+                                <c:BorderlessEntry x:Name="AddReportingEmailEntry"
+                                   Grid.Column="0"
+                                   Placeholder="{Binding AddReportingEmailPlaceholder}"
+                                   Text="{Binding NewReportingEmail}"
+                                   TextColor="{Binding AddReportingEmailTextColor}"
+                                   TextChanged="Entry_TextChanged"
+                                   Keyboard="Email"
+                                   Style="{StaticResource BorderlessEntry}" />
 
                                 <ImageButton Grid.Column="1"
                                              Source="{StaticResource AddEmail}"
-                                             WidthRequest="30"
-                                             HeightRequest="30"
-                                             Margin="{OnIdiom Phone='0,0,5,10', Tablet='0,0,5,20'}"
+                                             WidthRequest="{OnIdiom Phone=30, Tablet=60}"
+                                             HeightRequest="{OnIdiom Phone=30, Tablet=60}"
                                              Padding="4"
-                                             CornerRadius="15"
+                                             CornerRadius="{OnIdiom Phone=15, Tablet=30}"
                                              BackgroundColor="{StaticResource EmeraldGreen}"
-                                             Command="{Binding AddNewReportingEmailCommand}" />
+                                             Command="{Binding AddNewReportingEmailCommand}">
+                                    <ImageButton.Margin>
+                                            <OnPlatform x:TypeArguments="Thickness">
+                                                <!-- iOS margins -->
+                                                <On Platform="iOS">
+                                                    <OnIdiom x:TypeArguments="Thickness">
+                                                        <OnIdiom.Phone>0,10,5,10</OnIdiom.Phone>
+                                                        <OnIdiom.Tablet>5</OnIdiom.Tablet>
+                                                    </OnIdiom>
+                                                </On>
+                                                <!-- Android margins -->
+                                                <On Platform="Android">
+                                                    <OnIdiom x:TypeArguments="Thickness">
+                                                        <OnIdiom.Phone>0,0,5,10</OnIdiom.Phone>
+                                                        <OnIdiom.Tablet>0,0,5,20</OnIdiom.Tablet>
+                                                    </OnIdiom>
+                                                </On>
+                                            </OnPlatform>
+                                        </ImageButton.Margin>
+                                </ImageButton>
                             </Grid>
 
                             <BoxView HeightRequest="0.5" HorizontalOptions="Fill" BackgroundColor="Gray" IsVisible="{Binding ShowCollectionView}" />

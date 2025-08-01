@@ -53,10 +53,10 @@
 		</MauiIcon>
 
 		<!-- Splash Screen -->
-    <MauiSplashScreen Include="Resources\Images\splashicon.svg" Color="#FFFFFF" />
+    <MauiSplashScreen Include="Resources\Images\splashicon.svg" Color="#FFFFFF" />  
 
     <!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
+    <MauiImage Include="Resources\Images\*" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*.ttf" />
@@ -65,9 +65,9 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\splashicon.svg" />
-	</ItemGroup>
+  <ItemGroup>
+    <MauiImage Remove="Resources\Images\splashicon.svg" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Views\AppInfo\AppInfoPage.xaml.cs">

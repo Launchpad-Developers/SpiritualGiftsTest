@@ -10,7 +10,8 @@
     x:DataType="vm:GiftDescriptionViewModel"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    BackgroundColor="{StaticResource ContentBackground}">
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
@@ -19,7 +20,8 @@
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
-                   Grid.RowSpan="2" />
+                   Grid.RowSpan="2"
+                   IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <c:NavBar 
                 Grid.Row="0" 

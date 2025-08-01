@@ -25,7 +25,8 @@
                 Aspect="Fill"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
-                Grid.RowSpan="2"/>
+                Grid.RowSpan="2"
+                IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
             <c:NavBar 
@@ -33,14 +34,14 @@
                 Title="{Binding PageTopic}"
                 ShowLeftButton="false"
                 ShowRightButton="false"
-                BackgroundColor="White" />
+                BackgroundColor="{StaticResource ContentBackground}" />
 
             <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="2" 
                               IsBusy="{Binding IsLoading}" 
                               Message="{Binding LoadingText}" />
 
             <Grid Grid.Row="1">
-                <BoxView BackgroundColor="White" />
+                <BoxView BackgroundColor="{StaticResource ContentBackground}" />
 
                 <CollectionView
                     x:Name="QuestionsCollectionView"
@@ -68,10 +69,11 @@
                 <BoxView
                     VerticalOptions="Start"
                     HeightRequest="{OnIdiom Phone=50, Tablet=100}"
-                    InputTransparent="True">
+                    InputTransparent="True"
+                    IsVisible="{OnPlatform Android=true, iOS=false}">
                     <BoxView.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="White" Offset="0" />
+                            <GradientStop Color="{StaticResource ContentBackground}" Offset="0" />
                             <GradientStop Color="Transparent" Offset="1" />
                         </LinearGradientBrush>
                     </BoxView.Background>
@@ -81,10 +83,11 @@
                 <BoxView
                     VerticalOptions="End"
                     HeightRequest="{OnIdiom Phone=50, Tablet=100}"
-                    InputTransparent="True">
+                    InputTransparent="True"
+                    IsVisible="{OnPlatform Android=true, iOS=false}">
                     <BoxView.Background>
                         <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
-                            <GradientStop Color="White" Offset="0" />
+                            <GradientStop Color="{StaticResource ContentBackground}" Offset="0" />
                             <GradientStop Color="Transparent" Offset="1" />
                         </LinearGradientBrush>
                     </BoxView.Background>
@@ -103,7 +106,8 @@
                     Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
                     HeightRequest="{OnIdiom Phone=50, Tablet=80}"
                     FontSize="{OnIdiom Phone=30, Tablet=40}"
-                    Padding="0" />
+                    Padding="0"
+                    CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
             </Grid>
         </Grid>
     </ContentPage.Content>

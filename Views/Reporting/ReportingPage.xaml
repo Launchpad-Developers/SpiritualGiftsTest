@@ -9,6 +9,7 @@
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     ios:NavigationPage.HideNavigationBarSeparator="true"
     FlowDirection="{Binding FlowDirection}"
+    BackgroundColor="{StaticResource ContentBackground}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
     

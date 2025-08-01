@@ -24,6 +24,8 @@ public partial class GiftScoreView : ContentView
         };
 
         GestureRecognizers.Add(tapGesture);
+
+        Dispatcher.Dispatch(UpdateProgressBar);
     }
 
 
@@ -46,12 +48,18 @@ public partial class GiftScoreView : ContentView
 
     private void OnSizeChanged(object? sender, EventArgs e)
     {
+        UpdateProgressBar();
+    }
+
+    private void UpdateProgressBar()
+    {
         if (BindingContext is not GiftScoreViewModel vm)
             return;
 
         double clampedProgress = Math.Clamp(vm.Progress, 0, 1);
         double width = BarContainer.Width;
 
-        ProgressFill.WidthRequest = width * clampedProgress;
+        if (width > 0)
+            ProgressFill.WidthRequest = width * clampedProgress;
     }
 }

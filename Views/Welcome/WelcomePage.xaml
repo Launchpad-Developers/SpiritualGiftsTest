@@ -12,7 +12,8 @@
     x:DataType="vm:WelcomeViewModel"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource ContentBackground}">
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*,100">
@@ -21,7 +22,8 @@
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
                    ZIndex="0"
-                   Grid.RowSpan="3"/>
+                   Grid.RowSpan="3"
+                   IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <c:NavBar Grid.Row="0" 
                 Title="{Binding PageTopic}"
@@ -57,7 +59,8 @@
                     Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
                     HeightRequest="{OnIdiom Phone=50, Tablet=80}"
                     FontSize="{OnIdiom Phone=30, Tablet=40}"
-                    Padding="0" />
+                    Padding="0" 
+                    CornerRadius="{OnIdiom Phone=25, Tablet=40}"/>
 
             <ContentView BackgroundColor="#222222"
                          Opacity="0.65"
@@ -118,7 +121,8 @@
                     FontSize="{OnIdiom Phone=24, Tablet=34}"
                     HorizontalOptions="Fill"
                     IsVisible="{Binding ShowInstructable}"
-                    VerticalOptions="End" />
+                    VerticalOptions="End"
+                    CornerRadius="{OnIdiom Phone=25, Tablet=40}"/>
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

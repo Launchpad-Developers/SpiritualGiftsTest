@@ -19,7 +19,7 @@
             <Color x:Key="DarkGray">#4C4C4C</Color>
             <Color x:Key="ButtonColor">#34c1b9</Color>
             <Color x:Key="ButtonText">#f8f8f8</Color>
-            <Color x:Key="ContentBackground">#f8f8f8</Color>
+            <Color x:Key="ContentBackground">#DDDDDD</Color>
 
             <!--Refreshed Styles-->
             <Style TargetType="NavigationPage" ApplyToDerivedTypes="true">
@@ -106,15 +106,23 @@
                 <On Platform="iOS" Value="OpenSansSemi" />
             </OnPlatform>
 
-            <Style TargetType="Entry" x:Key="UnderlineEntry">
+            <Style TargetType="c:UnderlineEntry" x:Key="UnderlineEntry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="PlaceholderColor" Value="Gray" />
+                <Setter Property="FontSize" Value="{OnIdiom Phone=18, Tablet=28}" />
+                <Setter Property="HeightRequest" Value="{OnIdiom Phone=55, Tablet=90}" />
+                <Setter Property="Margin" Value="{OnIdiom Phone='0,0,0,12', Tablet='0,0,0,20'}" />
+            </Style>
+
+            <Style TargetType="c:BorderlessEntry" x:Key="BorderlessEntry">
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=22}" />
-                <Setter Property="Margin" Value="0,10" />
+                <Setter Property="Margin" Value="0" />
                 <Setter Property="HeightRequest" Value="50" />
                 <Setter Property="PlaceholderColor" Value="Gray" />
             </Style>
-
 
             <converters:NegatedConverter x:Key="NegatedConverter" />
             <converters:ItemMarginConverter x:Key="ItemMarginConverter" />

@@ -10,7 +10,8 @@
     x:Name="Page"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False"
-    FlowDirection="{Binding FlowDirection}">
+    FlowDirection="{Binding FlowDirection}"
+    BackgroundColor="{StaticResource ContentBackground}">
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*">
@@ -19,7 +20,8 @@
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
-                   Grid.RowSpan="2" />
+                   Grid.RowSpan="2"
+                   IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
             <c:NavBar Grid.Row="0" 
@@ -63,7 +65,8 @@
                         HeightRequest="{OnIdiom Phone=50, Tablet=80}"
                         FontSize="{OnIdiom Phone=30, Tablet=40}"
                         FontAttributes="Bold"
-                        Padding="0" />
+                        Padding="0"
+                        CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

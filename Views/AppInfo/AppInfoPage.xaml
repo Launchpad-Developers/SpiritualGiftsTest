@@ -8,6 +8,7 @@
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:r="clr-namespace:SpiritualGiftsSurvey.Routing"
     x:DataType="vm:AppInfoViewModel"
+    BackgroundColor="{StaticResource ContentBackground}"
     FlowDirection="{Binding FlowDirection}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
@@ -21,7 +22,8 @@
                 VerticalOptions="Fill"
                 HorizontalOptions="Fill"
                 Aspect="Fill"
-                Grid.RowSpan="2" />
+                Grid.RowSpan="2"
+                   IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
             <c:NavBar 
