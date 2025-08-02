@@ -32,44 +32,14 @@ public partial class GiftDescriptionViewModel : BaseViewModel
         if (value == null) 
             return;
 
-        IsLoading = true;
-
-        var gift = value.GiftName.ToGiftEnum();
-        var verses = DatabaseService.GetVerses(value.GiftDescriptionGuid);
-        var desc = DatabaseService.GetGiftDescription(TranslationService.CurrentLanguageCode, Gift.Gift);
-
-        GiftName = desc?.Translation ?? value.Gift.ToString();
-        GiftDescriptionText = desc?.Description ?? "No description found";
-        GiftScriptures = string.Join("\n", verses?.Select(v => v.Reference) ?? []);
-        PageTopic = string.Format(TranslationService.GetString("TheGiftOf", "The gift of {0}"), GiftName);
-
-        IsLoading = false;
+        // Fire and forget async work
+        _ = LoadGiftDetailsAsync(value);
     }
 
-    protected override async Task NavBack(string route)
-    {
-        try
-        {
-            IsLoading = true;
-
-            await NavigationService.GoBackAsync(Routes.ResultsPage, new Dictionary<string, object>
-            {
-                ["UserGiftResult"] = UserGiftResult
-            });
-        }
-        catch (Exception ex)
-        {
-            Analytics.TrackEvent("NavBackFailure", new Dictionary<string, string>() { { "Message", ex.Message } });
-        }
-        finally 
-        { 
-            IsLoading = false; 
-        }
-    }
-
-    public override void InitAsync()
+    public async override Task InitAsync()
     {
         IsLoading = true;
+        await Task.Yield();
 
         // Load UI label text via TranslationService
         ScriptureLabel = TranslationService.GetString("Scriptures", "Scriptures");
@@ -81,5 +51,43 @@ public partial class GiftDescriptionViewModel : BaseViewModel
     public override void RefreshViewModel()
     {
         return;
+    }
+
+    protected override async Task NavBack(string route)
+    {
+        try
+        {
+            IsLoading = true;
+
+            await NavigationService.GoBackAsync(Routes.ResultsPage, new Dictionary<string, object>
+            {
+                ["UserGiftResult"] = UserGiftResult!
+            });
+        }
+        catch (Exception ex)
+        {
+            Analytics.TrackEvent("NavBackFailure", new Dictionary<string, string>() { { "Message", ex.Message } });
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task LoadGiftDetailsAsync(UserGiftScore value)
+    {
+        IsLoading = true;
+        await Task.Yield();
+
+        var gift = value.GiftName.ToGiftEnum();
+        var verses = await DatabaseService.GetVersesAsync(value.GiftDescriptionGuid);
+        var desc = DatabaseService.GetGiftDescription(TranslationService.CurrentLanguageCode, gift);
+
+        GiftName = desc?.Translation ?? value.Gift.ToString();
+        GiftDescriptionText = desc?.Description ?? "No description found";
+        GiftScriptures = string.Join("\n", verses?.Select(v => v.Reference) ?? []);
+        PageTopic = string.Format(TranslationService.GetString("TheGiftOf", "The gift of {0}"), GiftName);
+
+        IsLoading = false;
     }
 }

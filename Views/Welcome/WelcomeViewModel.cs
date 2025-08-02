@@ -25,31 +25,31 @@ public partial class WelcomeViewModel : BaseViewModel
     [ObservableProperty] private string beginText = string.Empty;
     [ObservableProperty] private string confirmText = string.Empty;
 
-    [RelayCommand]
-    private async Task OpenInfoAsync()
-    {
-        if (!IsLoading)
-        {
-            IsLoading = true;
+    //[RelayCommand]
+    //private async Task OpenInfoAsync()
+    //{
+    //    if (!IsLoading)
+    //    {
+    //        IsLoading = true;
 
-            await PerformNavigation(Routes.AppInfoPage);
+    //        await PerformNavigation(Routes.AppInfoPage);
 
-            IsLoading = false;
-        }
-    }
+    //        IsLoading = false;
+    //    }
+    //}
 
-    [RelayCommand]
-    private async Task OpenSettingsAsync()
-    {
-        if (!IsLoading)
-        {
-            IsLoading = true;
+    //[RelayCommand]
+    //private async Task OpenSettingsAsync()
+    //{
+    //    if (!IsLoading)
+    //    {
+    //        IsLoading = true;
 
-            await PerformNavigation(Routes.SettingsPage);
+    //        await PerformNavigation(Routes.SettingsPage);
 
-            IsLoading = false;
-        }
-    }
+    //        IsLoading = false;
+    //    }
+    //}
 
     [RelayCommand]
     private void OnBegin()
@@ -58,15 +58,32 @@ public partial class WelcomeViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task OpenInfoAsync()
+    {
+        await RunWithLoading(async () =>
+        {
+            await PerformNavigation(Routes.AppInfoPage);
+        });
+    }
+
+    [RelayCommand]
+    private async Task OpenSettingsAsync()
+    {
+        await RunWithLoading(async () =>
+        {
+            await PerformNavigation(Routes.AppInfoPage);
+        });
+    }
+
+    [RelayCommand]
     private async Task OnConfirmAsync(string page)
     {
         ShowInstructable = false;
 
-        IsLoading = true;
-
-        await PerformNavigation(page);
-
-        IsLoading = false;
+        await RunWithLoading(async () =>
+        {
+            await PerformNavigation(page);
+        });
     }
 
     public override void RefreshViewModel()
@@ -74,7 +91,7 @@ public partial class WelcomeViewModel : BaseViewModel
         return;
     }
 
-    public override async void InitAsync()
+    public async override Task InitAsync()
     {
         if (!RequiresInitialzation)
             return;
@@ -82,6 +99,7 @@ public partial class WelcomeViewModel : BaseViewModel
         RequiresInitialzation = false;
 
         IsLoading = true;
+        await Task.Yield();
 
         await TranslationService.InitializeLanguage();
 

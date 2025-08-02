@@ -12,8 +12,10 @@ public class SplashViewModel : BaseViewModel
     {
     }
 
-    public override void InitAsync()
+    public async override Task InitAsync()
     {
+        await Task.Yield();
+        
         return;
     }
 

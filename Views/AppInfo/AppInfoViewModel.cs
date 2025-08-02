@@ -38,7 +38,7 @@ public partial class AppInfoViewModel : BaseViewModel
     [ObservableProperty] private string databaseVersion = string.Empty;
     [ObservableProperty] private string databaseDate = string.Empty;
 
-    public override void InitAsync()
+    public async override Task InitAsync()
     {
         if (!RequiresInitialzation)
             return;
@@ -46,6 +46,7 @@ public partial class AppInfoViewModel : BaseViewModel
         RequiresInitialzation = false;
 
         IsLoading = true;
+        await Task.Yield();
 
         FlowDirection = TranslationService.FlowDirection;
 

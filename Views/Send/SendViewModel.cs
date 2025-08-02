@@ -33,9 +33,10 @@ public partial class SendViewModel : BaseViewModel
     [ObservableProperty] private string continueButtonText = string.Empty;
     [ObservableProperty] private string reflectionsTitle = string.Empty;
 
-    public async override void InitAsync()
+    public async override Task InitAsync()
     {
         IsLoading = true;
+        await Task.Yield();
 
         FirstNamePlaceholder = TranslationService.GetString("FirstName", "First Name");
         LastNamePlaceholder = TranslationService.GetString("LastName", "Last Name");
@@ -99,11 +100,5 @@ public partial class SendViewModel : BaseViewModel
     {
         if (value == null || value.Scores == null)
             return;
-
-        IsLoading = true;
-
-        value.RankGifts();
-
-        IsLoading = false;
     }
 }

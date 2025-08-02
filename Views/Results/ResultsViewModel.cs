@@ -17,7 +17,6 @@ public partial class ResultsViewModel : BaseViewModel
         IPreferences preferences)
         : base(aggregatedServices, preferences)
     {
-
     }
 
     [ObservableProperty] private SurveyResult? userGiftResult;
@@ -27,28 +26,21 @@ public partial class ResultsViewModel : BaseViewModel
 
     partial void OnUserGiftResultChanged(SurveyResult? value)
     {
-        if (value == null)
+        if (value == null || value.Scores == null)
             return;
 
-        IsLoading = true;
-
-        value.RankGifts();
-
-        // Populate the view models
-        AllGiftScores.Clear();
-
-        foreach (var score in value.Scores.OrderByDescending(x => x.Score))
+        if (!value.IsRanked)
         {
-            var localizedGiftName = TranslationService.GetString(score.Gift.ToString(), score.Gift.ToString());
-            AllGiftScores.Add(new GiftScoreViewModel(score, localizedGiftName, ViewGiftDescriptionCommand));
+            _ = value.RankGiftsAsync();
         }
 
-        IsLoading = false;
+        _ = LoadUserGiftResultAsync(value);
     }
 
-    public override void InitAsync()
+    public async override Task InitAsync()
     {
         IsLoading = true;
+        await Task.Yield();
 
         if (string.IsNullOrEmpty(ContinueButtonText))
         {
@@ -71,15 +63,16 @@ public partial class ResultsViewModel : BaseViewModel
     [RelayCommand]
     private async Task ViewGiftDescriptionAsync(GiftScoreViewModel vm)
     {
-        if (vm?.Model == null) 
+        if (vm?.Model == null)
             return;
 
         IsLoading = true;
+        await Task.Yield();
 
         await NavigationService.NavigateAsync(Routes.GiftDescriptionPage, new Dictionary<string, object>
         {
             ["Gift"] = vm.Model,
-            ["UserGiftResult"] = UserGiftResult
+            ["UserGiftResult"] = UserGiftResult!
         });
 
         IsLoading = false;
@@ -88,16 +81,43 @@ public partial class ResultsViewModel : BaseViewModel
     [RelayCommand]
     private async Task ContinueAsync()
     {
-        if (UserGiftResult == null) 
+        if (UserGiftResult == null)
             return;
 
         IsLoading = true;
+        await Task.Yield();
 
         await NavigationService.NavigateAsync(Routes.SendPage, new Dictionary<string, object>
         {
-            ["UserGiftResult"] = UserGiftResult
+            ["UserGiftResult"] = UserGiftResult!
         });
 
         IsLoading = false;
+    }
+
+    private async Task LoadUserGiftResultAsync(SurveyResult value)
+    {
+        IsLoading = true;
+
+        try
+        {
+            AllGiftScores.Clear();
+
+            foreach (var score in value.Scores.OrderByDescending(x => x.Score))
+            {
+                var localizedGiftName = TranslationService.GetString(score.Gift.ToString(), score.Gift.ToString());
+
+                AllGiftScores.Add(new GiftScoreViewModel(score, localizedGiftName, ViewGiftDescriptionCommand));
+
+                //Yield every 5 items to keep UI responsive
+                //Prevents janky behavior on slower devices
+                if (AllGiftScores.Count % 5 == 0)
+                    await Task.Yield();
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 }

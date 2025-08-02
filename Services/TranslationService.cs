@@ -76,28 +76,19 @@ public partial class TranslationService : ObservableObject, ITranslationService
 
     public async Task<bool> InitializeLanguage()
     {
-        // Get base translation info — only to read metadata like FlowDirection
         var translation = await _databaseService.GetTranslationByCodeAsync(CurrentLanguageCode);
 
-        // Defensive fallback if null
         if (translation is null)
             return false;
 
-        // Load AppStrings as Dictionary
         AppStrings = _databaseService
             .GetAppStrings(CurrentLanguageCode)
             .ToDictionary(x => x.Key, x => x.Value);
 
-        // Load available language options
         LanguageOptions = _databaseService.GetLanguageOptions(CurrentLanguageCode);
-
-        // Set FlowDirection based on DB value or default to LTR
         FlowDirection = ParseFlowDirection(translation.FlowDirection);
+        TotalQuestions = await _databaseService.GetQuestionsCountAsync(CurrentLanguageCode);
 
-        // Load total questions
-        TotalQuestions = _databaseService.GetQuestionsCount(CurrentLanguageCode);
-
-        // Done: returns success only if you actually have strings + options
         return AppStrings.Any() && LanguageOptions.Any();
     }
 
@@ -134,7 +125,6 @@ public partial class TranslationService : ObservableObject, ITranslationService
 
     public List<LanguageOption> GetLanguageOptions()
     {
-        // Defensive fallback in case this is called before Init
         if (LanguageOptions != null && LanguageOptions.Any())
             return LanguageOptions.ToList();
 

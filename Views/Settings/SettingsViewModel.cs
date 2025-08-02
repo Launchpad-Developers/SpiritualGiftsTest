@@ -71,7 +71,7 @@ public partial class SettingsViewModel : BaseViewModel
     public ObservableCollection<string> ReportingEmails { get; private set; } = new();
     public bool ShowUnansweredQuestionControls => AllowUnansweredQuestions;
 
-    public override void InitAsync()
+    public async override Task InitAsync()
     {
         if (!RequiresInitialzation)
             return;
@@ -79,6 +79,7 @@ public partial class SettingsViewModel : BaseViewModel
         RequiresInitialzation = false;
 
         IsLoading = true;
+        await Task.Yield();
 
         ReportingEmails.Clear();
         foreach (var email in EmailService.GetStoredEmails())

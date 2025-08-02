@@ -108,7 +108,7 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         }
     }
 
-    public abstract void InitAsync();
+    public abstract Task InitAsync();
     public abstract void RefreshViewModel();
 
 
@@ -147,4 +147,21 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
 
     protected Task<bool> ConfirmUserAsync(string title, string message, string accept, string cancel)
         => PageHelper.ShowConfirm(title, message, accept, cancel);
+
+    protected async Task RunWithLoading(Func<Task> action)
+    {
+        if (IsLoading)
+            return;
+
+        try
+        {
+            IsLoading = true;
+            await Task.Yield(); // ensures overlay appears
+            await action();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
 }

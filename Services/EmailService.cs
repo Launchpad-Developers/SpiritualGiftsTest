@@ -37,7 +37,7 @@ public class EmailService : IEmailService
         var bccRecipients = GetStoredEmails();
 
         var subject = _translationService.GetString("EmailSubject", "Your Spiritual Gifts Survey Results");
-        var body = GenerateHtmlEmail(result);
+        var body = await GenerateHtmlEmail(result);
 
         try
         {
@@ -77,7 +77,7 @@ public class EmailService : IEmailService
         return false;
     }
 
-    private string GenerateHtmlEmail(SurveyResult result)
+    private async Task<string> GenerateHtmlEmail(SurveyResult result)
     {
         var sb = new StringBuilder();
 
@@ -88,7 +88,11 @@ public class EmailService : IEmailService
         sb.Append($"<h3>{_translationService.GetString("Scores", "Scores")}:</h3><ul>");
 
         // Ensure gifts are ranked before sending
-        result.RankGifts();
+        if (!result.IsRanked)
+        {
+            _ = result.RankGiftsAsync();
+        }
+
         var ranked = result.Scores
             .Where(s => s.GiftRank == GiftRank.Primary || s.GiftRank == GiftRank.Secondary)
             .OrderByDescending(s => s.Score);
@@ -96,7 +100,7 @@ public class EmailService : IEmailService
         foreach (var score in ranked)
         {
             var desc = _databaseService.GetGiftDescription(score.GiftDescriptionGuid);
-            var verses = _databaseService.GetVerses(score.GiftDescriptionGuid);
+            var verses = await _databaseService.GetVersesAsync(score.GiftDescriptionGuid);
             sb.AppendFormat("<li><strong>{0}</strong>: {1}</li>", score.Gift, score.Score);
 
             if (desc != null)

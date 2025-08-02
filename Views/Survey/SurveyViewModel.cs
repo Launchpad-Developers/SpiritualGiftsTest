@@ -35,9 +35,10 @@ public partial class SurveyViewModel : BaseViewModel
 
     public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
 
-    public override void InitAsync()
+    public async override Task InitAsync()
     {
         IsLoading = true;
+        await Task.Yield();
 
         FlowDirection = TranslationService.FlowDirection;
 
@@ -46,8 +47,8 @@ public partial class SurveyViewModel : BaseViewModel
         ContinueText = TranslationService.GetString("Continue", "Continue");
 
         // Get all questions from the database
-        var questions = DatabaseService.GetQuestions(TranslationService.CurrentLanguageCode);
-        var totalQuestions = DatabaseService.GetQuestionsCount(TranslationService.CurrentLanguageCode);
+        var questions = await DatabaseService.GetQuestionsAsync(TranslationService.CurrentLanguageCode);
+        var totalQuestions = await DatabaseService.GetQuestionsCountAsync(TranslationService.CurrentLanguageCode);
 
         // Shuffle questions randomly
         var random = new Random();
@@ -94,6 +95,12 @@ public partial class SurveyViewModel : BaseViewModel
                 questionVm.QuestionMargin = new Thickness(30, 10, 30, 100);
 
             Questions.Add(questionVm);
+
+            //Yield every 5 items to keep UI responsive
+            //Prevents janky behavior on slower devices
+            if (index % 5 == 0)
+                await Task.Yield();
+
             index++;
         }
 
@@ -212,6 +219,8 @@ public partial class SurveyViewModel : BaseViewModel
             DateTaken = DateTime.UtcNow,
             Scores = giftScores
         };
+
+        await result.RankGiftsAsync();
 
         await DatabaseService.SaveUserGiftResultAsync(result);
 
