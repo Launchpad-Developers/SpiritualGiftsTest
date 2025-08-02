@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BasePage
+﻿<views:BasePage
     x:Class="SpiritualGiftsSurvey.Views.Send.SendPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:SpiritualGiftsSurvey.Views.Controls;assembly=SpiritualGiftsSurvey"
     xmlns:views="clr-namespace:SpiritualGiftsSurvey.Views.Shared;assembly=SpiritualGiftsSurvey"
     xmlns:vm="clr-namespace:SpiritualGiftsSurvey.Views.Send;assembly=SpiritualGiftsSurvey"
+    xmlns:models="clr-namespace:SpiritualGiftsSurvey.Models;assembly=SpiritualGiftsSurvey"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     x:DataType="vm:SendViewModel"
     ios:NavigationPage.HideNavigationBarSeparator="true"
@@ -25,7 +25,7 @@
 
     <ContentPage.Content>
         <Grid RowDefinitions="Auto,*,Auto">
-            
+
             <!-- BACKGROUND -->
             <Image Source="mainpagebackground.jpg"
                    Aspect="Fill"
@@ -36,20 +36,56 @@
 
             <!-- NAVBAR -->
             <c:NavBar Grid.Row="0" 
-                Title="{Binding PageTopic}"
-                ShowLeftButton="False"
-                ShowRightButton="False" />
+                      Title="Reflections"
+                      ShowLeftButton="False"
+                      ShowRightButton="False" />
 
             <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
                               IsBusy="{Binding IsLoading}" 
                               Message="{Binding LoadingText}" />
-            
+
             <!-- MAIN FORM -->
             <ScrollView Grid.Row="1">
                 <VerticalStackLayout 
                     Padding="{OnIdiom Phone='20,20,20,40', Tablet='40,40,40,80'}"
                     Spacing="{OnIdiom Phone=20, Tablet=30}">
 
+                    <!-- Reflections block -->
+                    <Border Stroke="Black"
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="15"
+                            Margin="0,0,0,20">
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reflections}"
+                                             Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:Reflection">
+                                    <Label FontSize="{OnIdiom Phone=14, Tablet=20}"
+                                           TextColor="Black"
+                                           LineBreakMode="WordWrap">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0}. {1}">
+                                                <Binding Path="Number" />
+                                                <Binding Path="Question" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Send Your Results header -->
+                    <Label Text="Send Your Results"
+                           FontSize="{OnIdiom Phone=20, Tablet=28}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,10"
+                           TextColor="Black" />
+
+                    <!-- Entry fields -->
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="{OnIdiom Phone=10, Tablet=20}">
                         <c:UnderlineEntry 
                             Placeholder="{Binding FirstNamePlaceholder}" 
@@ -59,18 +95,17 @@
                             Grid.Column="1" 
                             Placeholder="{Binding LastNamePlaceholder}" 
                             Text="{Binding LastName}" 
-                            Style="{StaticResource EntryStyle}"
-                            BackgroundColor="Transparent" />
+                            Style="{StaticResource EntryStyle}" />
                     </Grid>
+
+                    <Label Text="Optional:" Margin="0,0,0,-20" />
 
                     <c:UnderlineEntry 
                         Placeholder="{Binding EmailPlaceholder}" 
                         Text="{Binding Email}" 
-                        Style="{StaticResource EntryStyle}"
-                        BackgroundColor="Transparent" />
+                        Style="{StaticResource EntryStyle}" />
                 </VerticalStackLayout>
             </ScrollView>
-
 
             <Button 
                 Grid.Row="2"
@@ -83,7 +118,7 @@
                 FontSize="{OnIdiom Phone=24, Tablet=34}"
                 FontAttributes="Bold"
                 CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
-            
+
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

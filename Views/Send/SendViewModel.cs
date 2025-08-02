@@ -4,6 +4,7 @@ using SpiritualGiftsSurvey.Models;
 using SpiritualGiftsSurvey.Routing;
 using SpiritualGiftsSurvey.Services;
 using SpiritualGiftsSurvey.Views.Shared;
+using System.Collections.ObjectModel;
 
 namespace SpiritualGiftsSurvey.Views.Send;
 
@@ -15,6 +16,8 @@ public partial class SendViewModel : BaseViewModel
         IPreferences preferences) : base(aggregatedServices, preferences)
     {
     }
+
+    public ObservableCollection<Reflection> Reflections { get; } = new();
 
     private string _requiredTitle = string.Empty;
     private string _pleaseEnterName = string.Empty;
@@ -28,8 +31,9 @@ public partial class SendViewModel : BaseViewModel
     [ObservableProperty] private string lastNamePlaceholder = string.Empty;
     [ObservableProperty] private string emailPlaceholder = string.Empty;
     [ObservableProperty] private string continueButtonText = string.Empty;
+    [ObservableProperty] private string reflectionsTitle = string.Empty;
 
-    public override void InitAsync()
+    public async override void InitAsync()
     {
         IsLoading = true;
 
@@ -43,6 +47,16 @@ public partial class SendViewModel : BaseViewModel
         _ok = TranslationService.GetString("OK", "OK");
 
         PageTopic = TranslationService.GetString("SendTitle", "Send Your Results");
+        ReflectionsTitle = TranslationService.GetString("ReflectionsTitle", "Reflections");
+
+        Reflections.Clear();
+        var reflections = DatabaseService.GetReflections(TranslationService.CurrentLanguageCode);
+        foreach (var reflection in reflections)
+        {
+            Reflections.Add(reflection);
+        }
+
+        IsLoading = false;
     }
 
     public override void RefreshViewModel()

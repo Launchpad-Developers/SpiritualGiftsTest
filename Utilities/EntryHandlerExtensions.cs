@@ -16,8 +16,15 @@ public static class EntryHandlerExtensions
         {
             if (view is UnderlineEntry)
             {
+                // Transparent background
                 handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-                handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Gray);
+
+                // Force underline
+                handler.PlatformView.BackgroundTintList =
+                    Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Gray);
+
+                // Optional: increase thickness
+                handler.PlatformView.SetPadding(0, 0, 0, 10);
             }
         });
 #elif IOS

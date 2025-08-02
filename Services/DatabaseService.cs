@@ -24,6 +24,7 @@ public interface IDatabaseService
     Task SaveUserGiftResultAsync(SurveyResult result);
     List<SurveyResult> GetAllUserGiftResults();
     Task ClearUserGiftDataAsync();
+    List<Reflection> GetReflections(string languageCode);
 }
 
 public class DatabaseService : IDatabaseService
@@ -283,6 +284,19 @@ public class DatabaseService : IDatabaseService
         conn.DeleteAll<UserGiftScore>();
 
         await Task.CompletedTask;
+    }
+    public List<Reflection> GetReflections(string languageCode)
+    {
+        using var conn = new SQLiteConnection(DatabasePath);
+
+        var translation = conn.Table<Translation>().FirstOrDefault(t => t.Code == languageCode);
+        if (translation == null)
+            return new List<Reflection>();
+
+        return conn.Table<Reflection>()
+                   .Where(r => r.TranslationGuid == translation.TranslationGuid)
+                   .OrderBy(r => r.Number)
+                   .ToList();
     }
 
     private async Task<bool> EnsureDatabaseUpToDate()
