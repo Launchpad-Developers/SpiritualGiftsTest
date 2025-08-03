@@ -67,10 +67,6 @@
                          IsVisible="{Binding IsLoading}"
                          Grid.Row="0" Grid.RowSpan="3" />
 
-            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
-                              IsBusy="{Binding IsLoading}" 
-                              Message="{Binding LoadingText}" />
-
             <ContentView Grid.Row="0" Grid.RowSpan="3"
                          BackgroundColor="#222244"
                          Opacity="0.75"
@@ -123,6 +119,13 @@
                     IsVisible="{Binding ShowInstructable}"
                     VerticalOptions="End"
                     CornerRadius="{OnIdiom Phone=25, Tablet=40}"/>
+            
+            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="3" IsVisible="{Binding IsLoading}" />
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
+            
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

@@ -9,14 +9,11 @@ using System.Collections.ObjectModel;
 namespace SpiritualGiftsSurvey.Views.Send;
 
 [QueryProperty(nameof(UserGiftResult), "UserGiftResult")]
-public partial class SendViewModel : BaseViewModel
+public partial class SendViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
-    public SendViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences) : base(aggregatedServices, preferences)
-    {
-    }
-
     public ObservableCollection<Reflection> Reflections { get; } = new();
 
     private string _requiredTitle = string.Empty;
@@ -33,7 +30,7 @@ public partial class SendViewModel : BaseViewModel
     [ObservableProperty] private string continueButtonText = string.Empty;
     [ObservableProperty] private string reflectionsTitle = string.Empty;
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         IsLoading = true;
         await Task.Yield();
@@ -98,7 +95,7 @@ public partial class SendViewModel : BaseViewModel
 
     partial void OnUserGiftResultChanged(SurveyResult? value)
     {
-        if (value == null || value.Scores == null)
+        if (value?.Scores == null)
             return;
     }
 }

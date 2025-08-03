@@ -17,15 +17,12 @@ namespace SpiritualGiftsSurvey.Views.Survey;
 
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
-public partial class SurveyViewModel : BaseViewModel
+public partial class SurveyViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
     private int _currentPage = 1;
-
-    public SurveyViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences) : base(aggregatedServices, preferences)
-    {
-    }
 
     [ObservableProperty] private bool showConfirmButton;
     [ObservableProperty] private string continueText = string.Empty;
@@ -35,7 +32,7 @@ public partial class SurveyViewModel : BaseViewModel
 
     public ObservableCollection<QuestionViewModel> Questions { get; set; } = new();
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         IsLoading = true;
         await Task.Yield();
@@ -157,17 +154,15 @@ public partial class SurveyViewModel : BaseViewModel
     private async Task FinishAsync()
     {
         IsLoading = true;
+        await Task.Yield();
 
         QuestionViewModel? firstUnanswered = null;
 
         foreach (var q in Questions)
         {
-            if (q.UserValue == UserValue.DidNotAnswer)
-            {
-                q.MarkQuestionUnanswered();
-                if (firstUnanswered == null)
-                    firstUnanswered = q;
-            }
+            if (q.UserValue != UserValue.DidNotAnswer) continue;
+            q.MarkQuestionUnanswered();
+            firstUnanswered ??= q;
         }
 
         if (firstUnanswered != null)

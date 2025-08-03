@@ -10,15 +10,11 @@ using System.Collections.ObjectModel;
 namespace SpiritualGiftsSurvey.Views.Results;
 
 [QueryProperty(nameof(UserGiftResult), "UserGiftResult")]
-public partial class ResultsViewModel : BaseViewModel
+public partial class ResultsViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
-    public ResultsViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences)
-        : base(aggregatedServices, preferences)
-    {
-    }
-
     [ObservableProperty] private SurveyResult? userGiftResult;
     [ObservableProperty] private string continueButtonText = string.Empty;
 
@@ -26,7 +22,7 @@ public partial class ResultsViewModel : BaseViewModel
 
     partial void OnUserGiftResultChanged(SurveyResult? value)
     {
-        if (value == null || value.Scores == null)
+        if (value?.Scores == null)
             return;
 
         if (!value.IsRanked)
@@ -37,7 +33,7 @@ public partial class ResultsViewModel : BaseViewModel
         _ = LoadUserGiftResultAsync(value);
     }
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         IsLoading = true;
         await Task.Yield();
@@ -98,6 +94,7 @@ public partial class ResultsViewModel : BaseViewModel
     private async Task LoadUserGiftResultAsync(SurveyResult value)
     {
         IsLoading = true;
+        await Task.Yield();
 
         try
         {

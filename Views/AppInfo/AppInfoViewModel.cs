@@ -9,18 +9,14 @@ namespace SpiritualGiftsSurvey.Views.AppInfo;
 
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
-public partial class AppInfoViewModel : BaseViewModel
+public partial class AppInfoViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
 
-    private string _developerWebsiteUrl = "https://launchpaddevs.com";
-    private string _cornerstoneWebsiteUrl = "https://www.cornerstoneupc.com/";
-
-    public AppInfoViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences) : base(aggregatedServices, preferences)
-    {
-
-    }
+    private readonly string _developerWebsiteUrl = "https://launchpaddevs.com";
+    private readonly string _cornerstoneWebsiteUrl = "https://www.cornerstoneupc.com/";
 
 
     [ObservableProperty] private string appTitle = string.Empty;
@@ -38,7 +34,7 @@ public partial class AppInfoViewModel : BaseViewModel
     [ObservableProperty] private string databaseVersion = string.Empty;
     [ObservableProperty] private string databaseDate = string.Empty;
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         if (!RequiresInitialzation)
             return;
@@ -85,6 +81,7 @@ public partial class AppInfoViewModel : BaseViewModel
         try
         {
             IsLoading = true;
+            await Task.Yield();
 
             var message = new EmailMessage
             {
@@ -124,6 +121,7 @@ public partial class AppInfoViewModel : BaseViewModel
         try
         {
             IsLoading = true;
+            await Task.Yield();
 
             if (string.IsNullOrWhiteSpace(url))
             {

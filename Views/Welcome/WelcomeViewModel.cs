@@ -25,32 +25,6 @@ public partial class WelcomeViewModel : BaseViewModel
     [ObservableProperty] private string beginText = string.Empty;
     [ObservableProperty] private string confirmText = string.Empty;
 
-    //[RelayCommand]
-    //private async Task OpenInfoAsync()
-    //{
-    //    if (!IsLoading)
-    //    {
-    //        IsLoading = true;
-
-    //        await PerformNavigation(Routes.AppInfoPage);
-
-    //        IsLoading = false;
-    //    }
-    //}
-
-    //[RelayCommand]
-    //private async Task OpenSettingsAsync()
-    //{
-    //    if (!IsLoading)
-    //    {
-    //        IsLoading = true;
-
-    //        await PerformNavigation(Routes.SettingsPage);
-
-    //        IsLoading = false;
-    //    }
-    //}
-
     [RelayCommand]
     private void OnBegin()
     {
@@ -62,7 +36,7 @@ public partial class WelcomeViewModel : BaseViewModel
     {
         await RunWithLoading(async () =>
         {
-            await PerformNavigation(Routes.AppInfoPage);
+            await PerformNavigation(Routes.AppInfoPage, false);
         });
     }
 
@@ -71,7 +45,7 @@ public partial class WelcomeViewModel : BaseViewModel
     {
         await RunWithLoading(async () =>
         {
-            await PerformNavigation(Routes.AppInfoPage);
+            await PerformNavigation(Routes.SettingsPage, false);
         });
     }
 
@@ -91,7 +65,7 @@ public partial class WelcomeViewModel : BaseViewModel
         return;
     }
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         if (!RequiresInitialzation)
             return;
@@ -123,5 +97,4 @@ public partial class WelcomeViewModel : BaseViewModel
 
         IsLoading = false;
     }
-
 }

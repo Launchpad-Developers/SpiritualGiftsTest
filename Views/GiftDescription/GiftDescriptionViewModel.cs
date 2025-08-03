@@ -10,15 +10,11 @@ namespace SpiritualGiftsSurvey.Views.GiftDescription;
 
 [QueryProperty(nameof(Gift), "Gift")]
 [QueryProperty(nameof(UserGiftResult), "UserGiftResult")]
-public partial class GiftDescriptionViewModel : BaseViewModel
+public partial class GiftDescriptionViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
-    public GiftDescriptionViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences)
-        : base(aggregatedServices, preferences)
-    {
-    }
-
     [ObservableProperty] private UserGiftScore? gift;
     [ObservableProperty] private SurveyResult? userGiftResult;
     [ObservableProperty] private string giftName = string.Empty;
@@ -36,7 +32,7 @@ public partial class GiftDescriptionViewModel : BaseViewModel
         _ = LoadGiftDetailsAsync(value);
     }
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         IsLoading = true;
         await Task.Yield();
@@ -79,9 +75,9 @@ public partial class GiftDescriptionViewModel : BaseViewModel
         IsLoading = true;
         await Task.Yield();
 
-        var gift = value.GiftName.ToGiftEnum();
+        var gifting = value.GiftName.ToGiftEnum();
         var verses = await DatabaseService.GetVersesAsync(value.GiftDescriptionGuid);
-        var desc = DatabaseService.GetGiftDescription(TranslationService.CurrentLanguageCode, gift);
+        var desc = DatabaseService.GetGiftDescription(TranslationService.CurrentLanguageCode, gifting);
 
         GiftName = desc?.Translation ?? value.Gift.ToString();
         GiftDescriptionText = desc?.Description ?? "No description found";

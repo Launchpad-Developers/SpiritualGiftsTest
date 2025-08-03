@@ -40,10 +40,6 @@
                       ShowLeftButton="False"
                       ShowRightButton="False" />
 
-            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
-                              IsBusy="{Binding IsLoading}" 
-                              Message="{Binding LoadingText}" />
-
             <!-- MAIN FORM -->
             <ScrollView Grid.Row="1">
                 <VerticalStackLayout 
@@ -118,6 +114,12 @@
                 FontSize="{OnIdiom Phone=24, Tablet=34}"
                 FontAttributes="Bold"
                 CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
+
+            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="3" IsVisible="{Binding IsLoading}" />
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
 
         </Grid>
     </ContentPage.Content>

@@ -23,7 +23,7 @@
                 HorizontalOptions="Fill"
                 Aspect="Fill"
                 Grid.RowSpan="2"
-                   IsVisible="{OnPlatform Android=true, iOS=false}" />
+                IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
             <c:NavBar 
@@ -37,10 +37,6 @@
                 RightIcon="{StaticResource BackArrowRight}"
                 LeftCommandParameter="{x:Static r:Routes.WelcomePage}"
                 RightCommandParameter="{x:Static r:Routes.WelcomePage}" />
-
-            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
-                              IsBusy="{Binding IsLoading}" 
-                              Message="{Binding LoadingText}" />
             
             <!-- MAIN CONTENT -->
             <ScrollView Grid.Row="1">
@@ -129,6 +125,14 @@
 
                 </StackLayout>
             </ScrollView>
+
+
+            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="2" IsVisible="{Binding IsLoading}" />
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
+            
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

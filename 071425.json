@@ -1,0 +1,974 @@
+{
+  "Database": {
+    "Date": "2025-07-14",
+    "Version": 37,
+    "Author": "Launchpad Developers",
+    "Environment": "Development",
+    "Notes": "Master list of Spiritual Gifts questions with GUIDs and mappings."
+  },
+  "Translations": [
+    {
+      "Code": "EN",
+	  "TranslationGuid": "e4f9c67a-74a6-4c70-9e95-bdcb44da7b52",
+	  "FlowDirection": "LTR",
+	  "AppStrings": [
+		{ "Key": "InvalidEmailTitle", "Value": "Invalid Email" },
+		{ "Key": "InvalidEmailMessage", "Value": "Please enter a valid email address." },
+		{ "Key": "Launchpad", "Value": "Launchpad Developers" },
+		{ "Key": "ScrollTo", "Value": "Scroll to" },
+		{ "Key": "Navigate", "Value": "navigate" },
+		{ "Key": "CreatedBy", "Value": "Created By" },
+		{ "Key": "RemoveEmailTitle", "Value": "Remove Email" },
+		{ "Key": "FirstName", "Value": "First Name" },
+		{ "Key": "LastName", "Value": "Last Name" },
+		{ "Key": "Email", "Value": "Email" },
+		{ "Key": "RequiredTitle", "Value": "Required" },
+		{ "Key": "PleaseEnterName", "Value": "Please enter your name." },
+		{ "Key": "RemoveEmailMessage", "Value": "Remove {0} from the reporting list?" },
+		{ "Key": "CreatedByDetail", "Value": "Based on the Wagner Modified Houts Questionnaire" },
+		{ "Key": "DevelopedBy", "Value": "Developed By" },
+		{ "Key": "DeveloperName", "Value": "William Smith" },
+		{ "Key": "DeveloperEmail", "Value": "william@launchpaddevs.com" },
+		{ "Key": "CompanyWebsite", "Value": "https://launchpaddevs.com" },
+		{ "Key": "AppVersionLabel", "Value": "App Version" },
+		{ "Key": "DatabaseLabel", "Value": "Database Info" },
+		{ "Key": "GotIt", "Value": "Got it!" },
+		{ "Key": "Continue", "Value": "Continue" },
+		{ "Key": "NotAtAll", "Value": "Not at all" },
+		{ "Key": "Little", "Value": "Little" },
+		{ "Key": "Some", "Value": "Some" },
+		{ "Key": "Much", "Value": "Much" },
+		{ "Key": "TapTo", "Value": "Tap to" },
+		{ "Key": "Quit", "Value": "Quit" },
+		{ "Key": "Yes", "Value": "Yes" },
+		{ "Key": "No", "Value": "No" },
+		{ "Key": "Begin", "Value": "Begin" },
+		{ "Key": "AreYouSure", "Value": "Are you sure?" },
+		{ "Key": "Loading", "Value": "Loading..." },
+		{ "Key": "Language", "Value": "Language" },
+		{ "Key": "Of", "Value": "of" },
+		{ "Key": "Question", "Value": "Question" },
+		{ "Key": "AppTitle", "Value": "Spiritual Gifts Survey" },
+		{ "Key": "Settings", "Value": "Settings" },
+		{ "Key": "Start", "Value": "Start" },
+		{ "Key": "ReportingEmailsTitle", "Value": "Reporting Emails" },
+		{ "Key": "AddReportingEmailPlaceholder", "Value": "Add reporting email" },
+		{ "Key": "AppInfo", "Value": "App Info" },
+		{ "Key": "RestoreDatabase", "Value": "Restore Database" },
+		{ "Key": "ClearData", "Value": "Clear Data" },
+		{ "Key": "DevelopedFor", "Value": "Developed For" },
+		{ "Key": "CornerstoneUpc", "Value": "Cornerstone UPC" },
+		{ "Key": "Scriptures", "Value": "Scriptures" },
+		{ "Key": "Description", "Value": "Description" },
+		{ "Key": "OK", "Value": "OK" },
+		{ "Key": "SurveyResultsTitle", "Value": "Survey Results" },
+		{ "Key": "TheGiftOf", "Value": "The gift of {0}" },
+		{ "Key": "RestoreCompleteTitle", "Value": "Restore Complete" },
+		{ "Key": "RestoreCompleteMessage", "Value": "Your database has been restored. Please restart the app." },
+		{ "Key": "DataClearedTitle", "Value": "Data Cleared" },
+		{ "Key": "DataClearedMessage", "Value": "Your data has been erased." },
+		{ "Key": "RestoreFailedTitle", "Value": "Restore Failed" },
+		{ "Key": "RestoreFailedMessage", "Value": "There was an error restoring the database." },
+		{ "Key": "CornerstoneWebsite", "Value": "https://www.cornerstoneupc.com/" },
+		{ "Key": "RestoreDatabaseInfo", "Value": "This action will restore the local database to it's most current form. Proceed?" },
+		{ "Key": "ClearDataWarning", "Value": "WARNING: This will clear all stored results from this device. Are you sure?" },
+		{ "Key": "Instructions", "Value": "Read each statement and mark how true it is for you.{0}(Much, Some, Little, Not at All){0}{0}When finished, your answers will reveal your top scoring gifts. {0}{0}Reflect on them, read the Bible passages, pray, and talk with others to help confirm how you can put your gifts to work in the Kingdom of God!" },
+		{ "Key": "Prophecy", "Value": "Prophecy" },
+		{ "Key": "Pastor", "Value": "Pastor" },
+		{ "Key": "Teaching", "Value": "Teaching" },
+		{ "Key": "Wisdom", "Value": "Wisdom" },
+		{ "Key": "Knowledge", "Value": "Knowledge" },
+		{ "Key": "Exhortation", "Value": "Exhortation" },
+		{ "Key": "Discernment", "Value": "Discernment" },
+		{ "Key": "Giving", "Value": "Giving" },
+		{ "Key": "Helps", "Value": "Helps" },
+		{ "Key": "Mercy", "Value": "Mercy" },
+		{ "Key": "Missionary", "Value": "Missionary" },
+		{ "Key": "Evangelist", "Value": "Evangelist" },
+		{ "Key": "Hospitality", "Value": "Hospitality" },
+		{ "Key": "Faith", "Value": "Faith" },
+		{ "Key": "Leadership", "Value": "Leadership" },
+		{ "Key": "Administration", "Value": "Administration" },
+		{ "Key": "Miracles", "Value": "Miracles" },
+		{ "Key": "Healing", "Value": "Healing" },
+		{ "Key": "Tongues", "Value": "Tongues" },
+		{ "Key": "InterpretationOfTongues", "Value": "Interpretation of Tongues" },
+		{ "Key": "Intercession", "Value": "Intercession" },
+		{ "Key": "Service", "Value": "Service" }
+	  ],
+      "LanguageOptions": [
+        {
+		  "LanguageOptionGuid": "d8c6f5c7-2a4b-4f8f-9c1a-5c93f1a1b2c3",
+          "CodeOption": "EN",
+          "DisplayName": "English"
+        },
+        {
+		  "LanguageOptionGuid": "3e7a9b8f-6c4d-4d2e-8a1b-7f2c4d5e6f7a",
+          "CodeOption": "ES",
+          "DisplayName": "Spanish"
+        }
+      ],
+      "Questions": [
+		{
+		  "Gift": "Prophecy",
+		  "QuestionGuid": "baf110c3-1889-4d93-930b-75279d90fab6",
+		  "QuestionText": "I have a desire to speak direct messages from God that edify, exhort, or comfort others."
+		},
+		{
+		  "Gift": "Prophecy",
+		  "QuestionGuid": "926c7e30-533b-4afe-ab52-334d940f3db5",
+		  "QuestionText": "Others have told me that I have communicated timely and urgent messages which have come directly from the Lord."
+		},
+		{
+		  "Gift": "Prophecy",
+		  "QuestionGuid": "a30db74c-520d-4550-add2-ca8de223d727",
+		  "QuestionText": "I have applied spiritual truth effectively to situations in my own life."
+		},
+		{
+		  "Gift": "Prophecy",
+		  "QuestionGuid": "8cffe4a2-b7bc-4645-9d86-ba3b090699f4",
+		  "QuestionText": "Through God, I have revealed specific things which will happen in the future."
+		},
+		{
+		  "Gift": "Prophecy",
+		  "QuestionGuid": "f42b4b37-12ba-49f2-a473-89d0f5f08d18",
+		  "QuestionText": "I have verbally encouraged the wavering, the troubled or the discouraged."
+		},
+		{
+		  "Gift": "Pastor",
+		  "QuestionGuid": "9f12cb70-9554-4df8-a0b1-021b241a4027",
+		  "QuestionText": "I have enjoyed relating to a certain group of people over a long period of time, sharing personally in their successes and failures."
+		},
+		{
+		  "Gift": "Pastor",
+		  "QuestionGuid": "ffb41036-9493-47d6-a76c-26c90a19108a",
+		  "QuestionText": "I have enjoyed assuming responsibility for the spiritual well-being of a particular group of Christians."
+		},
+		{
+		  "Gift": "Pastor",
+		  "QuestionGuid": "2c481f79-2adf-4947-bb9a-c75edad7bf66",
+		  "QuestionText": "I feel unafraid of giving spiritual guidance and direction to a group of Christians."
+		},
+		{
+		  "Gift": "Pastor",
+		  "QuestionGuid": "5956466e-5550-4b14-89b1-10a5a2ace230",
+		  "QuestionText": "I have helped fellow believers by guiding them to relevant portions of the Bible and praying with them."
+		},
+		{
+		  "Gift": "Pastor",
+		  "QuestionGuid": "21c04fc0-ce15-4444-acd5-6096c40c5bad",
+		  "QuestionText": "People have told me that I have helped them to be restored to the Christian community."
+		},
+		{
+		  "Gift": "Teaching",
+		  "QuestionGuid": "8f5e1a6b-3e42-42d9-85ad-14553e19d2a1",
+		  "QuestionText": "People have told me that I have helped them learn some biblical truth in a meaningful way."
+		},
+		{
+		  "Gift": "Teaching",
+		  "QuestionGuid": "a28e01b3-64bb-4e26-8d4b-978ccdb2f983",
+		  "QuestionText": "I can devote considerable time to learning new biblical truths in order to communicate them to others."
+		},
+		{
+		  "Gift": "Teaching",
+		  "QuestionGuid": "b3d0fd79-40a1-4377-8b38-4ab7353bfe8c",
+		  "QuestionText": "I feel I can communicate Biblical truths to others and see resulting changes in knowledge, attitudes, values, or conduct."
+		},
+		{
+		  "Gift": "Teaching",
+		  "QuestionGuid": "cd69e58c-ec5e-49a8-b1e7-9c332856f4e7",
+		  "QuestionText": "Some people indicate that I have perceived and applied Biblical truth to the specified needs of fellow believers."
+		},
+		{
+		  "Gift": "Teaching",
+		  "QuestionGuid": "dbbfbc50-7403-44b7-b02c-09d2b2325f4a",
+		  "QuestionText": "I study and read quite a bit in order to learn new Biblical truths."
+		},
+		{
+		  "Gift": "Wisdom",
+		  "QuestionGuid": "e9b82d42-8750-4df9-9b72-8b2109ec0d62",
+		  "QuestionText": "I have applied spiritual truth effectively to situations in my own life."
+		},
+		{
+		  "Gift": "Wisdom",
+		  "QuestionGuid": "fc098a02-81e4-4d80-bde3-205a92d0a8b6",
+		  "QuestionText": "I can intuitively arrive at solutions to fairly complicated problems."
+		},
+		{
+		  "Gift": "Wisdom",
+		  "QuestionGuid": "014dd9ba-33bd-41f7-95d8-8c3ebdf1ab71",
+		  "QuestionText": "I have had insights into spiritual truth which others have said helped bring them closer to God."
+		},
+		{
+		  "Gift": "Wisdom",
+		  "QuestionGuid": "1c9db17b-4c10-44da-96ad-88e6ef8a9f9e",
+		  "QuestionText": "When a person has a problem I can frequently guide them to the best Biblical solution."
+		},
+		{
+		  "Gift": "Wisdom",
+		  "QuestionGuid": "283e56cd-48b1-4a19-8499-c24436c72c61",
+		  "QuestionText": "Through study or experience, I have discerned major strategies or techniques God seems to use in furthering His kingdom."
+		},
+		{
+		  "Gift": "Knowledge",
+		  "QuestionGuid": "f0e0f417-8b7b-4396-8757-cb2e67d6b812",
+		  "QuestionText": "Others have told me that I have helped them distinguish key and important facts of scripture."
+		},
+		{
+		  "Gift": "Knowledge",
+		  "QuestionGuid": "a1cf6637-9359-4bfc-9600-674fbec6ff31",
+		  "QuestionText": "I have had insights into spiritual truth which others have said helped bring them closer to God."
+		},
+		{
+		  "Gift": "Knowledge",
+		  "QuestionGuid": "5e29e35d-1347-4b3c-90be-fc4fcf6dc02e",
+		  "QuestionText": "Through study or experience, I have discerned major strategies or techniques God seems to use in furthering His kingdom."
+		},
+		{
+		  "Gift": "Knowledge",
+		  "QuestionGuid": "ca79b5d8-c1c8-47f0-8b6f-3b8bfc8d7e16",
+		  "QuestionText": "I have helped fellow believers by guiding them to relevant portions of the Bible and praying with them."
+		},
+		{
+		  "Gift": "Knowledge",
+		  "QuestionGuid": "f3f1c802-bd2a-4a0e-b843-ff8f246d1063",
+		  "QuestionText": "I can tell whether a person speaking in tongues is genuine."
+		},
+		{
+		  "Gift": "Exhortation",
+		  "QuestionGuid": "95f65e38-2b53-49a5-8d20-b628d8d21e8a",
+		  "QuestionText": "I have verbally encouraged the wavering, the troubled or the discouraged."
+		},
+		{
+		  "Gift": "Exhortation",
+		  "QuestionGuid": "d44b78c1-b257-4159-8171-58aab6fa4106",
+		  "QuestionText": "I enjoy praying for sick people because I know that many of them will be healed as a result."
+		},
+		{
+		  "Gift": "Exhortation",
+		  "QuestionGuid": "f14be462-96c4-4efb-b3e4-72621b5f7ee3",
+		  "QuestionText": "When people come to our home, they indicate that they ‘feel at home’ with us."
+		},
+		{
+		  "Gift": "Exhortation",
+		  "QuestionGuid": "e7ecb47e-7dc3-4963-b44b-f258df0a5c38",
+		  "QuestionText": "I have a desire to effectively counsel the perplexed, the guilty or the addicted."
+		},
+		{
+		  "Gift": "Exhortation",
+		  "QuestionGuid": "3ef6be95-905d-4c7b-8b91-8c376d90c68d",
+		  "QuestionText": "I have urged others to seek a Biblical solution to their affliction or suffering."
+		},
+		{
+		  "Gift": "Discernment",
+		  "QuestionGuid": "54ab9f2d-c60d-4f17-a1ba-36298399a9f7",
+		  "QuestionText": "Others in the church have noted that I was able to see through phoniness before it was evident to other people."
+		},
+		{
+		  "Gift": "Discernment",
+		  "QuestionGuid": "7616a742-6a97-4c6e-aab8-7821346816dc",
+		  "QuestionText": "I can tell with a fairly high degree of assurance when a person is afflicted by an evil spirit."
+		},
+		{
+		  "Gift": "Discernment",
+		  "QuestionGuid": "c444b5a0-0451-4e1d-9c8b-0cc69c2b3528",
+		  "QuestionText": "I can recognize whether a person’s teaching is from God, from Satan, or of human origin."
+		},
+		{
+		  "Gift": "Discernment",
+		  "QuestionGuid": "8635de07-d22f-40a7-b999-403cbec0e591",
+		  "QuestionText": "I can tell whether a person speaking in tongues is genuine."
+		},
+		{
+		  "Gift": "Discernment",
+		  "QuestionGuid": "1dce1604-7b47-47a2-8b54-c9c0f517e4b0",
+		  "QuestionText": "I can intuitively arrive at solutions to fairly complicated problems."
+		},
+		{
+		  "Gift": "Giving",
+		  "QuestionGuid": "3f2b09e2-5f19-44d1-84a3-9b5eb741f0eb",
+		  "QuestionText": "I find I manage money well in order to give liberally to the Lord’s work."
+		},
+		{
+		  "Gift": "Giving",
+		  "QuestionGuid": "6708761f-6b16-4a29-826e-91eacb5dba48",
+		  "QuestionText": "My giving records show that I give considerably more than 10 percent of my income to the Lord’s work."
+		},
+		{
+		  "Gift": "Giving",
+		  "QuestionGuid": "bcf4e80e-d6da-48e0-8b2f-6f2f33f6db9c",
+		  "QuestionText": "When I am moved by an appeal to give to God’s work, I usually find the money that I need to do it."
+		},
+		{
+		  "Gift": "Giving",
+		  "QuestionGuid": "193eea0e-b36a-45d2-8a50-9e56ad10ad48",
+		  "QuestionText": "I am so confident that God will meet my needs that I give to Him sacrificially and consistently."
+		},
+		{
+		  "Gift": "Giving",
+		  "QuestionGuid": "f31f1465-d2de-462e-86de-d6e02ac71e51",
+		  "QuestionText": "I have been willing to maintain a lower standard of living in order to benefit God’s work."
+		},
+		{
+		  "Gift": "Helps",
+		  "QuestionGuid": "f94e45ec-1d7d-4427-ae8d-13cb61be15cb",
+		  "QuestionText": "I have assisted Christian leaders to relieve them for their essential job."
+		},
+		{
+		  "Gift": "Helps",
+		  "QuestionGuid": "eabdb6bb-54c9-4cf0-8baf-c65e67f66a40",
+		  "QuestionText": "Other people have told me that I helped them become more effective in their ministries."
+		},
+		{
+		  "Gift": "Helps",
+		  "QuestionGuid": "cd1c57c7-7cb9-46e4-9f23-4a808bfc4b65",
+		  "QuestionText": "I have enjoyed doing routine tasks that led to more effective ministry by others."
+		},
+		{
+		  "Gift": "Helps",
+		  "QuestionGuid": "8f195b35-97b3-49d1-8718-dc458fbf1f18",
+		  "QuestionText": "I don’t have many special skills, but I do what needs to be done around the church."
+		},
+		{
+		  "Gift": "Helps",
+		  "QuestionGuid": "d36ac8ab-7e70-4528-95a4-94a64fb39899",
+		  "QuestionText": "When I serve the Lord, I really don’t care who gets the credit."
+		},
+		{
+		  "Gift": "Mercy",
+		  "QuestionGuid": "ab3e4904-9f42-42f7-b324-b9f70f9137f1",
+		  "QuestionText": "I have a desire to work with those who have physical or mental problems, to alleviate their suffering."
+		},
+		{
+		  "Gift": "Mercy",
+		  "QuestionGuid": "e08eb526-6db8-4e99-9814-cbba7d685112",
+		  "QuestionText": "I have cared for others when they have had material or physical needs."
+		},
+		{
+		  "Gift": "Mercy",
+		  "QuestionGuid": "f7a68ce1-3ddf-41c7-bb16-f7c88d10d8c8",
+		  "QuestionText": "I enjoy visiting in hospitals and/or retirement homes, and feel I do well in such a ministry."
+		},
+		{
+		  "Gift": "Mercy",
+		  "QuestionGuid": "364e5f19-5b12-4f4b-b748-3621c378c27a",
+		  "QuestionText": "People come to me in their afflictions or suffering and have told me that they have been helped, relieved and healed."
+		},
+		{
+		  "Gift": "Mercy",
+		  "QuestionGuid": "109f6458-9204-4a13-8535-b9789bfb4479",
+		  "QuestionText": "I would enjoy spending time with a lonely, shut-in person or someone in prison."
+		},
+		{
+		  "Gift": "Missionary",
+		  "QuestionGuid": "a09118b3-230b-409e-9e6c-0c72a2dff7ed",
+		  "QuestionText": "I feel comfortable relating to people of other cultural backgrounds, and they seem to accept me."
+		},
+		{
+		  "Gift": "Missionary",
+		  "QuestionGuid": "9e327a2d-60c5-451f-8e6a-6c7e9b38c55b",
+		  "QuestionText": "I feel I could learn another language well in order to minister to those in a different culture."
+		},
+		{
+		  "Gift": "Missionary",
+		  "QuestionGuid": "0c7736d2-46e5-44f2-8b87-9c57b8334adb",
+		  "QuestionText": "People of a different race or culture have been attracted to me, and we have related well."
+		},
+		{
+		  "Gift": "Missionary",
+		  "QuestionGuid": "72fbba4a-cbbc-4e9c-a5ad-5e84b77c3b94",
+		  "QuestionText": "I would be willing to leave comfortable surroundings if it would enable me to share Christ with more people."
+		},
+		{
+		  "Gift": "Missionary",
+		  "QuestionGuid": "f1505b0a-1e9b-4b21-b729-8e68ebc5cb1e",
+		  "QuestionText": "More than most, I have had a strong desire to see people of other countries won to the Lord."
+		},
+		{
+		  "Gift": "Evangelist",
+		  "QuestionGuid": "eb9f8c7e-370f-46aa-b8da-b7c9b8b9b579",
+		  "QuestionText": "I have led others to a decision for salvation through faith in Christ."
+		},
+		{
+		  "Gift": "Evangelist",
+		  "QuestionGuid": "22e07b44-94f8-4e5f-b234-b1cb1d0f1b20",
+		  "QuestionText": "I have shared joyfully how Christ has brought me to Himself in a way that is meaningful to non-believers."
+		},
+		{
+		  "Gift": "Evangelist",
+		  "QuestionGuid": "54f6d648-1f02-42b5-931b-5803933aa315",
+		  "QuestionText": "Non-Christians have noted that they feel comfortable when they are around me, and that I have a positive effect on them toward developing a faith in Christ."
+		},
+		{
+		  "Gift": "Evangelist",
+		  "QuestionGuid": "10d2e62f-49b2-4c59-b6f2-16786c18e85f",
+		  "QuestionText": "I get frustrated when others don’t seem to share their faith with unbelievers as much as I do."
+		},
+		{
+		  "Gift": "Evangelist",
+		  "QuestionGuid": "9989a2ab-5b46-4aa0-bb7d-5bcb6b9e7f62",
+		  "QuestionText": "I am attracted to non-believers because of my desire to win them to Christ."
+		},
+		{
+		  "Gift": "Hospitality",
+		  "QuestionGuid": "e3b2d35c-44c0-44de-a8a0-47a4875c4b84",
+		  "QuestionText": "My home is always open to people passing through who need a place to stay."
+		},
+		{
+		  "Gift": "Hospitality",
+		  "QuestionGuid": "51b41d89-0118-4bc2-8995-bf592effdb8b",
+		  "QuestionText": "When people come to our home, they indicate that they 'feel at home' with us."
+		},
+		{
+		  "Gift": "Hospitality",
+		  "QuestionGuid": "f77c1b56-195e-4ee1-b6df-25b2d8edc9e4",
+		  "QuestionText": "Others have mentioned to me that I am a very hospitable person."
+		},
+		{
+		  "Gift": "Hospitality",
+		  "QuestionGuid": "d97a4f9b-1956-453e-9a90-24e4e237bba1",
+		  "QuestionText": "I have desired to make my home available to those in the Lord’s service whenever needed."
+		},
+		{
+		  "Gift": "Hospitality",
+		  "QuestionGuid": "d61a2a92-8a23-4f91-b19a-409775888b3a",
+		  "QuestionText": "I have enjoyed relating to a certain group of people over a long period of time, sharing personally in their successes and failures."
+		},
+		{
+		  "Gift": "Faith",
+		  "QuestionGuid": "27c93fa5-9c18-4c4e-92f2-d881d8d3ffb2",
+		  "QuestionText": "I have believed God for the impossible and have seen it happen in a tangible way."
+		},
+		{
+		  "Gift": "Faith",
+		  "QuestionGuid": "5e1a79cd-2b6d-4ad2-8a6c-b8e3e6a4f52b",
+		  "QuestionText": "Other people have told me that I had faith to accomplish what seemed impossible to them."
+		},
+		{
+		  "Gift": "Faith",
+		  "QuestionGuid": "998af6df-2b96-4f06-95bd-3e64d33d20c7",
+		  "QuestionText": "God regularly seems to do impossible things through my life."
+		},
+		{
+		  "Gift": "Faith",
+		  "QuestionGuid": "8bc5fd74-9f9d-48b3-9fdf-95f5c89f5db1",
+		  "QuestionText": "There have been times when I have felt sure I knew God’s specific will for the future growth of His work, even when others did not."
+		},
+		{
+		  "Gift": "Faith",
+		  "QuestionGuid": "4df3199c-1c21-4a4b-8d8e-527d82ec3a54",
+		  "QuestionText": "I have felt an unusual presence of God and personal confidence when important decisions needed to be made."
+		},
+		{
+		  "Gift": "Leadership",
+		  "QuestionGuid": "e0c5fa3e-20c7-4f3b-8d70-53fb1dbf1a8d",
+		  "QuestionText": "When in a group, I am often the one others often look to for vision and direction."
+		},
+		{
+		  "Gift": "Leadership",
+		  "QuestionGuid": "31d198ad-426b-4f8c-87ee-d6fc5a0d8e1a",
+		  "QuestionText": "Other Christians have followed my leadership because they believed in me."
+		},
+		{
+		  "Gift": "Leadership",
+		  "QuestionGuid": "fb0a4923-672d-466f-93e2-cf5eb33f3a0a",
+		  "QuestionText": "When I join a group, others seem to back off and expect me to take the leadership."
+		},
+		{
+		  "Gift": "Leadership",
+		  "QuestionGuid": "af1bbcac-3af6-4f9d-8c7e-4b5c3c3ee4b8",
+		  "QuestionText": "Some people indicate that I have perceived and applied Biblical truth to the specified needs of fellow believers."
+		},
+		{
+		  "Gift": "Leadership",
+		  "QuestionGuid": "eab0b1f5-57b3-42d2-9346-2b457769278e",
+		  "QuestionText": "I have enjoyed bearing the responsibility for the success of a particular task within my church."
+		},
+		{
+		  "Gift": "Administration",
+		  "QuestionGuid": "d973a9b6-8657-4426-9f32-bbd3766b3e2b",
+		  "QuestionText": "When a group I am in is lacking organization, I tend to step in and fill the gap."
+		},
+		{
+		  "Gift": "Administration",
+		  "QuestionGuid": "6213b563-3848-43d1-9cc1-b26d4f92f3a2",
+		  "QuestionText": "I enjoy the details of organizing ideas, people, resources and time for more effective ministry."
+		},
+		{
+		  "Gift": "Administration",
+		  "QuestionGuid": "61adf28c-c60b-470f-b9c0-137a91f31c67",
+		  "QuestionText": "I have been able to make effective and efficient plans for accomplishing the goals of a group."
+		},
+		{
+		  "Gift": "Administration",
+		  "QuestionGuid": "75c95ba2-ef18-42a7-9e50-4d84f8d4b95e",
+		  "QuestionText": "I am able to give directions to others without using persuasion to get them to accomplish a task."
+		},
+		{
+		  "Gift": "Administration",
+		  "QuestionGuid": "04e3b66c-2cb9-47e7-933b-4316f6ba5c37",
+		  "QuestionText": "When I am in charge, things seem to run smoothly."
+		},
+		{
+		  "Gift": "Miracles",
+		  "QuestionGuid": "c9bfbec2-6e5f-4a3e-b1ab-bc1f302e0c10",
+		  "QuestionText": "Others can point to specific instances where my prayers have resulted in visible miracles."
+		},
+		{
+		  "Gift": "Miracles",
+		  "QuestionGuid": "a334e6a7-1921-4ec6-85ea-59f68188e9c4",
+		  "QuestionText": "God has used me personally to perform supernatural signs and wonders."
+		},
+		{
+		  "Gift": "Miracles",
+		  "QuestionGuid": "e2e6b1b2-6591-4c74-a1f2-63d7605e6e54",
+		  "QuestionText": "I have believed God for the impossible and have seen it happen in a tangible way."
+		},
+		{
+		  "Gift": "Miracles",
+		  "QuestionGuid": "3a96b6c7-1240-4f7c-9b2c-0e3e5b07cda1",
+		  "QuestionText": "In the name of the Lord, I have been able to recover sight to the blind."
+		},
+		{
+		  "Gift": "Miracles",
+		  "QuestionGuid": "9f2e622f-9a7a-47d2-b7b3-43b30e5b9ef7",
+		  "QuestionText": "People have told me that I was God’s instrument which brought supernatural changes in lives or circumstances."
+		},
+		{
+		  "Gift": "Healing",
+		  "QuestionGuid": "a1b2c3d4-5678-4ef0-9abc-1234567890ab",
+		  "QuestionText": "Others have told me that God healed them of an emotional problem when I ministered to them."
+		},
+		{
+		  "Gift": "Healing",
+		  "QuestionGuid": "b2c3d4e5-6789-4f01-abcd-2345678901bc",
+		  "QuestionText": "I enjoy praying for sick people because I know that many of them will be healed as a result."
+		},
+		{
+		  "Gift": "Healing",
+		  "QuestionGuid": "c3d4e5f6-7890-4f12-bcde-3456789012cd",
+		  "QuestionText": "When I pray for the sick, either I or they feel sensations of tingling or warmth."
+		},
+		{
+		  "Gift": "Healing",
+		  "QuestionGuid": "d4e5f6a7-8901-4f23-cdef-4567890123de",
+		  "QuestionText": "When I pray for others and physical healing has actually occurred."
+		},
+		{
+		  "Gift": "Healing",
+		  "QuestionGuid": "e5f6a7a8-9012-4f34-def0-5678901234ef",
+		  "QuestionText": "In the name of the Lord, I have been used in curing diseases instantaneously."
+		},
+		{
+		  "Gift": "Tongues",
+		  "QuestionGuid": "f6a7a8b9-0123-4f45-ef01-6789012345f0",
+		  "QuestionText": "I have spoken in tongues."
+		},
+		{
+		  "Gift": "Tongues",
+		  "QuestionGuid": "a7b8a9b0-1234-4f56-f012-789012345601",
+		  "QuestionText": "Sometimes when a person speaks in tongues, I get an idea about what God is saying."
+		},
+		{
+		  "Gift": "Tongues",
+		  "QuestionGuid": "b8a9b0c1-2345-4f67-0123-890123456712",
+		  "QuestionText": "I have spoken an immediate message of God to His people in a language that I have never learned."
+		},
+		{
+		  "Gift": "Tongues",
+		  "QuestionGuid": "a9b0c1d2-3456-4f78-1234-901234567823",
+		  "QuestionText": "When I give a public message in tongues, I expect it to be interpreted."
+		},
+		{
+		  "Gift": "Tongues",
+		  "QuestionGuid": "b0c1d2e3-4567-4f89-2345-012345678934",
+		  "QuestionText": "When I speak in tongues, I believe it is edifying to the Lord’s body."
+		},
+		{
+		  "Gift": "InterpretationOfTongues",
+		  "QuestionGuid": "c1d2e3f4-5678-4f90-3456-123456789045",
+		  "QuestionText": "Sometimes when a person speaks in tongues, I get an idea about what God is saying."
+		},
+		{
+		  "Gift": "InterpretationOfTongues",
+		  "QuestionGuid": "d2e3f4a5-6789-4fa1-4567-234567890156",
+		  "QuestionText": "I have interpreted tongues with the result that the body of Christ was edified, exhorted, or comforted."
+		},
+		{
+		  "Gift": "InterpretationOfTongues",
+		  "QuestionGuid": "e3f4a5b6-7890-4fb2-5678-345678901267",
+		  "QuestionText": "I have interpreted tongues in a way that seemed to bless others."
+		},
+		{
+		  "Gift": "InterpretationOfTongues",
+		  "QuestionGuid": "f4a5b6c7-8901-4fc3-6789-456789012378",
+		  "QuestionText": "I have interpreted tongues in such a way that the message appeared to be directly from God."
+		},
+		{
+		  "Gift": "InterpretationOfTongues",
+		  "QuestionGuid": "a5b6c7d8-9012-4fd4-7890-567890123489",
+		  "QuestionText": "I have prayed that I may interpret if someone begins speaking in tongues."
+		},
+		{
+		  "Gift": "Intercession",
+		  "QuestionGuid": "b6c7d8e9-0123-4fe5-8901-678901234590",
+		  "QuestionText": "I spend at least an hour a day in prayer."
+		},
+		{
+		  "Gift": "Intercession",
+		  "QuestionGuid": "c7d8e9a0-1234-4ff6-9012-789012345601",
+		  "QuestionText": "When I hear a prayer request, I pray for that need for several days at least."
+		},
+		{
+		  "Gift": "Intercession",
+		  "QuestionGuid": "d8e9a0b1-2345-4007-0123-890123456712",
+		  "QuestionText": "Intercessory prayer is one of my favourite ways of spending time."
+		},
+		{
+		  "Gift": "Intercession",
+		  "QuestionGuid": "e9a0b1c2-3456-4118-1234-901234567823",
+		  "QuestionText": "Others have told me that my prayers for them have been answered in tangible ways."
+		},
+		{
+		  "Gift": "Intercession",
+		  "QuestionGuid": "a0b1c2d3-4567-4229-2345-012345678934",
+		  "QuestionText": "When I pray, God frequently speaks to me, and I recognize His voice."
+		},
+		{
+		  "Gift": "Service",
+		  "QuestionGuid": "b1c2d3e4-5678-433a-3456-123456789045",
+		  "QuestionText": "I enjoy being called upon to do special jobs around the church."
+		},
+		{
+		  "Gift": "Service",
+		  "QuestionGuid": "c2d3e4f5-6789-444b-4567-234567890156",
+		  "QuestionText": "I sometimes feel that I know exactly what God wants me to do in ministry at a specific point in time."
+		},
+		{
+		  "Gift": "Service",
+		  "QuestionGuid": "d3e4f5a6-7890-455c-5678-345678901267",
+		  "QuestionText": "I prefer being active and doing something rather than just sitting around talking or reading or listening to a speaker."
+		},
+		{
+		  "Gift": "Service",
+		  "QuestionGuid": "e4f5a6b7-8901-466d-6789-456789012378",
+		  "QuestionText": "I respond cheerfully when asked to do a job, even if it seems menial."
+		},
+		{
+		  "Gift": "Service",
+		  "QuestionGuid": "f5a6b7c8-9012-477e-7890-567890123489",
+		  "QuestionText": "I enjoy being called upon to do special jobs around the church."
+		}
+      ],
+      "GiftDescriptions": [
+		{
+		  "Gift": "Pastor",
+		  "Translation": "Pastor",
+		  "GiftDescriptionGuid": "b1a6c7d8-1234-4a5b-9c8d-1e2f3a4b5c6d",
+		  "Description": "The gift of the pastor is the special ability that God gives to certain members of the body of Christ to assume long-term personal responsibility for the spiritual welfare of a group of believers.",
+		  "Verses": [
+			{ "VerseGuid": "f028f4ba-4908-4022-afbd-7fbd1346c25a", "Reference": "Eph. 4:11–14" },
+			{ "VerseGuid": "7b7e614a-a8cc-42b3-b25e-f62ee4f2789d", "Reference": "I Timothy 3:1–7" },
+			{ "VerseGuid": "b7857879-8a23-415f-b940-9b78bbd87e56", "Reference": "John 10:1–18" },
+			{ "VerseGuid": "5343d21f-c66d-417d-ae56-e36ba430d177", "Reference": "I Peter 5:1–3" }
+		  ]
+		},
+		{
+		  "Gift": "Teaching",
+		  "Translation": "Teaching",
+		  "GiftDescriptionGuid": "c2b7d8e9-2345-4b6c-8d9e-2f3a4b5c6d7e",
+		  "Description": "The gift of teaching is the special ability that God gives to certain members of the body of Christ to communicate information relevant to the health and ministry of the body and its members in such a way that others will learn.",
+		  "Verses": [
+			{ "VerseGuid": "d8e3f1a5-1b2c-4d52-906d-59b7d7c7f1d4", "Reference": "I Cor. 12:28" },
+			{ "VerseGuid": "f7c8e7e5-b312-46cb-bab2-20db6c950137", "Reference": "Eph. 4:11–14" },
+			{ "VerseGuid": "ae6c2e6b-ec5b-4459-bb76-7e1e9b41e25a", "Reference": "Romans 12:7" },
+			{ "VerseGuid": "bc7f4a4e-0c22-4e02-8125-d9e4c6ab4ee1", "Reference": "Acts 18:24–28" },
+			{ "VerseGuid": "c3d4f5e6-7a89-4d23-bcde-2e9c3c7e0e4b", "Reference": "Acts 12:20–21" }
+		  ]
+		},
+		{
+		  "Gift": "Wisdom",
+		  "Translation": "Wisdom",
+		  "GiftDescriptionGuid": "d3c8e9f0-3456-4c7d-9e0f-3a4b5c6d7e8f",
+		  "Description": "The gift of wisdom is the special ability that God gives to certain members of the body of Christ to know the mind of the Holy Spirit in such a way as to receive insight into how given knowledge may best be applied to specific needs arising in the body of Christ. Some groups refer to a 'Word of Wisdom', this idea is about a prophetic insight that can only come through God. This may relate more to gifts of Prophecy, or leadership.",
+		  "Verses": [
+			{ "VerseGuid": "f1a2b3c4-5d6e-4f7a-8b9c-0d1e2f3a4b5c", "Reference": "I Cor. 2:1–13" },
+			{ "VerseGuid": "f2b3c4d5-6e7f-489a-9b0c-1d2e3f4a5b6c", "Reference": "I Cor. 12:8" },
+			{ "VerseGuid": "f3c4d5e6-7f8a-49b0-abc1-2d3e4f5a6b7c", "Reference": "Acts 6:3, 10" },
+			{ "VerseGuid": "f4d5e6f7-809a-40b1-bc2d-3e4f5a6b7c8d", "Reference": "James 1:5–6" },
+			{ "VerseGuid": "f5e6f7a8-90ab-41c2-ad3e-4f5a6b7c8d9e", "Reference": "II Peter 3:15–16" }
+		  ]
+		},
+		{
+		  "Gift": "Knowledge",
+		  "Translation": "Knowledge",
+		  "GiftDescriptionGuid": "e4d9f0a1-4567-4d8e-0f1a-4b5c6d7e8f90",
+		  "Description": "The gift of knowledge is the special ability that God gives to certain members of the body of Christ to discover, accumulate, analyze, and clarify information and ideas which are pertinent to the well-being of the body. Some groups refer to a 'Word of Knowledge', this idea is about a prophetic knowledge, or information given that can only come from God.",
+		  "Verses": [
+			{ "VerseGuid": "1a2b3c4d-5e6f-4d7a-9b8c-0d1e2f3a4b5c", "Reference": "I Cor. 2:14" },
+			{ "VerseGuid": "2b3c4d5e-6f7a-4b8c-9d0e-1f2a3b4c5d6e", "Reference": "I Cor. 12:8" },
+			{ "VerseGuid": "3c4d5e6f-7a8b-4c9d-0e1f-2a3b4c5d6e7f", "Reference": "Acts 5:1–11" },
+			{ "VerseGuid": "4d5e6f70-8a9b-4d0c-1e2f-3a4b5c6d7e8f", "Reference": "Coloss. 2:2–3" },
+			{ "VerseGuid": "5e6f7081-9a0b-4c1d-2e3f-4a5b6c7d8e9f", "Reference": "II Cor. 11:6" }
+		  ]
+		},
+		{
+		  "Gift": "Exhortation",
+		  "Translation": "Exhortation",
+		  "GiftDescriptionGuid": "f5e0a1b2-5678-4e9f-1a2b-5c6d7e8f9012",
+		  "Description": "The gift of exhortation is the special ability that God gives to certain members of the body of Christ to minister words of comfort, consolation, encouragement, and counsel to other members of the body in such a way that they feel helped and healed.",
+		  "Verses": [
+			{ "VerseGuid": "e1a2b3c4-5678-4def-90ab-1c2d3e4f5a6b", "Reference": "Romans 12:8" },
+			{ "VerseGuid": "f2b3c4d5-6789-4efa-01bc-2d3e4f5a6b7c", "Reference": "I Timothy 4:13" },
+			{ "VerseGuid": "a3c4d5e6-7890-4fab-12cd-3e4f5a6b7c8d", "Reference": "Hebrews 10:25" },
+			{ "VerseGuid": "a4d5e6f7-8901-4abc-23de-4f5a6b7c8d9e", "Reference": "Acts 14:22" }
+		  ]
+		},
+		{
+		  "Gift": "Discernment",
+		  "Translation": "Discernment",
+		  "GiftDescriptionGuid": "a6f1b2c3-6789-4f0a-2b3c-6d7e8f901234",
+		  "Description": "The gift of discerning of spirits is the special ability that God gives to certain members of the body of Christ to know with assurance whether certain behaviour purported to be of God is in reality divine, human, or satanic.",
+		  "Verses": [
+			{ "VerseGuid": "a5e6f7a8-9012-4bcd-34ef-5a6b7c8d9e0f", "Reference": "I Cor. 12:10" },
+			{ "VerseGuid": "b6f7a8c9-0123-4cde-45f0-6b7c8d9e0f1a", "Reference": "Acts 5:1–11" },
+			{ "VerseGuid": "c7a8b9a0-1234-4def-56a1-7c8d9e0f1a2b", "Reference": "Acts 16:16–18" },
+			{ "VerseGuid": "d8b9a0b1-2345-4ef0-87b2-8d9e0f1a2b3c", "Reference": "I John 4:1–6" },
+			{ "VerseGuid": "e9a0b1c2-3456-4f01-78c3-9e0f1a2b3c4d", "Reference": "Matt. 16:21–23" }
+		  ]
+		},
+		{
+		  "Gift": "Giving",
+		  "Translation": "Giving",
+		  "GiftDescriptionGuid": "b7a2c3d4-7890-4a1b-3c4d-7e8f90123456",
+		  "Description": "The gift of giving is the special ability that God gives to certain members of the body of Christ to contribute their material resources to the work of the Lord with liberality and cheerfulness.",
+		  "Verses": [
+			{ "VerseGuid": "a0b1c2d3-4567-4f12-89d4-0f1a2b3c4d5e", "Reference": "Romans 12:8" },
+			{ "VerseGuid": "b1c2d3e4-5678-4f23-90e5-1a2b3c4d5e6f", "Reference": "II Cor. 8:1–7" },
+			{ "VerseGuid": "c2d3e4f5-6789-4f34-a1f6-2b3c4d5e6f7a", "Reference": "II Cor. 9:2–8" },
+			{ "VerseGuid": "d3e4f5a6-7890-4f45-b207-3c4d5e6f7a8b", "Reference": "Mark 12:41–44" }
+		  ]
+		},
+		{
+		  "Gift": "Helps",
+		  "Translation": "Helps",
+		  "GiftDescriptionGuid": "c8b3d4e5-8901-4b2c-4d5e-8f9012345678",
+		  "Description": "The gift of helps is the special ability that God gives to certain members of the body of Christ to invest the talents they have in the life and ministry of other members of the body, thus enabling those others to increase the effectiveness of their own spiritual gifts.",
+		  "Verses": [
+			{ "VerseGuid": "a4b5c6d7-8901-4f56-c318-4d5e6f7a8b9c", "Reference": "I Cor. 12:28" },
+			{ "VerseGuid": "b5c6d7e8-9012-4f67-d429-5e6f7a8b9c0d", "Reference": "Romans 16:1–2" },
+			{ "VerseGuid": "c6d7e8f9-0123-4f78-e53a-6f7a8b9c0d1e", "Reference": "Acts 9:36" },
+			{ "VerseGuid": "d7e8f9a0-1234-4f89-f64b-7a8b9c0d1e2f", "Reference": "Luke 8:2–3" },
+			{ "VerseGuid": "e8f9a0b1-2345-4f90-075c-8b9c0d1e2f3a", "Reference": "Mark 15:40–41" }
+		  ]
+		},
+		{
+		  "Gift": "Mercy",
+		  "Translation": "Mercy",
+		  "GiftDescriptionGuid": "d9c4e5f6-9012-4c3d-5e6f-90123456789a",
+		  "Description": "The gift of mercy is the special ability that God gives to certain members of the body of Christ to feel genuine empathy and compassion for individuals (both Christian & non-Christian) who suffer distressing physical, mental, or emotional problems, and to translate that compassion into cheerfully done deeds which reflect Christ’s love and alleviate the suffering.",
+		  "Verses": [
+			{ "VerseGuid": "a9b0c1d2-3456-4f01-186d-9a0b1c2d3e4f", "Reference": "Romans 12:8" },
+			{ "VerseGuid": "b0c1d2e3-4567-4f12-297e-0a1b2c3d4e5f", "Reference": "Mark 9:41" },
+			{ "VerseGuid": "c1d2e3f4-5678-4f23-3a8f-1a2b3c4d5e6f", "Reference": "Acts 16:33–34" },
+			{ "VerseGuid": "d2e3f4a5-6789-4f34-4b90-2a3b4c5d6e7f", "Reference": "Luke 10:33–35" },
+			{ "VerseGuid": "e3f4a5b6-7890-4f45-5ca1-3a4b5c6d7e8f", "Reference": "Matt. 20:29–34" },
+			{ "VerseGuid": "f4a5b6c7-8901-4f56-6db2-4a5b6c7d8e9f", "Reference": "Matt. 25:34–40" },
+			{ "VerseGuid": "a5b6c7d8-9012-4f67-7ec3-5a6b7c8d9e0f", "Reference": "Acts 11:28–30" }
+		  ]
+		},
+		{
+		  "Gift": "Missionary",
+		  "Translation": "Missionary",
+		  "GiftDescriptionGuid": "e0d5f6a7-0123-4d4e-6f70-123456789abc",
+		  "Description": "The gift of missionary is the special ability that God gives to certain members of the body of Christ to minister whatever other spiritual gifts they have in a second culture.",
+		  "Verses": [
+			{ "VerseGuid": "d1a2b3c4-1234-4abc-5678-1a2b3c4d5e6f", "Reference": "I Cor. 9:19–23" },
+			{ "VerseGuid": "e2b3c4d5-2345-4bcd-6789-2b3c4d5e6f70", "Reference": "Acts 8:4" },
+			{ "VerseGuid": "f3c4d5e6-3456-4cde-7890-3c4d5e6f7081", "Reference": "Acts 13:2–3" },
+			{ "VerseGuid": "a4d5e6f7-4567-4def-8901-4d5e6f708192", "Reference": "Acts 22:21" },
+			{ "VerseGuid": "b5e6f708-5678-4ef0-9012-5e6f708192a3", "Reference": "Romans 10:15" }
+		  ]
+		},
+		{
+		  "Gift": "Evangelist",
+		  "Translation": "Evangelist",
+		  "GiftDescriptionGuid": "f1e6a7b8-1234-4e5f-7081-23456789abcd",
+		  "Description": "The gift of evangelist is the special ability that God gives to certain members of the body of Christ to share the gospel with unbelievers in such a way that men and women become Jesus’ disciples and responsible members of the body of Christ.",
+		  "Verses": [
+			{ "VerseGuid": "a6e7f8a9-6789-4f01-0123-6f7081920a1b", "Reference": "Eph. 4:11–14" },
+			{ "VerseGuid": "b7e8f9a0-7890-4f12-1234-7081920a1b2c", "Reference": "II Timothy 4:5" },
+			{ "VerseGuid": "c8f9a0b1-8901-4f23-2345-81920a1b2c3d", "Reference": "Acts 8:5–6" },
+			{ "VerseGuid": "d9a0b1c2-9012-4f34-3456-920a1b2c3d4e", "Reference": "Acts 8:26–40" },
+			{ "VerseGuid": "e0b1c2d3-0123-4f45-4567-0a1b2c3d4e5f", "Reference": "Acts 14:21" },
+			{ "VerseGuid": "f1c2d3e4-1234-4f56-5678-1a2b3c4d5e6f", "Reference": "Acts 21:8" }
+		  ]
+		},
+		{
+		  "Gift": "Hospitality",
+		  "Translation": "Hospitality",
+		  "GiftDescriptionGuid": "a2f7b8c9-2345-4f60-8192-3456789abcde",
+		  "Description": "The gift of hospitality is the special ability that God gives to certain members of the body of Christ to provide an open house and a warm welcome to those in need of food and lodging.",
+		  "Verses": [
+			{ "VerseGuid": "a2b3c4d5-2345-4f67-6789-2a3b4c5d6e7f", "Reference": "I Peter 4:9" },
+			{ "VerseGuid": "b3c4d5e6-3456-4f78-7890-3b4c5d6e7f80", "Reference": "Romans 12:9–13" },
+			{ "VerseGuid": "c4d5e6f7-4567-4f89-8901-4c5d6e7f8091", "Reference": "Romans 16:23" },
+			{ "VerseGuid": "d5e6f780-5678-4f90-9012-5d6e7f8091a2", "Reference": "Acts 16:14–15" },
+			{ "VerseGuid": "e6f78091-6789-4f01-0123-6e7f8091a2b3", "Reference": "Hebrews 13:1–2" }
+		  ]
+		},
+		{
+		  "Gift": "Faith",
+		  "Translation": "Faith",
+		  "GiftDescriptionGuid": "b3a8c9d0-3456-4061-92a3-456789abcdef",
+		  "Description": "The gift of faith is the special ability that God gives to certain members of the body of Christ to discern with extraordinary confidence the will and purposes of God for His work.",
+		  "Verses": [
+			{ "VerseGuid": "a7f8a9b0-7890-4f12-1234-7a8b9c0d1e2f", "Reference": "I Cor. 12:9" },
+			{ "VerseGuid": "b8a9b0c1-8901-4f23-2345-8b9c0d1e2f3a", "Reference": "Acts 11:22–24" },
+			{ "VerseGuid": "c9b0c1a2-9012-4f34-3456-9c0d1e2f3a4b", "Reference": "Acts 27:21–25" },
+			{ "VerseGuid": "d0c1a2b3-0123-4f45-4567-0d1e2f3a4b5c", "Reference": "Hebrews 11" },
+			{ "VerseGuid": "e1a2b3c4-1234-4f56-5678-1e2f3a4b5c6d", "Reference": "Romans 4:18–21" }
+		  ]
+		},
+		{
+		  "Gift": "Leadership",
+		  "Translation": "Leadership",
+		  "GiftDescriptionGuid": "c4b9d0e1-4567-4172-a3b4-56789abcdef0",
+		  "Description": "The gift of leadership is the special ability that God gives to certain members of the body of Christ to set goals in accordance with God’s purpose for the future and to communicate these goals to others in such a way that they voluntarily and harmoniously work together to accomplish these goals for the glory of God.",
+		  "Verses": [
+			{ "VerseGuid": "37a3f7c9-f14e-4700-9a4e-45144c259c9e", "Reference": "I Timothy 5:17" },
+			{ "VerseGuid": "7d01dbec-50a0-48a4-9363-f4034e7d182d", "Reference": "Acts 7:10" },
+			{ "VerseGuid": "0fce956a-177a-4076-9d60-4cb84ce8b063", "Reference": "Acts 15:7–11" },
+			{ "VerseGuid": "122964e8-bc2b-4768-935b-1ed2236f4ec3", "Reference": "Romans 12:8" },
+			{ "VerseGuid": "25e1ac5f-96f6-464a-9492-365b2e2ad2d7", "Reference": "Hebrews 13:17" },
+			{ "VerseGuid": "d3d1f4fc-9cc5-4e19-9869-11f6f5dece5f", "Reference": "Luke 9:51" }
+		  ]
+		},
+		{
+		  "Gift": "Administration",
+		  "Translation": "Administration",
+		  "GiftDescriptionGuid": "d5c0e1f2-5678-4283-b4c5-6789abcdef01",
+		  "Description": "The gift of administration is the special ability that God gives to certain members of the body of Christ to understand clearly the immediate and long-range goals of a particular unit of the body of Christ and to devise and execute effective plans for the accomplishment of those goals.",
+		  "Verses": [
+			{ "VerseGuid": "fae1cb94-844b-43e8-b60c-95e399a097e3", "Reference": "I Cor. 12:28" },
+			{ "VerseGuid": "8be12564-11fa-4967-bfae-63c19e78146a", "Reference": "Acts 6:1–7" },
+			{ "VerseGuid": "82f91ac2-f75e-4ad2-b6b4-cb2ad65379b3", "Reference": "Acts 27:11" },
+			{ "VerseGuid": "5f7d9c85-6a36-4b26-8c23-5455b67f52c4", "Reference": "Luke 14:28–30" },
+			{ "VerseGuid": "4b92af21-303d-4f5f-b98a-5629df9919f4", "Reference": "Titus 1:5" }
+		  ]
+		},
+		{
+		  "Gift": "Miracles",
+		  "Translation": "Miracles",
+		  "GiftDescriptionGuid": "e6d1f203-6789-4394-c5d6-789abcdef012",
+		  "Description": "The gift of miracles is the special ability that God gives to certain members of the body of Christ to serve as human intermediaries through whom it pleases God to perform such powerful acts that are perceived by observers to have altered the ordinary course of nature.",
+		  "Verses": [
+			{ "VerseGuid": "5ee6d127-8320-40af-b4da-12e1aa03e4f0", "Reference": "I Cor. 12:10, 28" },
+			{ "VerseGuid": "1e9a7c86-7b56-4f93-8c65-631b7d831bdb", "Reference": "Acts 9:36–42" },
+			{ "VerseGuid": "c2fd662a-5f03-49fc-9c63-3847e9356693", "Reference": "Acts 19:11–20" },
+			{ "VerseGuid": "52a4cb84-5bb2-42e2-8d4e-1c275d3d35e3", "Reference": "Acts 20:7–12" },
+			{ "VerseGuid": "a0a64b14-32c5-4f0d-8f72-d30d0e784b2f", "Reference": "Romans 15:18–19" },
+			{ "VerseGuid": "7e64bb8e-3323-4871-9e06-592dd0f0a72a", "Reference": "II Cor. 12:12" }
+		  ]
+		},
+		{
+		  "Gift": "Healing",
+		  "Translation": "Healing",
+		  "GiftDescriptionGuid": "f7e20314-7890-44a5-d6e7-89abcdef0123",
+		  "Description": "The gift of healing is the special ability that God gives to certain members of the body of Christ to serve as human intermediaries through whom it pleases God to cure illness and restore health apart from the use of natural means.",
+		  "Verses": [
+			{ "VerseGuid": "3ad3c6a4-2176-4d8a-89ea-42937c3e12d1", "Reference": "I Cor. 12:9, 28" },
+			{ "VerseGuid": "2f81410e-7232-4686-8ac7-61c94b68d0b8", "Reference": "Acts 3:1–10" },
+			{ "VerseGuid": "82dcd9c4-2e86-4b2f-b2ff-0f2f44a0d5ef", "Reference": "Acts 5:12–16" },
+			{ "VerseGuid": "d3451a70-b9e8-4850-9f68-28e41f76d0c7", "Reference": "Acts 9:32–35" },
+			{ "VerseGuid": "b42e4ab9-2d31-4b3d-8e37-12f541c8b06b", "Reference": "Acts 28:7–10" }
+		  ]
+		},
+		{
+		  "Gift": "Tongues",
+		  "Translation": "Tongues",
+		  "GiftDescriptionGuid": "a8f31425-8901-45b6-e7f8-9abcdef01234",
+		  "Description": "The gift of tongues is the special ability that God gives to certain members of the body of Christ (a) to speak to God in a language they have never learned and/or (b) to receive and communicate an immediate message of God to His people through a divinely–anointed utterance in a language they have never learned.",
+		  "Verses": [
+			{ "VerseGuid": "8175ed0f-b71c-4ab1-97d6-881c9d4c7f2a", "Reference": "I Cor. 12:10, 28" },
+			{ "VerseGuid": "6317dc7e-1a6f-44ab-8327-38a5c9f5cbf0", "Reference": "I Cor. 14:13–19" },
+			{ "VerseGuid": "3e2723a0-2a60-4df1-bb97-68b68ec6b3dc", "Reference": "Acts 2:1–13" },
+			{ "VerseGuid": "ec2e1e1b-b7a1-4fc3-a7c7-7d0c2a6e9a67", "Reference": "Acts 10:44–46" },
+			{ "VerseGuid": "9c066c1d-bc10-4d88-bbd9-4d13f10634e9", "Reference": "Acts 19:1–7" },
+			{ "VerseGuid": "0b5cf70d-4986-4493-91f7-2a88a1f3e27d", "Reference": "Mark 16:17" }
+		  ]
+		},
+		{
+		  "Gift": "InterpretationOfTongues",
+		  "Translation": "InterpretationOfTongues",
+		  "GiftDescriptionGuid": "b9a42536-9012-46c7-f809-abcdef012345",
+		  "Description": "The gift of interpretation is the special ability that God gives to certain members of the body of Christ to make known in a vernacular the message of one who speaks in tongues.",
+		  "Verses": [
+			{ "VerseGuid": "be5cf86e-8719-43ee-9d19-d8a3f0e9d2d2", "Reference": "I Cor. 12:10, 30" },
+			{ "VerseGuid": "df8e8e9a-79d7-4878-bcf8-2062f4e1c1b6", "Reference": "I Cor. 14:13" },
+			{ "VerseGuid": "87f0a97c-1293-4fb3-96b7-0989ee4d2d19", "Reference": "I Cor. 14:26–28" }
+		  ]
+		},
+		{
+		  "Gift": "Intercession",
+		  "Translation": "Intercession",
+		  "GiftDescriptionGuid": "c0b53647-0123-47d8-091a-bcdef0123456",
+		  "Description": "The gift of intercession is the special ability that God gives to certain members of the body of Christ to pray for extended periods of time on a regular basis and see frequent and specific answers to their prayers, to a degree much greater than that which is expected of the average Christian.",
+		  "Verses": [
+			{ "VerseGuid": "6e839d3c-51ba-4e45-89c2-9f60f41d9027", "Reference": "James 5:14–16" },
+			{ "VerseGuid": "8a54db7a-3cb4-4ae2-882d-46e7a3d6a7a9", "Reference": "I Timothy 2:1–2" },
+			{ "VerseGuid": "a5f14e18-29a3-4036-96c6-9d8ba3172b94", "Reference": "Coloss. 1:9–12" },
+			{ "VerseGuid": "b80b436f-c226-460b-9b94-7c7b1819b735", "Reference": "Coloss. 4:12–13" },
+			{ "VerseGuid": "1f0132a5-3a31-4a88-8938-3e77d9a4a005", "Reference": "Acts 12:12" },
+			{ "VerseGuid": "cd7a6f4a-c3b6-4e0e-8c04-12b3dfb8a82e", "Reference": "Luke 22:41–44" }
+		  ]
+		},
+		{
+		  "Gift": "Service",
+		  "Translation": "Service",
+		  "GiftDescriptionGuid": "d1c64758-1234-48e9-1a2b-cdef01234567",
+		  "Description": "The gift of service is the special ability that God gives to certain members of the body of Christ to identify the unmet needs involved in a task related to God’s work, and to make use of available resources to meet those needs and to help accomplish the desired results.",
+		  "Verses": [
+			{ "VerseGuid": "6d824734-056f-42ee-9850-594a9f2d3f4c", "Reference": "II Tim. 1:16–18" },
+			{ "VerseGuid": "3d0ab2ff-5b90-4d83-a42e-f1a33972c376", "Reference": "Romans 12:7" },
+			{ "VerseGuid": "e17353d7-93d0-4d6f-bf73-1f38d2f2e1c7", "Reference": "Acts 6:1–7" },
+			{ "VerseGuid": "4b0cfdad-409d-4222-a59f-2f1c3f41d6b8", "Reference": "Titus 3:14" },
+			{ "VerseGuid": "7f8150b5-0b43-4e24-a3d6-6485f0b8ef5a", "Reference": "Gal. 6:2, 10" }
+		  ]
+		}
+      ],
+	  "Reflections": [
+		{
+		  "GiftDescriptionGuid": "c1a2b3d4-5678-4ef0-9abc-1234567890ab",
+		  "Number": 1,
+		  "Question": "What ministries are you now performing (formally or informally) in the Body?"
+		},
+		{
+		  "GiftDescriptionGuid": "d2b3c4e5-6789-4f01-abcd-2345678901bc",
+		  "Number": 2,
+		  "Question": "Are there any of these ministries that you are not especially gifted for? God may be calling you to consider changes."
+		},
+		{
+		  "GiftDescriptionGuid": "e3c4d5f6-7890-4f12-bcde-3456789012cd",
+		  "Number": 3,
+		  "Question": "Is your vocational status lay or clergy?"
+		},
+		{
+		  "GiftDescriptionGuid": "f4d5e6g7-8901-4f23-cdef-4567890123de",
+		  "Number": 4,
+		  "Question": "In the light of your gift cluster and vocational status, what are some of the ministry models or roles suitable for you? What specific roles in the body of Christ has God possibly gifted you for?"
+		},
+		{
+		  "GiftDescriptionGuid": "g5e6f7h8-9012-4f34-def0-5678901234ef",
+		  "Number": 5,
+		  "Question": "Discuss your findings with other believers who know you in order to evaluate your conclusions."
+		},
+		{
+		  "GiftDescriptionGuid": "h6f7g8i9-0123-4f45-ef01-6789012345f0",
+		  "Number": 6,
+		  "Question": "What steps will you take next to develop and use your gifts more effectively?"
+		}
+	  ]
+    }
+  ]
+}

@@ -125,9 +125,9 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         }
     }
 
-    protected async Task PerformNavigation(string page)
+    protected async Task PerformNavigation(string page, bool showLoading = true)
     {
-        IsLoading = true;
+        IsLoading = showLoading;
 
         try
         {
@@ -142,10 +142,10 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
         IsLoading = false;
     }
 
-    protected Task NotifyUserAsync(string title, string message, string ack)
+    protected static Task NotifyUserAsync(string title, string message, string ack)
         => PageHelper.ShowAlert(title, message, ack);
 
-    protected Task<bool> ConfirmUserAsync(string title, string message, string accept, string cancel)
+    protected static Task<bool> ConfirmUserAsync(string title, string message, string accept, string cancel)
         => PageHelper.ShowConfirm(title, message, accept, cancel);
 
     protected async Task RunWithLoading(Func<Task> action)

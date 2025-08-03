@@ -34,10 +34,6 @@
                 RightIcon="{StaticResource BackArrowRight}"
                 LeftCommandParameter="{x:Static r:Routes.ResultsPage}"
                 RightCommandParameter="{x:Static r:Routes.ResultsPage}" />
-
-            <c:LoadingOverlay Grid.Row="0" Grid.RowSpan="3" 
-                              IsBusy="{Binding IsLoading}" 
-                              Message="{Binding LoadingText}" />
             
             <ScrollView Grid.Row="1">
                 <VerticalStackLayout 
@@ -60,6 +56,13 @@
                            LineBreakMode="WordWrap" />
                 </VerticalStackLayout>
             </ScrollView>
+
+            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="2" IsVisible="{Binding IsLoading}" />
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
+                <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
+            </StackLayout>
+            
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

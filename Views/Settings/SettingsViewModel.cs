@@ -12,15 +12,11 @@ namespace SpiritualGiftsSurvey.Views.Settings;
 
 [SupportedOSPlatform("android")]
 [SupportedOSPlatform("ios")]
-public partial class SettingsViewModel : BaseViewModel
+public partial class SettingsViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
-    public SettingsViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences)
-        : base(aggregatedServices, preferences)
-    {
-    }
-
     [ObservableProperty] private string header = string.Empty;
     [ObservableProperty] private List<LanguageOption> languageOptions = new();
     [ObservableProperty] private LanguageOption? selectedLanguage;
@@ -71,7 +67,7 @@ public partial class SettingsViewModel : BaseViewModel
     public ObservableCollection<string> ReportingEmails { get; private set; } = new();
     public bool ShowUnansweredQuestionControls => AllowUnansweredQuestions;
 
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         if (!RequiresInitialzation)
             return;
@@ -221,6 +217,7 @@ public partial class SettingsViewModel : BaseViewModel
             return;
 
         IsLoading = true;
+        await Task.Yield();
 
         var success = await DatabaseService.RefreshDatabaseAsync();
 
@@ -245,6 +242,7 @@ public partial class SettingsViewModel : BaseViewModel
             return;
 
         IsLoading = true;
+        await Task.Yield();
 
         await DatabaseService.ClearUserGiftDataAsync();
 
@@ -258,15 +256,11 @@ public partial class SettingsViewModel : BaseViewModel
         if (value == null)
             return;
 
-        IsLoading = true;
-
         _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
 
         LanguageOptions = TranslationService.GetLanguageOptions();
         LanguageTitle = TranslationService.CurrentLanguageDisplayName;
         ShowLanguagePicker = false;
-
-        IsLoading = false;
     }
 
     partial void OnAllowUnansweredQuestionsChanged(bool value)

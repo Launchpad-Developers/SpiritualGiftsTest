@@ -3,16 +3,12 @@ using SpiritualGiftsSurvey.Views.Shared;
 
 namespace SpiritualGiftsSurvey.Views.Splash;
 
-public class SplashViewModel : BaseViewModel
+public class SplashViewModel(
+    IAggregatedServices aggregatedServices,
+    IPreferences preferences)
+    : BaseViewModel(aggregatedServices, preferences)
 {
-    public SplashViewModel(
-        IAggregatedServices aggregatedServices,
-        IPreferences preferences)
-        : base(aggregatedServices, preferences)
-    {
-    }
-
-    public async override Task InitAsync()
+    public override async Task InitAsync()
     {
         await Task.Yield();
         
