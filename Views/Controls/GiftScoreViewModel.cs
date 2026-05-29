@@ -1,17 +1,25 @@
-﻿using SpiritualGiftsSurvey.Enums;
+using CommunityToolkit.Mvvm.ComponentModel;
+using SpiritualGiftsSurvey.Enums;
 using SpiritualGiftsSurvey.Models;
 using System.Windows.Input;
 
 namespace SpiritualGiftsSurvey.Views.Controls;
 
-public class GiftScoreViewModel
+public partial class GiftScoreViewModel : ObservableObject
 {
+    [ObservableProperty] private UserGiftScore model;
+    [ObservableProperty] private string giftName;
+    [ObservableProperty] private int score;
+    [ObservableProperty] private double progress;
+    [ObservableProperty] private bool showMedal;
+    [ObservableProperty] private Color medalColor;
+    [ObservableProperty] private ICommand viewGiftDescriptionCommand;
+
     public GiftScoreViewModel(UserGiftScore model, string localizedGiftName, ICommand command)
     {
         Model = model;
-
         GiftName = localizedGiftName;
-
+        Score = model.Score;
         ViewGiftDescriptionCommand = command;
 
         Progress = model.MaxScore > 0
@@ -27,13 +35,4 @@ public class GiftScoreViewModel
         
         ShowMedal = model.GiftRank != GiftRank.None;
     }
-
-    public UserGiftScore Model { get; }
-    public string GiftName { get; }
-    public int Score => Model.Score;
-    public double Progress { get; }
-    public bool ShowMedal { get; }
-    public Color MedalColor { get; }
-
-    public ICommand ViewGiftDescriptionCommand { get; }
 }

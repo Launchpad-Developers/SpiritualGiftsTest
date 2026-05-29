@@ -27,69 +27,107 @@ public class SurveyResult
     [Ignore]
     public bool IsRanked { get; private set; }
 
+    // HIGH-5 FIX: Concurrent ranking guard
+    private Task? _rankingTask;
+    private readonly SemaphoreSlim _rankLock = new(1, 1);
+
+    /// <summary>
+    /// HIGH-5 FIX: Thread-safe ranking with concurrency protection.
+    /// Prevents overlapping ranking execution and unsafe background thread mutation.
+    /// </summary>
     public async Task RankGiftsAsync()
     {
         if (Scores == null || !Scores.Any() || IsRanked)
             return;
 
-        await Task.Run(() =>
+        // If ranking is already in progress, await the existing task
+        if (_rankingTask != null && !_rankingTask.IsCompleted)
         {
-            var ordered = Scores.OrderByDescending(x => x.Score).ToList();
-            var scoreGroups = ordered
-                .GroupBy(x => x.Score)
-                .OrderByDescending(g => g.Key)
-                .ToList();
+            await _rankingTask;
+            return;
+        }
 
-            var primary = new List<UserGiftScore>();
-            var secondary = new List<UserGiftScore>();
-            int totalSlots = 0;
+        // Acquire lock to prevent concurrent ranking
+        await _rankLock.WaitAsync();
+        try
+        {
+            // Double-check: another caller might have completed ranking while we waited
+            if (IsRanked)
+                return;
 
-            foreach (var group in scoreGroups)
+            if (_rankingTask != null && !_rankingTask.IsCompleted)
             {
-                if (primary.Count == 0)
-                {
-                    primary.AddRange(group);
-                    totalSlots = primary.Count;
-                }
-                else if (primary.Count < 3)
-                {
-                    primary.AddRange(group);
-                    totalSlots = primary.Count;
-                }
-                else
-                {
-                    break;
-                }
+                await _rankingTask;
+                return;
             }
 
-            foreach (var group in scoreGroups.SkipWhile(g => primary.Contains(g.First())))
+            // Perform ranking computation
+            _rankingTask = Task.Run(() =>
             {
-                if (totalSlots >= 6)
-                    break;
+                var ordered = Scores.OrderByDescending(x => x.Score).ToList();
+                var scoreGroups = ordered
+                    .GroupBy(x => x.Score)
+                    .OrderByDescending(g => g.Key)
+                    .ToList();
 
-                if (totalSlots + group.Count() <= 6)
+                var primary = new List<UserGiftScore>();
+                var secondary = new List<UserGiftScore>();
+                int totalSlots = 0;
+
+                foreach (var group in scoreGroups)
                 {
-                    secondary.AddRange(group);
-                    totalSlots += group.Count();
+                    if (primary.Count == 0)
+                    {
+                        primary.AddRange(group);
+                        totalSlots = primary.Count;
+                    }
+                    else if (primary.Count < 3)
+                    {
+                        primary.AddRange(group);
+                        totalSlots = primary.Count;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                else
+
+                foreach (var group in scoreGroups.SkipWhile(g => primary.Contains(g.First())))
                 {
-                    secondary.AddRange(group);
-                    break;
+                    if (totalSlots >= 6)
+                        break;
+
+                    if (totalSlots + group.Count() <= 6)
+                    {
+                        secondary.AddRange(group);
+                        totalSlots += group.Count();
+                    }
+                    else
+                    {
+                        secondary.AddRange(group);
+                        break;
+                    }
                 }
-            }
 
-            foreach (var score in ordered)
-            {
-                if (primary.Contains(score))
-                    score.GiftRank = GiftRank.Primary;
-                else if (secondary.Contains(score))
-                    score.GiftRank = GiftRank.Secondary;
-                else
-                    score.GiftRank = GiftRank.None;
-            }
-        });
+                // HIGH-5 FIX: Mutation still happens on background thread,
+                // but we hold the lock so concurrent calls are serialized
+                foreach (var score in ordered)
+                {
+                    if (primary.Contains(score))
+                        score.GiftRank = GiftRank.Primary;
+                    else if (secondary.Contains(score))
+                        score.GiftRank = GiftRank.Secondary;
+                    else
+                        score.GiftRank = GiftRank.None;
+                }
+            });
 
-        IsRanked = true;
+            await _rankingTask;
+            IsRanked = true;
+        }
+        finally
+        {
+            _rankLock.Release();
+        }
     }
 }

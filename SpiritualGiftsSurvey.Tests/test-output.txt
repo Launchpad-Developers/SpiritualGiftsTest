@@ -1,0 +1,292 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SpiritualGiftsSurvey.Tests -> D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\bin\Debug\net9.0\SpiritualGiftsSurvey.Tests.dll
+Test run for D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\bin\Debug\net9.0\SpiritualGiftsSurvey.Tests.dll (.NETCoreApp,Version=v9.0)
+A total of 1 test files matched the specified pattern.
+D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\bin\Debug\net9.0\SpiritualGiftsSurvey.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 9.0.16)
+[xUnit.net 00:00:00.05]   Discovering: SpiritualGiftsSurvey.Tests
+[xUnit.net 00:00:00.07]   Discovered:  SpiritualGiftsSurvey.Tests
+[xUnit.net 00:00:00.08]   Starting:    SpiritualGiftsSurvey.Tests
+[xUnit.net 00:00:00.79]     SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidRootModel [FAIL]
+[xUnit.net 00:00:00.79]       Γ¥î DEV Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+[xUnit.net 00:00:00.79]          at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+[xUnit.net 00:00:00.79]          at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+[xUnit.net 00:00:00.79]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+[xUnit.net 00:00:00.79]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:00.79]          at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:00.79]          at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidRootModel() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 222
+[xUnit.net 00:00:00.79]       Stack Trace:
+[xUnit.net 00:00:00.79]         D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs(237,0): at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidRootModel()
+[xUnit.net 00:00:00.79]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:00.95]     SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_HasRequiredData [FAIL]
+[xUnit.net 00:00:00.95]       Γ¥î PRODUCTION Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+[xUnit.net 00:00:00.95]          at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+[xUnit.net 00:00:00.95]          at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+[xUnit.net 00:00:00.95]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+[xUnit.net 00:00:00.95]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:00.95]          at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:00.95]          at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_HasRequiredData() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 127
+[xUnit.net 00:00:00.95]       Stack Trace:
+[xUnit.net 00:00:00.95]         D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs(136,0): at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_HasRequiredData()
+[xUnit.net 00:00:00.95]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:01.40]     SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidRootModel [FAIL]
+[xUnit.net 00:00:01.40]       Γ¥î PRODUCTION Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+[xUnit.net 00:00:01.40]          at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+[xUnit.net 00:00:01.40]          at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+[xUnit.net 00:00:01.40]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+[xUnit.net 00:00:01.40]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:01.40]          at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:01.40]          at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidRootModel() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 66
+[xUnit.net 00:00:01.40]       Stack Trace:
+[xUnit.net 00:00:01.40]         D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs(81,0): at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidRootModel()
+[xUnit.net 00:00:01.40]         --- End of stack trace from previous location ---
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_IsReachable [307 ms]
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_DatabaseVersionIsValid [205 ms]
+  Failed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidRootModel [174 ms]
+  Error Message:
+   Γ¥î DEV Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+   at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidRootModel() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 222
+  Stack Trace:
+     at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidRootModel() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 237
+--- End of stack trace from previous location ---
+  Failed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_HasRequiredData [156 ms]
+  Error Message:
+   Γ¥î PRODUCTION Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+   at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_HasRequiredData() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 127
+  Stack Trace:
+     at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_HasRequiredData() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 136
+--- End of stack trace from previous location ---
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_DatabaseVersionIsValid [116 ms]
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidJson [161 ms]
+  Failed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidRootModel [173 ms]
+  Error Message:
+   Γ¥î PRODUCTION Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+   at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidRootModel() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 66
+  Stack Trace:
+     at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_ReturnsValidRootModel() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 81
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:01.79]     SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_HasRequiredData [FAIL]
+[xUnit.net 00:00:01.79]       Γ¥î DEV Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+[xUnit.net 00:00:01.79]          at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+[xUnit.net 00:00:01.79]          at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+[xUnit.net 00:00:01.79]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+[xUnit.net 00:00:01.79]          at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:01.79]          at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+[xUnit.net 00:00:01.79]          at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_HasRequiredData() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 283
+[xUnit.net 00:00:01.79]       Stack Trace:
+[xUnit.net 00:00:01.79]         D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs(292,0): at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_HasRequiredData()
+[xUnit.net 00:00:01.79]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:02.11]   Finished:    SpiritualGiftsSurvey.Tests
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.NetworkError_IsHandledGracefully [221 ms]
+  Failed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_HasRequiredData [171 ms]
+  Error Message:
+   Γ¥î DEV Firebase JSON deserialization FAILED.
+Exception: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+JSON Payload Preview:
+{"Database":{"Author":"Launchpad Developers","Date":"2025-08-01","Environment":"Production","Notes":"Master list of Spiritual Gifts questions with GUIDs and mappings.","Version":38},"Translations":[{"AppStrings":[{"Key":"InvalidEmailTitle","Value":"Invalid Email"},{"Key":"InvalidEmailMessage","Value":"Please enter a valid email address."},{"Key":"Launchpad","Value":"Launchpad Developers"},{"Key":"ScrollTo","Value":"Scroll to"},{"Key":"Navigate","Value":"navigate"},{"Key":"CreatedBy","Value":"Created By"},{"Key":"RemoveEmailTitle","Value":"Remove Email"},{"Key":"FirstName","Value":"First Name"},{"Key":"LastName","Value":"Last Name"},{"Key":"Email","Value":"Email"},{"Key":"RequiredTitle","Value":"Required"},{"Key":"PleaseEnterName","Value":"Please enter your name."},{"Key":"RemoveEmailMessage","Value":"Remove {0} from the reporting list?"},{"Key":"CreatedByDetail","Value":"Based on the Wagner Modified Houts Questionnaire"},{"Key":"DevelopedBy","Value":"Developed By"},{"Key":"DeveloperNam
+... (truncated, total length: 42934 chars)
+
+Full Stack Trace:
+System.Text.Json.JsonException: The JSON value could not be converted to SpiritualGiftsSurvey.Enums.Gifts. Path: $.Translations[0].GiftDescriptions[0].Gift | LineNumber: 0 | BytePositionInLine: 5039.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+   at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_HasRequiredData() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 283
+  Stack Trace:
+     at SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_HasRequiredData() in D:\Projects\Launchpad\SpiritualGiftsSurvey\SpiritualGiftsSurvey.Tests\FirebaseEndpointTests.cs:line 292
+--- End of stack trace from previous location ---
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.DevEndpoint_ReturnsValidJson [150 ms]
+  Passed SpiritualGiftsSurvey.Tests.FirebaseEndpointTests.ProductionEndpoint_IsReachable [163 ms]
+
+Test Run Failed.
+Total tests: 11
+     Passed: 7
+     Failed: 4
+ Total time: 2.3940 Seconds

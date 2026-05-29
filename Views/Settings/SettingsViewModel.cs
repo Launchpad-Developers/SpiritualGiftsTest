@@ -33,6 +33,7 @@ public partial class SettingsViewModel(
     [ObservableProperty] private int topicLimit;
     [ObservableProperty] private int totalQuestions;
     [ObservableProperty] private int totalUnansweredQuestions;
+    [ObservableProperty] private bool debugOptionsEnabled;
     [ObservableProperty] private bool showDebugOptions;
 
     [ObservableProperty]
@@ -40,10 +41,7 @@ public partial class SettingsViewModel(
     private bool allowUnansweredQuestions;
 
     [ObservableProperty]
-    private Color addReportingEmailTextColor =
-        (Application.Current?.Resources.TryGetValue("Black", out var value) == true && value is Color color)
-            ? color
-            : Colors.Black;
+    private Color addReportingEmailTextColor = Colors.Black;
 
     private string _yes = string.Empty;
     private string _no = string.Empty;
@@ -64,6 +62,9 @@ public partial class SettingsViewModel(
     private string _removeEmailTitle = string.Empty;
     private string _removeEmailMessage = string.Empty;
 
+    private Color _cachedBlackColor = Colors.Black;
+    private Color _cachedDangerRedColor = Colors.Red;
+
     public ObservableCollection<string> ReportingEmails { get; private set; } = new();
     public bool ShowUnansweredQuestionControls => AllowUnansweredQuestions;
 
@@ -76,6 +77,16 @@ public partial class SettingsViewModel(
 
         IsLoading = true;
         await Task.Yield();
+
+        // Cache color resources once
+        _cachedBlackColor = (Application.Current?.Resources.TryGetValue("Black", out var blackValue) == true && blackValue is Color black)
+            ? black
+            : Colors.Black;
+        _cachedDangerRedColor = (Application.Current?.Resources.TryGetValue("DangerRed", out var redValue) == true && redValue is Color red)
+            ? red
+            : Colors.Red;
+        
+        AddReportingEmailTextColor = _cachedBlackColor;
 
         ReportingEmails.Clear();
         foreach (var email in EmailService.GetStoredEmails())
@@ -93,7 +104,9 @@ public partial class SettingsViewModel(
         AddReportingEmailPlaceholder = TranslationService.GetString("AddReportingEmailPlaceholder", "Add reporting email");
 
         var currentCode = TranslationService.CurrentLanguageCode;
-        SelectedLanguage = LanguageOptions.FirstOrDefault(lo => lo.CodeOption == currentCode);
+        // FIX: Add fallback if no matching language found
+        SelectedLanguage = LanguageOptions.FirstOrDefault(lo => lo.CodeOption == currentCode)
+                           ?? LanguageOptions.FirstOrDefault();
 
         LoadingText = TranslationService.GetString("Loading", "Loading");
 
@@ -103,15 +116,17 @@ public partial class SettingsViewModel(
 
         RestoreDatabase = TranslationService.GetString("RestoreDatabase", "Restore Database");
         _restoreDatabaseInfo = TranslationService.GetString("RestoreDatabaseInfo", "This action will restore the local database to it's most current form. Proceed?");
-        _restoreCompleteTitle = TranslationService.GetString(_restoreCompleteTitle, "Restore Complete");
-        _restoreCompleteMessage = TranslationService.GetString(_restoreCompleteMessage, "Your database has been restored. Please restart the app.");
-        _restoreFailedTitle = TranslationService.GetString(_restoreFailedTitle, "Restore Failed");
-        _restoreFailedMessage = TranslationService.GetString(_restoreFailedMessage, "There was an error restoring the database.");
+        
+        // CRITICAL FIX: Use string literal keys instead of variable names
+        _restoreCompleteTitle = TranslationService.GetString("RestoreCompleteTitle", "Restore Complete");
+        _restoreCompleteMessage = TranslationService.GetString("RestoreCompleteMessage", "Your database has been restored. Please restart the app.");
+        _restoreFailedTitle = TranslationService.GetString("RestoreFailedTitle", "Restore Failed");
+        _restoreFailedMessage = TranslationService.GetString("RestoreFailedMessage", "There was an error restoring the database.");
 
         ClearData = TranslationService.GetString("ClearData", "Clear Data");
         _clearDataWarning = TranslationService.GetString("ClearDataWarning", "WARNING: This will clear all stored results from this device. Are you sure?");
-        _dataClearedTitle = TranslationService.GetString(_dataClearedTitle, "Data Cleared");
-        _dataClearedMessage = TranslationService.GetString(_dataClearedMessage, "Your data has been erased.");
+        _dataClearedTitle = TranslationService.GetString("DataClearedTitle", "Data Cleared");
+        _dataClearedMessage = TranslationService.GetString("DataClearedMessage", "Your data has been erased.");
 
         _invalidEmailTitle = TranslationService.GetString("InvalidEmailTitle", "Invalid Email");
         _invalidEmailMessage = TranslationService.GetString("InvalidEmailMessage", "Please enter a valid email address.");
@@ -123,11 +138,13 @@ public partial class SettingsViewModel(
 
 #if DEBUG
         ShowDebugOptions = true;
+        DebugOptionsEnabled = Preferences.Get(AppConstants.DebugOptionsEnabledKey, false);
         AllowUnansweredQuestions = Preferences.Get(AppConstants.DebugAllowUnansweredQuestionsKey, false);
-        TotalTopics = Preferences.Get(AppConstants.DebugTotalTopicsKey, 0);
-        TotalQuestions = Preferences.Get(AppConstants.DebugTotalQuestionsKey, 0);
-        TopicLimit = Preferences.Get(AppConstants.DebugQuestionsPerTopicKey, 0);
-        TotalUnansweredQuestions = Preferences.Get(AppConstants.DebugTotalUnansweredQuestionsKey, 0);
+        // FIX: Add bounds validation for debug preferences
+        TotalTopics = Math.Clamp(Preferences.Get(AppConstants.DebugTotalTopicsKey, 0), 0, 50);
+        TotalQuestions = Math.Clamp(Preferences.Get(AppConstants.DebugTotalQuestionsKey, 0), 0, 500);
+        TopicLimit = Math.Clamp(Preferences.Get(AppConstants.DebugQuestionsPerTopicKey, 0), 0, 50);
+        TotalUnansweredQuestions = Math.Clamp(Preferences.Get(AppConstants.DebugTotalUnansweredQuestionsKey, 0), 0, 100);
 #endif
 
         IsLoading = false;
@@ -145,10 +162,8 @@ public partial class SettingsViewModel(
 
         _emailIsError = false;
 
-        AddReportingEmailTextColor =
-            (Application.Current?.Resources.TryGetValue("Black", out var value) == true && value is Color color)
-                ? color
-                : Colors.Black;
+        // Use cached color
+        AddReportingEmailTextColor = _cachedBlackColor;
     }
 
     [RelayCommand]
@@ -163,22 +178,37 @@ public partial class SettingsViewModel(
         {
             _emailIsError = true;
 
-            AddReportingEmailTextColor =
-                (Application.Current?.Resources.TryGetValue("DangerRed", out var value) == true && value is Color color)
-                    ? color
-                    : Colors.Black;
+            // Use cached color
+            AddReportingEmailTextColor = _cachedDangerRedColor;
 
             await NotifyUserAsync(_invalidEmailTitle, _invalidEmailMessage, _ok);
             return;
         }
 
-        if (EmailService.SaveEmail(trimmedEmail))
+        // FIX: Add error handling around EmailService calls
+        try
         {
-            ReportingEmails.Add(trimmedEmail);
-        }
+            if (EmailService.SaveEmail(trimmedEmail))
+            {
+                ReportingEmails.Add(trimmedEmail);
+            }
 
-        NewReportingEmail = string.Empty;
-        ShowCollectionView = ReportingEmails.Any();
+            NewReportingEmail = string.Empty;
+            ShowCollectionView = ReportingEmails.Any();
+        }
+        catch (Exception ex)
+        {
+            Analytics.TrackEvent("EmailSaveFailure",
+                new Dictionary<string, string>
+                {
+                    { "Error", ex.Message }
+                });
+
+            await NotifyUserAsync(
+                TranslationService.GetString("ErrorTitle", "Error"),
+                TranslationService.GetString("EmailSaveError", "Failed to save email. Please try again."),
+                _ok);
+        }
     }
 
     [RelayCommand]
@@ -196,12 +226,29 @@ public partial class SettingsViewModel(
         if (!confirmed)
             return;
 
-        if (EmailService.RemoveEmail(email))
+        // FIX: Add error handling around EmailService calls
+        try
         {
-            ReportingEmails.Remove(email);
-        }
+            if (EmailService.RemoveEmail(email))
+            {
+                ReportingEmails.Remove(email);
+            }
 
-        ShowCollectionView = ReportingEmails.Any();
+            ShowCollectionView = ReportingEmails.Any();
+        }
+        catch (Exception ex)
+        {
+            Analytics.TrackEvent("EmailRemoveFailure",
+                new Dictionary<string, string>
+                {
+                    { "Error", ex.Message }
+                });
+
+            await NotifyUserAsync(
+                TranslationService.GetString("ErrorTitle", "Error"),
+                TranslationService.GetString("EmailRemoveError", "Failed to remove email. Please try again."),
+                _ok);
+        }
     }
 
     [RelayCommand]
@@ -251,16 +298,51 @@ public partial class SettingsViewModel(
         await NotifyUserAsync(_dataClearedTitle, _dataClearedMessage, _ok);
     }
 
+    // FIX: Add debounce flag to prevent rapid re-triggering
+    private bool _isChangingLanguage;
+
     partial void OnSelectedLanguageChanged(LanguageOption? value)
     {
-        if (value == null)
+        if (value == null || _isChangingLanguage)
             return;
 
-        _ = TranslationService.SetLanguageByCodeAsync(value.CodeOption);
+        // HIGH-1 FIX: Do NOT use fire-and-forget async
+        // Dispatch async work with exception handling
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            _isChangingLanguage = true;
 
-        LanguageOptions = TranslationService.GetLanguageOptions();
-        LanguageTitle = TranslationService.CurrentLanguageDisplayName;
-        ShowLanguagePicker = false;
+            try
+            {
+                await TranslationService.SetLanguageByCodeAsync(value.CodeOption);
+                
+                // Update UI after language change completes
+                LanguageOptions = TranslationService.GetLanguageOptions();
+                LanguageTitle = TranslationService.CurrentLanguageDisplayName;
+                ShowLanguagePicker = false;
+            }
+            catch (Exception ex)
+            {
+                Analytics.TrackEvent("LanguageChangeFailure",
+                    new Dictionary<string, string>
+                    {
+                        { "Error", ex.Message },
+                        { "Language", value.CodeOption }
+                    });
+                
+                // Keep picker open on error so user can retry
+                ShowLanguagePicker = true;
+            }
+            finally
+            {
+                _isChangingLanguage = false;
+            }
+        });
+    }
+
+    partial void OnDebugOptionsEnabledChanged(bool value)
+    {
+        Preferences.Set(AppConstants.DebugOptionsEnabledKey, value);
     }
 
     partial void OnAllowUnansweredQuestionsChanged(bool value)
@@ -270,14 +352,18 @@ public partial class SettingsViewModel(
 
     partial void OnTotalTopicsChanged(int value)
     {
-        Preferences.Set(AppConstants.DebugTotalTopicsKey, value);
+        // FIX: Add bounds validation before saving
+        var clampedValue = Math.Clamp(value, 0, 50);
+        Preferences.Set(AppConstants.DebugTotalTopicsKey, clampedValue);
 
         TotalQuestions = TotalTopics * TopicLimit;
     }
 
     partial void OnTopicLimitChanged(int value)
     {
-        Preferences.Set(AppConstants.DebugQuestionsPerTopicKey, value);
+        // FIX: Add bounds validation before saving
+        var clampedValue = Math.Clamp(value, 0, 50);
+        Preferences.Set(AppConstants.DebugQuestionsPerTopicKey, clampedValue);
 
         TotalQuestions = TotalTopics * TopicLimit;
     }
@@ -289,6 +375,8 @@ public partial class SettingsViewModel(
 
     partial void OnTotalUnansweredQuestionsChanged(int value)
     {
-        Preferences.Set(AppConstants.DebugTotalUnansweredQuestionsKey, value);
+        // FIX: Add bounds validation before saving
+        var clampedValue = Math.Clamp(value, 0, 100);
+        Preferences.Set(AppConstants.DebugTotalUnansweredQuestionsKey, clampedValue);
     }
 }

@@ -55,9 +55,17 @@ public static class PageHelper
         if (string.IsNullOrWhiteSpace(email))
             return false;
 
-        // Simple but solid regex for typical email patterns
-        var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-        return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
+        // Improved validation: use MailAddress for robust checking
+        try
+        {
+            var mailAddress = new System.Net.Mail.MailAddress(email);
+            // Ensure no display name and address matches input (no extra formatting)
+            return mailAddress.Address == email.Trim();
+        }
+        catch
+        {
+            return false;
+        }
     }
 
 }

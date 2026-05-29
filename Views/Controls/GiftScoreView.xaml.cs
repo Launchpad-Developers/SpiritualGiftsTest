@@ -15,19 +15,40 @@ public partial class GiftScoreView : ContentView
     {
         base.OnBindingContextChanged();
 
+        Console.WriteLine($"[GiftScoreView] OnBindingContextChanged called");
+        
+        // Clear and re-add gesture recognizer for recycled cells
         GestureRecognizers.Clear();
 
-        var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += (sender, e) =>
+        if (BindingContext is GiftScoreViewModel vm)
         {
-            ((GiftScoreViewModel)BindingContext).ViewGiftDescriptionCommand?.Execute(BindingContext);
-        };
+            Console.WriteLine($"[GiftScoreView] ✅ BindingContext is GiftScoreViewModel:");
+            Console.WriteLine($"[GiftScoreView]    GiftName: {vm.GiftName}");
+            Console.WriteLine($"[GiftScoreView]    Score: {vm.Score}");
+            Console.WriteLine($"[GiftScoreView]    Progress: {vm.Progress:F2}");
+            Console.WriteLine($"[GiftScoreView]    ShowMedal: {vm.ShowMedal}");
+            Console.WriteLine($"[GiftScoreView]    MedalColor: {vm.MedalColor}");
+            
+            var tapGesture = new TapGestureRecognizer();
+            tapGesture.Tapped += (sender, e) =>
+            {
+                vm.ViewGiftDescriptionCommand?.Execute(vm);
+            };
 
-        GestureRecognizers.Add(tapGesture);
+            GestureRecognizers.Add(tapGesture);
 
-        Dispatcher.Dispatch(UpdateProgressBar);
+            // Reset progress bar immediately to prevent showing stale data
+            ProgressFill.WidthRequest = 0;
+            Console.WriteLine($"[GiftScoreView] Reset ProgressFill.WidthRequest to 0");
+            
+            // Update progress bar after a brief delay to ensure container is measured
+            Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(10), UpdateProgressBar);
+        }
+        else
+        {
+            Console.WriteLine($"[GiftScoreView] ❌ BindingContext is NOT GiftScoreViewModel! Type: {BindingContext?.GetType().Name ?? "null"}");
+        }
     }
-
 
     public static readonly BindableProperty TapCommandProperty =
         BindableProperty.Create(
@@ -54,12 +75,26 @@ public partial class GiftScoreView : ContentView
     private void UpdateProgressBar()
     {
         if (BindingContext is not GiftScoreViewModel vm)
+        {
+            Console.WriteLine($"[GiftScoreView.UpdateProgressBar] ❌ No valid BindingContext");
+            ProgressFill.WidthRequest = 0;
             return;
+        }
 
         double clampedProgress = Math.Clamp(vm.Progress, 0, 1);
         double width = BarContainer.Width;
 
+        Console.WriteLine($"[GiftScoreView.UpdateProgressBar] {vm.GiftName}: BarContainer.Width={width:F1}, Progress={clampedProgress:F2}");
+
         if (width > 0)
-            ProgressFill.WidthRequest = width * clampedProgress;
+        {
+            double newWidth = width * clampedProgress;
+            ProgressFill.WidthRequest = newWidth;
+            Console.WriteLine($"[GiftScoreView.UpdateProgressBar] Set ProgressFill.WidthRequest = {newWidth:F1}");
+        }
+        else
+        {
+            Console.WriteLine($"[GiftScoreView.UpdateProgressBar] ⚠️ BarContainer.Width is 0, skipping update");
+        }
     }
 }

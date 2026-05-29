@@ -35,6 +35,30 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
     
 	</PropertyGroup>
+
+  <!-- Trimming Configuration for Release Builds -->
+  <!-- See: docs/release-safe-patterns.md -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <!-- Enable trimming but use conservative mode to prevent breaking reflection-based code -->
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
+    
+    <!-- Enable trimming analyzers to warn about unsafe patterns -->
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+    
+    <!-- iOS: Use SdkOnly linking (preserves app assembly) -->
+    <MtouchLink Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">SdkOnly</MtouchLink>
+    
+    <!-- Android: Use SdkOnly linking (preserves app assembly) -->
+    <AndroidLinkMode Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">SdkOnly</AndroidLinkMode>
+  </PropertyGroup>
+
+  <!-- Exclude test project files from compilation -->
+  <ItemGroup>
+    <Compile Remove="SpiritualGiftsSurvey.Tests\**\*.cs" />
+    <None Include="SpiritualGiftsSurvey.Tests\**\*.cs" />
+  </ItemGroup>
   
   <PropertyGroup>
     <NoWarn>$(NoWarn);XC0022</NoWarn>

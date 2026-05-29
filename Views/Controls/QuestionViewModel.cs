@@ -86,8 +86,12 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
     [ObservableProperty]
     private bool isFirst;
 
+    // Inner margin for the content grid (left/right padding, plus small top/bottom)
     [ObservableProperty]
     private Thickness questionMargin = new Thickness(30, 10, 30, 10);
+
+    // Callback for when answer changes (used for auto-save)
+    public Func<QuestionViewModel, Task>? OnAnswerChanged { get; set; }
 
     [RelayCommand]
     private void SetValue(UserValue value)
@@ -120,6 +124,23 @@ public partial class QuestionViewModel : ObservableObject, INotifyPropertyChange
 
         // Ensure border turns green when answered
         BorderColor = _emeraldGreen;
+
+        // Trigger answer changed callback for auto-save (fire-and-forget with proper handling)
+        if (OnAnswerChanged != null)
+        {
+            // Run on background thread to avoid blocking UI
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await OnAnswerChanged(this);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[QuestionViewModel] Error in OnAnswerChanged: {ex.Message}");
+                }
+            });
+        }
     }
 
     partial void OnAnsweredChanged(bool value)

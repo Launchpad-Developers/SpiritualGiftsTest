@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.81" />
+    <PackageReference Include="FsCheck" Version="2.16.6" />
+    <PackageReference Include="FsCheck.Xunit" Version="2.16.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Reference MAUI app models/services directly -->
+    <Compile Include="..\Models\*.cs" Link="Models\%(Filename)%(Extension)" />
+    <Compile Include="..\Enums\*.cs" Link="Enums\%(Filename)%(Extension)" />
+    <Compile Include="..\Services\AppJsonContext.cs" Link="Services\AppJsonContext.cs" />
+    <Compile Include="..\Services\UrlService.cs" Link="Services\UrlService.cs" />
+    <Compile Include="..\Services\DatabaseService.cs" Link="Services\DatabaseService.cs" />
+    <Compile Include="..\Services\SurveyProgressService.cs" Link="Services\SurveyProgressService.cs" />
+    <Compile Include="..\Messages\*.cs" Link="Messages\%(Filename)%(Extension)" />
+    <Compile Include="..\Utilities\TitledException.cs" Link="Utilities\TitledException.cs" />
+  </ItemGroup>
+
+</Project>

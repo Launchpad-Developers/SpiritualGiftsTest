@@ -31,5 +31,6 @@ namespace SpiritualGiftsSurvey.Utilities
         public const string DebugQuestionsPerTopicKey = nameof(DebugQuestionsPerTopicKey);
         public const string DebugAllowUnansweredQuestionsKey = nameof(DebugAllowUnansweredQuestionsKey);
         public const string DebugTotalUnansweredQuestionsKey = nameof(DebugTotalUnansweredQuestionsKey);
+        public const string DebugOptionsEnabledKey = nameof(DebugOptionsEnabledKey); 
     }
 }

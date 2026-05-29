@@ -76,20 +76,59 @@ public partial class TranslationService : ObservableObject, ITranslationService
 
     public async Task<bool> InitializeLanguage()
     {
+        Console.WriteLine($"[TranslationService] ========================================");
+        Console.WriteLine($"[TranslationService] Starting InitializeLanguage");
+        Console.WriteLine($"[TranslationService] CurrentLanguageCode: {CurrentLanguageCode}");
+        
         var translation = await _databaseService.GetTranslationByCodeAsync(CurrentLanguageCode);
+        Console.WriteLine($"[TranslationService] Translation fetched - IsNull: {translation is null}");
 
         if (translation is null)
+        {
+            Console.WriteLine($"[TranslationService] ❌ Translation is null - returning false");
+            Console.WriteLine($"[TranslationService] ========================================");
             return false;
+        }
 
-        AppStrings = _databaseService
-            .GetAppStrings(CurrentLanguageCode)
-            .ToDictionary(x => x.Key, x => x.Value);
+        Console.WriteLine($"[TranslationService] Translation found - Code: {translation.Code}, GUID: {translation.TranslationGuid}");
+        Console.WriteLine($"[TranslationService] Fetching AppStrings...");
+        
+        var appStringsList = _databaseService.GetAppStrings(CurrentLanguageCode);
+        Console.WriteLine($"[TranslationService] AppStrings fetched - Count: {appStringsList?.Count() ?? 0}");
+        
+        AppStrings = appStringsList.ToDictionary(x => x.Key, x => x.Value);
+        Console.WriteLine($"[TranslationService] AppStrings dictionary created - Count: {AppStrings.Count}");
+        
+        // Log first 10 keys for diagnostics
+        if (AppStrings.Count > 0)
+        {
+            Console.WriteLine($"[TranslationService] First 10 AppStrings keys:");
+            foreach (var key in AppStrings.Keys.Take(10))
+            {
+                Console.WriteLine($"[TranslationService]   - '{key}'");
+            }
+        }
 
+        Console.WriteLine($"[TranslationService] Fetching LanguageOptions...");
         LanguageOptions = _databaseService.GetLanguageOptions(CurrentLanguageCode);
+        Console.WriteLine($"[TranslationService] LanguageOptions fetched - Count: {LanguageOptions?.Count() ?? 0}");
+        
         FlowDirection = ParseFlowDirection(translation.FlowDirection);
+        Console.WriteLine($"[TranslationService] FlowDirection: {FlowDirection}");
+        
         TotalQuestions = await _databaseService.GetQuestionsCountAsync(CurrentLanguageCode);
+        Console.WriteLine($"[TranslationService] TotalQuestions: {TotalQuestions}");
 
-        return AppStrings.Any() && LanguageOptions.Any();
+        bool hasAppStrings = AppStrings.Any();
+        bool hasLanguageOptions = LanguageOptions.Any();
+        Console.WriteLine($"[TranslationService] AppStrings.Any(): {hasAppStrings}");
+        Console.WriteLine($"[TranslationService] LanguageOptions.Any(): {hasLanguageOptions}");
+        
+        bool result = hasAppStrings && hasLanguageOptions;
+        Console.WriteLine($"[TranslationService] Returning: {result}");
+        Console.WriteLine($"[TranslationService] ========================================");
+        
+        return result;
     }
 
     public async Task<bool> SetLanguageByCodeAsync(string code)
@@ -114,7 +153,22 @@ public partial class TranslationService : ObservableObject, ITranslationService
     }
 
     public string GetString(string key, string defaultValue = "")
-        => AppStrings.TryGetValue(key, out var value) ? value : defaultValue;
+    {
+        Console.WriteLine($"[TranslationService.GetString] Requesting key: '{key}'");
+        Console.WriteLine($"[TranslationService.GetString] AppStrings.Count: {AppStrings.Count}");
+        
+        bool found = AppStrings.TryGetValue(key, out var value);
+        Console.WriteLine($"[TranslationService.GetString] Key found: {found}");
+        
+        if (found)
+        {
+            Console.WriteLine($"[TranslationService.GetString] Value length: {value?.Length ?? 0} chars");
+            return value ?? defaultValue;
+        }
+        
+        Console.WriteLine($"[TranslationService.GetString] Returning default: '{defaultValue?.Substring(0, Math.Min(50, defaultValue?.Length ?? 0))}...'");
+        return defaultValue;
+    }
 
     private static FlowDirection ParseFlowDirection(string flowDirectionString)
     {

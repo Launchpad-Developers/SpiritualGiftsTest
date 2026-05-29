@@ -70,6 +70,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<ITranslationService, TranslationService>();
         mauiAppBuilder.Services.AddTransient<IDeviceStorageService, DeviceStorageService>();
         mauiAppBuilder.Services.AddTransient<IDatabaseService, DatabaseService>();
+        mauiAppBuilder.Services.AddTransient<ISurveyProgressService, SurveyProgressService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
         mauiAppBuilder.Services.AddSingleton<IAnalyticsService, AppInsightsService>();
         mauiAppBuilder.Services.AddSingleton<IAppInfoService, AppInfoService>();

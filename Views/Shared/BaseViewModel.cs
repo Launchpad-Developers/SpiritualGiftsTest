@@ -22,8 +22,13 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
     protected IAnalyticsService Analytics => AggregatedServices.AnalyticsService;
     protected IAppInfoService AppInfoService => AggregatedServices.AppInfoService;
     protected IEmailService EmailService => AggregatedServices.EmailService;
+    protected ISurveyProgressService SurveyProgressService => AggregatedServices.SurveyProgressService;
 
     readonly IPreferences Prefs;
+
+    // HIGH-2/HIGH-3/HIGH-4 FIX: Lifecycle coordination
+    private Task? _currentInitTask;
+    private readonly SemaphoreSlim _initLock = new(1, 1);
 
     public BaseViewModel(
         IAggregatedServices aggregatedServices,
@@ -34,9 +39,25 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
 
         IsTablet = DeviceInfo.Idiom == DeviceIdiom.Tablet;
 
+        // HIGH-4 FIX: Message handler must await and handle exceptions
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (r, m) =>
         {
-            InitAsync();
+            // Dispatch async work with exception handling (prevent overlapping InitAsync)
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    await InitializeAsync();
+                }
+                catch (Exception ex)
+                {
+                    Analytics.TrackEvent("LanguageChangeInitFailure",
+                        new Dictionary<string, string>
+                        {
+                            { "Error", ex.Message }
+                        });
+                }
+            });
         });
     }
 
@@ -110,6 +131,42 @@ public abstract partial class BaseViewModel : ObservableObject, INotifyPropertyC
 
     public abstract Task InitAsync();
     public abstract void RefreshViewModel();
+
+    /// <summary>
+    /// HIGH-2/HIGH-3/HIGH-4 FIX: Coordinated initialization preventing overlapping execution.
+    /// Called by BasePage.OnNavigatedTo and LanguageChangedMessage handler.
+    /// Ensures only one InitAsync runs at a time per ViewModel instance.
+    /// </summary>
+    public async Task InitializeAsync()
+    {
+        // If initialization is already running, await the existing task
+        if (_currentInitTask != null && !_currentInitTask.IsCompleted)
+        {
+            await _currentInitTask;
+            return;
+        }
+
+        // Acquire lock to prevent race between checking and starting init
+        await _initLock.WaitAsync();
+        try
+        {
+            // Double-check pattern: another caller might have started init while we waited
+            if (_currentInitTask != null && !_currentInitTask.IsCompleted)
+            {
+                await _currentInitTask;
+                return;
+            }
+
+            // Start new initialization and track the task
+            _currentInitTask = InitAsync();
+            await _currentInitTask;
+        }
+        finally
+        {
+            _initLock.Release();
+        }
+    }
+
 
 
     [RelayCommand]

@@ -87,10 +87,10 @@ public class EmailService : IEmailService
         sb.AppendFormat("<p><strong>{0}:</strong> {1}</p>", _translationService.GetString("Email", "Email"), result.Email);
         sb.Append($"<h3>{_translationService.GetString("Scores", "Scores")}:</h3><ul>");
 
-        // Ensure gifts are ranked before sending
+        // HIGH-1 FIX: Ensure gifts are ranked BEFORE continuing (await instead of fire-and-forget)
         if (!result.IsRanked)
         {
-            _ = result.RankGiftsAsync();
+            await result.RankGiftsAsync();
         }
 
         var ranked = result.Scores
@@ -127,7 +127,8 @@ public class EmailService : IEmailService
     {
         var stored = Preferences.Get(AppConstants.ReportingEmailsKey, null);
         return !string.IsNullOrEmpty(stored)
-            ? JsonSerializer.Deserialize<List<string>>(stored) ?? new()
+            // Use source-generated JSON deserialization (Release-safe, linker-safe, AOT-compatible)
+            ? JsonSerializer.Deserialize(stored, AppJsonContext.Default.ListString) ?? new()
             : new();
     }
 
@@ -137,7 +138,8 @@ public class EmailService : IEmailService
         if (!list.Contains(email, StringComparer.OrdinalIgnoreCase))
         {
             list.Add(email);
-            Preferences.Set(AppConstants.ReportingEmailsKey, JsonSerializer.Serialize(list));
+            // Use source-generated JSON serialization (Release-safe, linker-safe, AOT-compatible)
+            Preferences.Set(AppConstants.ReportingEmailsKey, JsonSerializer.Serialize(list, AppJsonContext.Default.ListString));
 
             return true;
         }
@@ -150,7 +152,8 @@ public class EmailService : IEmailService
         var list = GetStoredEmails();
         if (list.RemoveAll(e => e.Equals(email, StringComparison.OrdinalIgnoreCase)) > 0)
         {
-            Preferences.Set(AppConstants.ReportingEmailsKey, JsonSerializer.Serialize(list));
+            // Use source-generated JSON serialization (Release-safe, linker-safe, AOT-compatible)
+            Preferences.Set(AppConstants.ReportingEmailsKey, JsonSerializer.Serialize(list, AppJsonContext.Default.ListString));
 
             return true;
         }

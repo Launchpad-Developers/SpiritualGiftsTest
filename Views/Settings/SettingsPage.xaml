@@ -162,7 +162,30 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <StackLayout IsVisible="{Binding ShowDebugOptions}" Padding="0" Spacing="20">
+                    <!-- Restore and Clear Buttons -->
+                    <StackLayout Spacing="{OnIdiom Phone=10, Tablet=20}">
+                        <Button
+                            Text="{Binding RestoreDatabase}"
+                            Command="{Binding RestoreDatabaseCommand}"
+                            BackgroundColor="{StaticResource EmeraldGreen}"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=24}"
+                            CornerRadius="8"
+                            HeightRequest="{OnIdiom Phone=50, Tablet=70}" />
+
+                        <Button
+                            Text="{Binding ClearData}"
+                            Command="{Binding ClearDataCommand}"
+                            BackgroundColor="DarkRed"
+                            TextColor="White"
+                            FontSize="{OnIdiom Phone=18, Tablet=24}"
+                            CornerRadius="8"
+                            HeightRequest="{OnIdiom Phone=50, Tablet=70}" />
+                    </StackLayout>
+
+                    <Switch IsVisible="{Binding ShowDebugOptions}" IsToggled="{Binding DebugOptionsEnabled}" />
+                    
+                    <StackLayout IsVisible="{Binding DebugOptionsEnabled}" Padding="0" Spacing="20">
                         <Label Text="Debug Options"
                                FontSize="Title"
                                FontAttributes="Bold"

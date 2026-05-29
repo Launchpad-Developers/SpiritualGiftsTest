@@ -10,6 +10,7 @@ public interface IAggregatedServices
     IAnalyticsService AnalyticsService { get; }
     IAppInfoService AppInfoService { get; }
     IEmailService EmailService { get; }
+    ISurveyProgressService SurveyProgressService { get; }
 }
 
 public class AggregatedServices : IAggregatedServices
@@ -21,8 +22,8 @@ public class AggregatedServices : IAggregatedServices
     public INavigationService NavigationService { get; }
     public IAnalyticsService AnalyticsService { get; }
     public IAppInfoService AppInfoService { get; }
-
     public IEmailService EmailService { get; }
+    public ISurveyProgressService SurveyProgressService { get; }
 
     public AggregatedServices(IDatabaseService databaseService,
                               ITranslationService translationService,
@@ -31,7 +32,8 @@ public class AggregatedServices : IAggregatedServices
                               INavigationService navigationService,
                               IAnalyticsService analyticsService,
                               IAppInfoService appInfoService,
-                              IEmailService emailService)
+                              IEmailService emailService,
+                              ISurveyProgressService surveyProgressService)
     {
         DatabaseService = databaseService;
         TranslationService = translationService;
@@ -41,5 +43,6 @@ public class AggregatedServices : IAggregatedServices
         AnalyticsService = analyticsService;
         AppInfoService = appInfoService;
         EmailService = emailService;
+        SurveyProgressService = surveyProgressService;
     }
 }

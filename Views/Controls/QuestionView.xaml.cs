@@ -1,4 +1,4 @@
-﻿using SpiritualGiftsSurvey.Models;
+using SpiritualGiftsSurvey.Models;
 
 namespace SpiritualGiftsSurvey.Views.Controls;
 

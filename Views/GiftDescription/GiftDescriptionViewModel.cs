@@ -28,8 +28,27 @@ public partial class GiftDescriptionViewModel(
         if (value == null) 
             return;
 
-        // Fire and forget async work
-        _ = LoadGiftDetailsAsync(value);
+        // HIGH-1 FIX: Do NOT use fire-and-forget async
+        // Dispatch async work with exception handling
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            try
+            {
+                await LoadGiftDetailsAsync(value);
+            }
+            catch (Exception ex)
+            {
+                Analytics.TrackEvent("GiftDetailsLoadFailure",
+                    new Dictionary<string, string>
+                    {
+                        { "Error", ex.Message },
+                        { "Gift", value.Gift.ToString() }
+                    });
+                
+                // Set loading to false on error
+                IsLoading = false;
+            }
+        });
     }
 
     public override async Task InitAsync()

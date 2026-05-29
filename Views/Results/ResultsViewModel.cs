@@ -25,12 +25,31 @@ public partial class ResultsViewModel(
         if (value?.Scores == null)
             return;
 
-        if (!value.IsRanked)
+        // HIGH-1 FIX: Do NOT use fire-and-forget async
+        // Dispatch async work with exception handling
+        MainThread.BeginInvokeOnMainThread(async () =>
         {
-            _ = value.RankGiftsAsync();
-        }
+            try
+            {
+                if (!value.IsRanked)
+                {
+                    await value.RankGiftsAsync();
+                }
 
-        _ = LoadUserGiftResultAsync(value);
+                await LoadUserGiftResultAsync(value);
+            }
+            catch (Exception ex)
+            {
+                Analytics.TrackEvent("ResultsViewModelLoadFailure",
+                    new Dictionary<string, string>
+                    {
+                        { "Error", ex.Message }
+                    });
+                
+                // Set loading to false on error
+                IsLoading = false;
+            }
+        });
     }
 
     public override async Task InitAsync()

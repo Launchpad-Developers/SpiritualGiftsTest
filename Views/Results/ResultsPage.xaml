@@ -14,64 +14,63 @@
     BackgroundColor="{StaticResource ContentBackground}">
 
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto,*,Auto">
+
             <!-- BG -->
             <Image Source="mainpagebackground.jpg"
                    Aspect="Fill"
                    HorizontalOptions="Fill"
                    VerticalOptions="Fill"
-                   Grid.RowSpan="2"
+                   Grid.RowSpan="3"
                    IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
             <c:NavBar Grid.Row="0" 
-                Title="{Binding PageTopic}"
-                ShowLeftButton="False"
-                ShowRightButton="False" />
+                      Title="{Binding PageTopic}"
+                      ShowLeftButton="False"
+                      ShowRightButton="False" />
 
             <!-- MAIN CONTENT -->
-            <ScrollView Grid.Row="1">
-                <VerticalStackLayout 
-                    Padding="{OnIdiom Phone='20,20,20,40', Tablet='40,40,40,80'}" 
-                    Spacing="{OnIdiom Phone=30, Tablet=60}">
-
-                    <!-- New CollectionView with GiftScoreView -->
-                    <CollectionView
-                        x:Name="ResultsCollectionView" 
-                        ItemsSource="{Binding AllGiftScores}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <c:GiftScoreView />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-                        </CollectionView.ItemsLayout>
-                    </CollectionView>
-
-                    <!-- Continue -->
-                    <Button 
-                        Text="{Binding ContinueButtonText}"
-                        Command="{Binding ContinueCommand}"
-                        BackgroundColor="{StaticResource EmeraldGreen}"
-                        TextColor="White"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="End"
-                        Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
-                        HeightRequest="{OnIdiom Phone=50, Tablet=80}"
-                        FontSize="{OnIdiom Phone=30, Tablet=40}"
-                        FontAttributes="Bold"
-                        Padding="0"
-                        CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
+            <ScrollView Grid.Row="1" 
+                        Margin="{OnIdiom Phone='20,0,20,0', Tablet='40,0,40,0'}">
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding AllGiftScores}"
+                                     Spacing="10">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="c:GiftScoreViewModel">
+                            <c:GiftScoreView />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
             </ScrollView>
 
-            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="2" IsVisible="{Binding IsLoading}" />
-            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
+            <!-- CONTINUE BUTTON -->
+            <Button 
+                Grid.Row="2"
+                Text="{Binding ContinueButtonText}"
+                Command="{Binding ContinueCommand}"
+                BackgroundColor="{StaticResource EmeraldGreen}"
+                TextColor="White"
+                HorizontalOptions="Fill"
+                VerticalOptions="End"
+                Margin="{OnIdiom Phone='80,20', Tablet='160,40'}"
+                HeightRequest="{OnIdiom Phone=50, Tablet=80}"
+                FontSize="{OnIdiom Phone=30, Tablet=40}"
+                FontAttributes="Bold"
+                Padding="0"
+                CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
+
+            <!-- LOADING OVERLAY -->
+            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="3" IsVisible="{Binding IsLoading}" />
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding IsLoading}"
+                         WidthRequest="300"
+                         HeightRequest="100"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center">
                 <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
                 <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
             </StackLayout>
-            
+
         </Grid>
     </ContentPage.Content>
 </views:BasePage>

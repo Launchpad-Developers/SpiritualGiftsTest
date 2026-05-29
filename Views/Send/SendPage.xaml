@@ -18,6 +18,7 @@
         <Style x:Key="EntryStyle" TargetType="Entry">
             <Setter Property="FontSize" Value="{OnIdiom Phone=16, Tablet=22}" />
             <Setter Property="TextColor" Value="Black" />
+            <Setter Property="PlaceholderColor" Value="DarkSlateGray" />
             <Setter Property="HeightRequest" Value="{OnIdiom Phone=50, Tablet=70}" />
             <Setter Property="Margin" Value="0,0,0,10" />
         </Style>
