@@ -36,9 +36,8 @@ jobs:
 
     - name: Install .NET MAUI workload
       run: |
-        # Use .NET 9.0 GA manifest to get iOS SDK compatible with Xcode 15.4
-        curl -o workload-manifest.json https://raw.githubusercontent.com/dotnet/installer/v9.0.100/src/workloads/workloads.json
-        dotnet workload install maui --from-rollback-file workload-manifest.json
+        # Install MAUI workload from .NET 9.0 GA timeframe (compatible with Xcode 15.4)
+        dotnet workload install maui --version 9.0.0
         dotnet workload list
 
     - name: Restore dependencies
