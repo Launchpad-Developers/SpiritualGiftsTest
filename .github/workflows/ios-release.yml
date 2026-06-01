@@ -23,7 +23,7 @@ env:
 
 jobs:
   build-ios:
-    runs-on: macos-14
+    runs-on: macos-15  # Latest macOS with Xcode 16+
     
     steps:
     - name: Checkout code
