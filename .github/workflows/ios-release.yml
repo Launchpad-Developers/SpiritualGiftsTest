@@ -114,7 +114,7 @@ jobs:
         retention-days: 30
 
     - name: Upload to TestFlight (Optional)
-      if: secrets.APP_STORE_CONNECT_API_KEY_ID != ''
+      if: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID != '' }}
       run: |
         # Install xcrun altool or use App Store Connect API
         xcrun altool --upload-app \
