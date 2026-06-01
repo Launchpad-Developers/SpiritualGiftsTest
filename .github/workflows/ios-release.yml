@@ -32,7 +32,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: '9.0.100'  # Pin to 9.0 RTM SDK for Xcode 15.4 compatibility
 
     - name: Install .NET MAUI workload
       run: dotnet workload install maui
