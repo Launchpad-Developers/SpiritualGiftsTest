@@ -16,27 +16,18 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_VERSION: '9.0.0'  # Pin to 9.0.0 for Xcode compatibility
+  DOTNET_VERSION: '9.0.x'
   PROJECT_PATH: 'SpiritualGiftsSurvey.csproj'
   CONFIGURATION: 'Release'
   BUNDLE_ID: 'com.launchpaddevs.spiritualgiftssurvey'
 
 jobs:
   build-ios:
-    runs-on: macos-15  # Latest macOS with Xcode 16+
+    runs-on: macos-14  # Use macos-14 for stable Xcode/SDK compatibility
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: List available Xcode versions and select latest
-      run: |
-        ls /Applications | grep Xcode
-        # Use the latest available Xcode
-        LATEST_XCODE=$(ls -d /Applications/Xcode*.app | sort -V | tail -n 1)
-        echo "Using Xcode: $LATEST_XCODE"
-        sudo xcode-select -s "$LATEST_XCODE/Contents/Developer"
-        xcodebuild -version
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
