@@ -86,20 +86,6 @@ jobs:
           -p:ApplicationDisplayVersion=${{ steps.version.outputs.version_name }} \
           -p:ApplicationVersion=${{ steps.version.outputs.version_code }}
 
-    - name: Build Android APK (for testing)
-      run: |
-        dotnet publish ${{ env.PROJECT_PATH }} \
-          -f net9.0-android \
-          -c ${{ env.CONFIGURATION }} \
-          -p:AndroidPackageFormat=apk \
-          -p:AndroidKeyStore=true \
-          -p:AndroidSigningKeyStore=${{ github.workspace }}/release.keystore \
-          -p:AndroidSigningKeyAlias=${{ secrets.ANDROID_KEY_ALIAS }} \
-          -p:AndroidSigningKeyPass=${{ secrets.ANDROID_KEY_PASSWORD }} \
-          -p:AndroidSigningStorePass=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
-          -p:ApplicationDisplayVersion=${{ steps.version.outputs.version_name }} \
-          -p:ApplicationVersion=${{ steps.version.outputs.version_code }}
-
     - name: Find AAB file
       id: find_aab
       run: |
@@ -107,25 +93,11 @@ jobs:
         echo "aab_path=$AAB_PATH" >> $GITHUB_OUTPUT
         echo "Found AAB: $AAB_PATH"
 
-    - name: Find APK file
-      id: find_apk
-      run: |
-        APK_PATH=$(find bin/${{ env.CONFIGURATION }}/net9.0-android/publish -name "*-Signed.apk" | head -n 1)
-        echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-        echo "Found APK: $APK_PATH"
-
     - name: Upload AAB artifact
       uses: actions/upload-artifact@v4
       with:
         name: android-aab-${{ steps.version.outputs.version_name }}
         path: ${{ steps.find_aab.outputs.aab_path }}
-        retention-days: 30
-
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: android-apk-${{ steps.version.outputs.version_name }}
-        path: ${{ steps.find_apk.outputs.apk_path }}
         retention-days: 30
 
     - name: Clean up keystore
@@ -136,9 +108,7 @@ jobs:
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          ${{ steps.find_aab.outputs.aab_path }}
-          ${{ steps.find_apk.outputs.apk_path }}
+        files: ${{ steps.find_aab.outputs.aab_path }}
         draft: true
         generate_release_notes: true
       env:
