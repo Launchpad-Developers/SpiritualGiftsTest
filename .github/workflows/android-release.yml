@@ -1,0 +1,134 @@
+name: Android Release Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version name (e.g., 1.0.5)'
+        required: true
+        type: string
+      version_code:
+        description: 'Version code (integer, e.g., 5)'
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  DOTNET_VERSION: '9.0.x'
+  PROJECT_PATH: 'SpiritualGiftsSurvey.csproj'
+  CONFIGURATION: 'Release'
+
+jobs:
+  build-android:
+    runs-on: macos-14  # macOS runner for .NET MAUI
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Install .NET MAUI workload
+      run: dotnet workload install maui
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_PATH }}
+
+    - name: Extract version from input or tag
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          VERSION_NAME="${{ inputs.version_name }}"
+          VERSION_CODE="${{ inputs.version_code }}"
+        else
+          VERSION_NAME="${GITHUB_REF#refs/tags/v}"
+          VERSION_CODE="${{ github.run_number }}"
+        fi
+        echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+
+    - name: Update Android version
+      run: |
+        sed -i '' 's/android:versionCode="[0-9]*"/android:versionCode="${{ steps.version.outputs.version_code }}"/' Platforms/Android/AndroidManifest.xml
+        sed -i '' 's/android:versionName="[^"]*"/android:versionName="${{ steps.version.outputs.version_name }}"/' Platforms/Android/AndroidManifest.xml
+
+    - name: Decode Keystore
+      run: |
+        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/release.keystore
+
+    - name: Build Android AAB
+      run: |
+        dotnet publish ${{ env.PROJECT_PATH }} \
+          -f net9.0-android \
+          -c ${{ env.CONFIGURATION }} \
+          -p:AndroidPackageFormat=aab \
+          -p:AndroidKeyStore=true \
+          -p:AndroidSigningKeyStore=${{ github.workspace }}/release.keystore \
+          -p:AndroidSigningKeyAlias=${{ secrets.ANDROID_KEY_ALIAS }} \
+          -p:AndroidSigningKeyPass=${{ secrets.ANDROID_KEY_PASSWORD }} \
+          -p:AndroidSigningStorePass=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
+          -p:ApplicationDisplayVersion=${{ steps.version.outputs.version_name }} \
+          -p:ApplicationVersion=${{ steps.version.outputs.version_code }}
+
+    - name: Build Android APK (for testing)
+      run: |
+        dotnet publish ${{ env.PROJECT_PATH }} \
+          -f net9.0-android \
+          -c ${{ env.CONFIGURATION }} \
+          -p:AndroidPackageFormat=apk \
+          -p:AndroidKeyStore=true \
+          -p:AndroidSigningKeyStore=${{ github.workspace }}/release.keystore \
+          -p:AndroidSigningKeyAlias=${{ secrets.ANDROID_KEY_ALIAS }} \
+          -p:AndroidSigningKeyPass=${{ secrets.ANDROID_KEY_PASSWORD }} \
+          -p:AndroidSigningStorePass=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
+          -p:ApplicationDisplayVersion=${{ steps.version.outputs.version_name }} \
+          -p:ApplicationVersion=${{ steps.version.outputs.version_code }}
+
+    - name: Find AAB file
+      id: find_aab
+      run: |
+        AAB_PATH=$(find bin/${{ env.CONFIGURATION }}/net9.0-android/publish -name "*.aab" | head -n 1)
+        echo "aab_path=$AAB_PATH" >> $GITHUB_OUTPUT
+        echo "Found AAB: $AAB_PATH"
+
+    - name: Find APK file
+      id: find_apk
+      run: |
+        APK_PATH=$(find bin/${{ env.CONFIGURATION }}/net9.0-android/publish -name "*-Signed.apk" | head -n 1)
+        echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+        echo "Found APK: $APK_PATH"
+
+    - name: Upload AAB artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-aab-${{ steps.version.outputs.version_name }}
+        path: ${{ steps.find_aab.outputs.aab_path }}
+        retention-days: 30
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-apk-${{ steps.version.outputs.version_name }}
+        path: ${{ steps.find_apk.outputs.apk_path }}
+        retention-days: 30
+
+    - name: Clean up keystore
+      if: always()
+      run: rm -f ${{ github.workspace }}/release.keystore
+
+    - name: Create Release
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ${{ steps.find_aab.outputs.aab_path }}
+          ${{ steps.find_apk.outputs.apk_path }}
+        draft: true
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
