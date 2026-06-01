@@ -90,7 +90,7 @@ jobs:
     - name: Build iOS IPA
       run: |
         dotnet publish ${{ env.PROJECT_PATH }} \
-          -f net9.0-ios \
+          -f net10.0-ios \
           -c ${{ env.CONFIGURATION }} \
           -p:ArchiveOnBuild=true \
           -p:RuntimeIdentifier=ios-arm64 \
@@ -102,7 +102,7 @@ jobs:
     - name: Find IPA file
       id: find_ipa
       run: |
-        IPA_PATH=$(find bin/${{ env.CONFIGURATION }}/net9.0-ios/ios-arm64/publish -name "*.ipa" | head -n 1)
+        IPA_PATH=$(find bin/${{ env.CONFIGURATION }}/net10.0-ios/ios-arm64/publish -name "*.ipa" | head -n 1)
         echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
         echo "Found IPA: $IPA_PATH"
 
