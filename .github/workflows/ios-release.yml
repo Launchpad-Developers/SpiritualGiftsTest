@@ -16,7 +16,7 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_VERSION: '9.0.x'
+  DOTNET_VERSION: '10.0.x'
   PROJECT_PATH: 'SpiritualGiftsSurvey.csproj'
   CONFIGURATION: 'Release'
   BUNDLE_ID: 'com.launchpaddevs.spiritualgiftssurvey'
@@ -32,13 +32,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.100'  # Pin to 9.0 RTM SDK for Xcode 15.4 compatibility
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install .NET MAUI workload
-      run: |
-        # Install MAUI workload from .NET 9.0 GA timeframe (compatible with Xcode 15.4)
-        dotnet workload install maui --version 9.0.0
-        dotnet workload list
+      run: dotnet workload install maui
 
     - name: Restore dependencies
       run: dotnet restore ${{ env.PROJECT_PATH }}
