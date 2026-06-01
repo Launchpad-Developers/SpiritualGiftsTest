@@ -35,7 +35,11 @@ jobs:
         dotnet-version: '9.0.100'  # Pin to 9.0 RTM SDK for Xcode 15.4 compatibility
 
     - name: Install .NET MAUI workload
-      run: dotnet workload install maui
+      run: |
+        # Use .NET 9.0 GA manifest to get iOS SDK compatible with Xcode 15.4
+        curl -o workload-manifest.json https://raw.githubusercontent.com/dotnet/installer/v9.0.100/src/workloads/workloads.json
+        dotnet workload install maui --from-rollback-file workload-manifest.json
+        dotnet workload list
 
     - name: Restore dependencies
       run: dotnet restore ${{ env.PROJECT_PATH }}
