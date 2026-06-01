@@ -16,7 +16,7 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_VERSION: '9.0.x'
+  DOTNET_VERSION: '9.0.0'  # Pin to 9.0.0 for Xcode compatibility
   PROJECT_PATH: 'SpiritualGiftsSurvey.csproj'
   CONFIGURATION: 'Release'
   BUNDLE_ID: 'com.launchpaddevs.spiritualgiftssurvey'
