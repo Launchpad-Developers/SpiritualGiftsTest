@@ -40,6 +40,17 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ${{ env.PROJECT_PATH }}
 
+    - name: Run unit tests
+      run: dotnet test SpiritualGiftsSurvey.Tests/SpiritualGiftsSurvey.Tests.csproj --configuration Release --logger trx --collect:"XPlat Code Coverage"
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-ios
+        path: '**/TestResults/**'
+        retention-days: 30
+
     - name: Extract version from input or tag
       id: version
       run: |
