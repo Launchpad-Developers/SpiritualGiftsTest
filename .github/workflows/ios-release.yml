@@ -23,7 +23,7 @@ env:
 
 jobs:
   build-ios:
-    runs-on: macos-14  # Use macos-14 for stable Xcode/SDK compatibility
+    runs-on: macos-latest  # Use macos-latest for stable Xcode/SDK compatibility
     
     steps:
     - name: Checkout code
