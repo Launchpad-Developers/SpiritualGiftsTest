@@ -16,7 +16,7 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_VERSION: '10.0.x'
+  DOTNET_VERSION: '10.0.200'
   PROJECT_PATH: 'SpiritualGiftsSurvey.csproj'
   CONFIGURATION: 'Release'
   BUNDLE_ID: 'com.launchpaddevs.spiritualgiftssurvey'
