@@ -22,26 +22,10 @@ public partial class SurveyViewModel(
     IPreferences preferences)
     : BaseViewModel(aggregatedServices, preferences)
 {
-    private const int QuestionsPerPage = 10;
-
-    [ObservableProperty] private bool showConfirmButton;
     [ObservableProperty] private string continueText = string.Empty;
-    [ObservableProperty] private int pageNumber;
-    [ObservableProperty] private bool showBackNav;
-    [ObservableProperty] private bool showForwardNav;
 
     // Store ALL questions (full shuffled set)
     public ObservableCollection<QuestionViewModel> AllQuestions { get; set; } = new();
-    
-    // Display CURRENT PAGE only
-    public ObservableCollection<QuestionViewModel> CurrentPageQuestions { get; set; } = new();
-
-    // Paging properties
-    [ObservableProperty] private int currentPage = 1;
-    [ObservableProperty] private int totalPages;
-    [ObservableProperty] private bool canGoNext;
-    [ObservableProperty] private bool canGoPrevious;
-    [ObservableProperty] private string pageIndicator = string.Empty;
 
     public override async Task InitAsync()
     {
@@ -160,12 +144,6 @@ public partial class SurveyViewModel(
                 index++;
             }
 
-            // Calculate total pages
-            TotalPages = (int)Math.Ceiling((double)AllQuestions.Count / QuestionsPerPage);
-            CurrentPage = 1;
-            UpdateCurrentPageQuestions();
-            UpdatePageNavigation();
-
             // Save initial progress with shuffled question order
             Console.WriteLine($"[SurveyViewModel] Saving initial survey progress...");
             await SaveInitialProgressAsync();
@@ -175,7 +153,7 @@ public partial class SurveyViewModel(
 #endif
 
             Console.WriteLine($"[SurveyViewModel] Updating question labels and properties...");
-            UpdateQuestionLabel(CurrentPage);
+            UpdateQuestionLabel();
 
             for (int i = 0; i < AllQuestions.Count; i++)
             {
@@ -185,7 +163,6 @@ public partial class SurveyViewModel(
             
             Console.WriteLine($"[SurveyViewModel] ✅ InitAsync completed successfully");
             Console.WriteLine($"[SurveyViewModel]   Total Questions: {AllQuestions.Count}");
-            Console.WriteLine($"[SurveyViewModel]   Total Pages: {TotalPages}");
             Console.WriteLine($"[SurveyViewModel]   PageTopic: {PageTopic}");
         }
         catch (Exception ex)
@@ -224,16 +201,12 @@ public partial class SurveyViewModel(
     public override void RefreshViewModel()
     {
         AllQuestions.Clear();
-        CurrentPageQuestions.Clear();
-        ShowConfirmButton = false;
-        CurrentPage = 1;
-        TotalPages = 0;
     }
 
     [RelayCommand]
     private void ReachedEnd()
     {
-        ShowConfirmButton = true;
+        // No longer needed - button is always visible
     }
 
     private async Task SaveInitialProgressAsync()
@@ -247,7 +220,7 @@ public partial class SurveyViewModel(
             StartedAt = DateTime.UtcNow,
             LastUpdatedAt = DateTime.UtcNow,
             LanguageCode = TranslationService.CurrentLanguageCode,
-            CurrentPage = CurrentPage,
+            CurrentPage = 1,  // No longer used but kept for compatibility
             QuestionOrderJson = System.Text.Json.JsonSerializer.Serialize(questionOrder),
             AnswersJson = System.Text.Json.JsonSerializer.Serialize(answers)
         };
@@ -371,13 +344,7 @@ public partial class SurveyViewModel(
                 index++;
             }
 
-            // Restore page state
-            TotalPages = (int)Math.Ceiling((double)AllQuestions.Count / QuestionsPerPage);
-            CurrentPage = Math.Clamp(progress.CurrentPage, 1, TotalPages);
-            UpdateCurrentPageQuestions();
-            UpdatePageNavigation();
-
-            UpdateQuestionLabel(CurrentPage);
+            UpdateQuestionLabel();
 
             for (int i = 0; i < AllQuestions.Count; i++)
             {
@@ -386,7 +353,6 @@ public partial class SurveyViewModel(
             }
 
             Console.WriteLine($"[SurveyViewModel] ✅ Progress restored successfully");
-            Console.WriteLine($"[SurveyViewModel]   Current Page: {CurrentPage} of {TotalPages}");
             Console.WriteLine($"[SurveyViewModel]   Answered Questions: {answers.Count}");
         }
         catch (Exception ex)
@@ -413,12 +379,12 @@ public partial class SurveyViewModel(
         }
     }
 
-    private void UpdateQuestionLabel(int currentPage)
+    private void UpdateQuestionLabel()
     {
         var question = TranslationService.GetString("Question", "question");
         var of = TranslationService.GetString("Of", "of");
 
-        QuestionOf = $"{question} {currentPage} {of} {TranslationService.TotalQuestions}";
+        QuestionOf = $"{question} 1 {of} {TranslationService.TotalQuestions}";
     }
 
     [RelayCommand]
@@ -432,75 +398,6 @@ public partial class SurveyViewModel(
 
         if (result)
             await NavBack(Routes.WelcomePage);
-    }
-
-    private void UpdateCurrentPageQuestions()
-    {
-        CurrentPageQuestions.Clear();
-
-        int startIndex = (CurrentPage - 1) * QuestionsPerPage;
-        int endIndex = Math.Min(startIndex + QuestionsPerPage, AllQuestions.Count);
-
-        for (int i = startIndex; i < endIndex; i++)
-        {
-            CurrentPageQuestions.Add(AllQuestions[i]);
-        }
-
-        // Update page indicator
-        var pageText = TranslationService.GetString("Page", "Page");
-        var ofText = TranslationService.GetString("Of", "of");
-        PageIndicator = $"{pageText} {CurrentPage} {ofText} {TotalPages}";
-
-        // Show Finish button only on last page
-        ShowConfirmButton = (CurrentPage == TotalPages);
-    }
-
-    private void UpdatePageNavigation()
-    {
-        CanGoPrevious = CurrentPage > 1;
-        CanGoNext = CurrentPage < TotalPages;
-    }
-
-    [RelayCommand]
-    private async Task NextPageAsync()
-    {
-        if (CurrentPage >= TotalPages) return;
-
-        CurrentPage++;
-        UpdateCurrentPageQuestions();
-        UpdatePageNavigation();
-
-        // Auto-save current page
-        try
-        {
-            await SurveyProgressService.UpdateCurrentPageAsync(CurrentPage);
-            Console.WriteLine($"[SurveyViewModel] Progress saved - moved to page {CurrentPage}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[SurveyViewModel] ⚠️ Failed to save page progress: {ex.Message}");
-        }
-    }
-
-    [RelayCommand]
-    private async Task PreviousPageAsync()
-    {
-        if (CurrentPage <= 1) return;
-
-        CurrentPage--;
-        UpdateCurrentPageQuestions();
-        UpdatePageNavigation();
-
-        // Auto-save current page
-        try
-        {
-            await SurveyProgressService.UpdateCurrentPageAsync(CurrentPage);
-            Console.WriteLine($"[SurveyViewModel] Progress saved - moved to page {CurrentPage}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[SurveyViewModel] ⚠️ Failed to save page progress: {ex.Message}");
-        }
     }
 
     [RelayCommand]
@@ -528,18 +425,9 @@ public partial class SurveyViewModel(
                 TranslationService.GetString("PleaseAnswerAllQuestions", "Please answer all questions."),
                 TranslationService.GetString("OK", "OK"));
 
-            // Navigate to the page containing the first unanswered question
+            // Scroll to the first unanswered question
             var index = AllQuestions.IndexOf(firstUnanswered);
-            var pageWithUnanswered = (index / QuestionsPerPage) + 1;
-            
-            if (pageWithUnanswered != CurrentPage)
-            {
-                CurrentPage = pageWithUnanswered;
-                UpdateCurrentPageQuestions();
-                UpdatePageNavigation();
-            }
-
-            WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(index % QuestionsPerPage));
+            WeakReferenceMessenger.Default.Send(new ScrollToQuestionMessage(index));
             return;
         }
 

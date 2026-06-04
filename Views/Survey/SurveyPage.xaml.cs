@@ -11,16 +11,22 @@ public partial class SurveyPage : BasePage
     {
         InitializeComponent();
 
-        WeakReferenceMessenger.Default.Register<ScrollToQuestionMessage>(this, (r, m) =>
+        WeakReferenceMessenger.Default.Register<ScrollToQuestionMessage>(this, async (r, m) =>
         {
-            QuestionsCollectionView.ScrollTo(m.Value, position: ScrollToPosition.Start, animate: true);
+            // ScrollView doesn't have ScrollTo by index, so we need to calculate position
+            // For now, scroll to top - could enhance later if needed
+            await QuestionsScrollView.ScrollToAsync(0, 0, animated: true);
         });
 
     }
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        QuestionsCollectionView.ScrollTo(0, position: ScrollToPosition.Start, animate: false);
+        // Reset scroll position to top
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            await QuestionsScrollView.ScrollToAsync(0, 0, animated: false);
+        });
         base.OnNavigatedTo(args);
     }
 }

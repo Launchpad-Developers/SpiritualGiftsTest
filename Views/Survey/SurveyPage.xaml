@@ -19,13 +19,13 @@
 >
 
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto,Auto,*">
+        <Grid RowDefinitions="Auto,*">
             <!-- BG -->
             <Image Source="mainpagebackground.jpg"
                 Aspect="Fill"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
-                Grid.RowSpan="3"
+                Grid.RowSpan="2"
                 IsVisible="{OnPlatform Android=true, iOS=false}" />
 
             <!-- NAVBAR -->
@@ -36,74 +36,30 @@
                 ShowRightButton="false"
                 BackgroundColor="{StaticResource ContentBackground}" />
 
-            <!-- NAVIGATION BAR -->
-            <Grid 
-                Grid.Row="1" 
-                ColumnDefinitions="Auto,*,Auto"
-                Padding="{OnIdiom Phone='20,10', Tablet='40,20'}"
-                BackgroundColor="{StaticResource ContentBackground}">
-                
-                <!-- Previous Button -->
-                <Button 
-                    Grid.Column="0"
-                    Text="&lt; Previous"
-                    Command="{Binding PreviousPageCommand}"
-                    IsEnabled="{Binding CanGoPrevious}"
-                    BackgroundColor="{StaticResource AzureBlue}"
-                    TextColor="White"
-                    HeightRequest="{OnIdiom Phone=40, Tablet=60}"
-                    WidthRequest="{OnIdiom Phone=120, Tablet=180}"
-                    FontSize="{OnIdiom Phone=16, Tablet=24}"
-                    CornerRadius="{OnIdiom Phone=20, Tablet=30}"
-                    Margin="5,0" />
-
-                <!-- Page Indicator -->
-                <Label 
-                    Grid.Column="1"
-                    Text="{Binding PageIndicator}"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    FontSize="{OnIdiom Phone=18, Tablet=28}"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource TextPrimary}" />
-
-                <!-- Next Button -->
-                <Button 
-                    Grid.Column="2"
-                    Text="Next &gt;"
-                    Command="{Binding NextPageCommand}"
-                    IsEnabled="{Binding CanGoNext}"
-                    BackgroundColor="{StaticResource AzureBlue}"
-                    TextColor="White"
-                    HeightRequest="{OnIdiom Phone=40, Tablet=60}"
-                    WidthRequest="{OnIdiom Phone=120, Tablet=180}"
-                    FontSize="{OnIdiom Phone=16, Tablet=24}"
-                    CornerRadius="{OnIdiom Phone=20, Tablet=30}"
-                    Margin="5,0" />
-            </Grid>
-
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
                 <BoxView BackgroundColor="{StaticResource ContentBackground}" />
 
-                <CollectionView
-                    x:Name="QuestionsCollectionView"
-                    ItemsSource="{Binding CurrentPageQuestions}"
+                <ScrollView
+                    x:Name="QuestionsScrollView"
                     VerticalOptions="Fill"
                     HorizontalOptions="Fill">
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:QuestionViewModel">
-                            <c:QuestionView Question="{Binding .}">
-                                <c:QuestionView.Margin>
-                                    <MultiBinding Converter="{StaticResource ItemMarginConverter}">
-                                        <Binding Path="IsFirst" />
-                                        <Binding Path="IsLast" />
-                                    </MultiBinding>
-                                </c:QuestionView.Margin>
-                            </c:QuestionView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    <VerticalStackLayout
+                        BindableLayout.ItemsSource="{Binding AllQuestions}"
+                        Spacing="0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:QuestionViewModel">
+                                <c:QuestionView Question="{Binding .}">
+                                    <c:QuestionView.Margin>
+                                        <MultiBinding Converter="{StaticResource ItemMarginConverter}">
+                                            <Binding Path="IsFirst" />
+                                            <Binding Path="IsLast" />
+                                        </MultiBinding>
+                                    </c:QuestionView.Margin>
+                                </c:QuestionView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </ScrollView>
 
                 <!-- Top fade -->
                 <BoxView
@@ -139,7 +95,6 @@
                     HorizontalOptions="Fill"
                     VerticalOptions="End"
                     BackgroundColor="{StaticResource EmeraldGreen}"
-                    IsVisible="{Binding ShowConfirmButton}"
                     Text="{Binding ContinueText}"
                     TextColor="White"
                     Margin="{OnIdiom Phone='80,40', Tablet='160,80'}"
@@ -149,8 +104,21 @@
                     CornerRadius="{OnIdiom Phone=25, Tablet=40}" />
             </Grid>
             
-            <ContentView x:Name="ActIndBackground" BackgroundColor="#222222" Opacity="0.65" Grid.RowSpan="3" IsVisible="{Binding IsLoading}" />
-            <StackLayout Orientation="Vertical" IsVisible="{Binding IsLoading}" WidthRequest="300" HeightRequest="100" HorizontalOptions="Center" VerticalOptions="Center">
+            <ContentView x:Name="ActIndBackground" 
+                BackgroundColor="#222222" 
+                Opacity="0.65" 
+                Grid.Row="0"
+                Grid.RowSpan="2" 
+                IsVisible="{Binding IsLoading}" />
+            <StackLayout 
+                Orientation="Vertical" 
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsLoading}" 
+                WidthRequest="300" 
+                HeightRequest="100" 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center">
                 <ActivityIndicator IsRunning="True" Color="{StaticResource WhiteSmoke}" />
                 <Label Text="{Binding LoadingText}" HorizontalOptions="Center" TextColor="{StaticResource WhiteSmoke}" />
             </StackLayout>
