@@ -1,0 +1,202 @@
+# SpiritualGiftsSurvey_Build_Commands.txt
+
+# ============================================================================
+# Spiritual Gifts Survey - Common Build, Debug, Simulator, Device and Release Commands
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# STEP 1 - Clean everything and restore packages
+# ----------------------------------------------------------------------------
+
+rm -rf bin obj
+
+dotnet restore
+
+# ----------------------------------------------------------------------------
+# STEP 2 - List available simulators
+# ----------------------------------------------------------------------------
+
+xcrun simctl list devices available
+
+# ----------------------------------------------------------------------------
+# STEP 3 - Boot simulator
+# ----------------------------------------------------------------------------
+
+xcrun simctl boot <SIMULATOR_UDID>
+
+# ----------------------------------------------------------------------------
+# STEP 4 - Erase simulator state
+# ----------------------------------------------------------------------------
+
+xcrun simctl erase all
+
+# ----------------------------------------------------------------------------
+# DEBUG BUILD - iOS Simulator
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-t:Run 
+-f net10.0-ios 
+-c Debug 
+-p:RuntimeIdentifier=iossimulator-arm64 
+-p:_DeviceName=:v2:udid=<SIMULATOR_UDID>
+
+# ----------------------------------------------------------------------------
+# RELEASE BUILD - iOS Simulator
+# Use this first when reproducing Release-only crashes.
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-t:Run 
+-f net10.0-ios 
+-c Release 
+-p:RuntimeIdentifier=iossimulator-arm64 
+-p:_DeviceName=:v2:udid=<SIMULATOR_UDID>
+
+# ----------------------------------------------------------------------------
+# DEBUG BUILD - Physical Device
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Debug 
+-p:RuntimeIdentifier=ios-arm64
+
+# ----------------------------------------------------------------------------
+# RELEASE BUILD - Physical Device
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Release 
+-p:RuntimeIdentifier=ios-arm64
+
+# ----------------------------------------------------------------------------
+# RELEASE PUBLISH - Physical Device
+# ----------------------------------------------------------------------------
+
+dotnet publish SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Release 
+-p:RuntimeIdentifier=ios-arm64
+
+# ----------------------------------------------------------------------------
+# TESTFLIGHT IPA BUILD
+# Primary production deployment command.
+# ----------------------------------------------------------------------------
+
+dotnet publish SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Release 
+-p:RuntimeIdentifier=ios-arm64 
+-p:CodesignKey="iPhone Distribution: William Smith (4A4PH6653Y)" 
+-p:CodesignProvision="SGS Distribution 080125" 
+-p:BuildIpa=true 
+-p:PublishDir=/Users/willsmith/Projects/Artifacts/iOS
+
+# ----------------------------------------------------------------------------
+# ANDROID DEBUG BUILD
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-android 
+-c Debug
+
+# ----------------------------------------------------------------------------
+# ANDROID RELEASE BUILD
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-android 
+-c Release
+
+# ----------------------------------------------------------------------------
+# ANDROID APK
+# ----------------------------------------------------------------------------
+
+dotnet publish SpiritualGiftsSurvey.csproj 
+-f net10.0-android 
+-c Release 
+-p:AndroidPackageFormat=apk
+
+# ----------------------------------------------------------------------------
+# ANDROID AAB
+# ----------------------------------------------------------------------------
+
+dotnet publish SpiritualGiftsSurvey.csproj 
+-f net10.0-android 
+-c Release 
+-p:AndroidPackageFormat=aab 
+-p:AndroidKeyStore=True 
+-p:AndroidSigningKeyStore="/Users/willsmith/Projects/Launchpad/Keys/SpiritualGifts.keystore" 
+-p:AndroidSigningStorePass="11235813" 
+-p:AndroidSigningKeyAlias="SpiritualGifts" 
+-p:AndroidSigningKeyPass="11235813" 
+-p:PublishDir=/Users/willsmith/Projects/Artifacts/Android
+
+
+# ----------------------------------------------------------------------------
+# INSTALL APK TO DEVICE
+# ----------------------------------------------------------------------------
+
+adb install -r <APK_PATH>
+
+# ----------------------------------------------------------------------------
+# SIMULATOR LOG STREAM
+# Watch only SGS logs.
+# ----------------------------------------------------------------------------
+
+xcrun simctl spawn booted log stream 
+--predicate 'process == "SpiritualGiftsSurvey"'
+
+# ----------------------------------------------------------------------------
+# DEVICE LOG STREAM
+# ----------------------------------------------------------------------------
+
+log stream --level debug
+
+# ----------------------------------------------------------------------------
+# VERBOSE RELEASE BUILD
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Release 
+-v:detailed
+
+# ----------------------------------------------------------------------------
+# GENERATE BINARY LOG
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Release 
+-bl
+
+# ----------------------------------------------------------------------------
+# CAPTURE BUILD OUTPUT
+# ----------------------------------------------------------------------------
+
+dotnet build SpiritualGiftsSurvey.csproj 
+-f net10.0-ios 
+-c Release \
+
+> build.log 2>&1
+
+# ----------------------------------------------------------------------------
+# SEARCH FOR LINKER/TRIM WARNINGS
+# ----------------------------------------------------------------------------
+
+grep IL20 build.log
+grep warning build.log
+grep error build.log
+
+# ----------------------------------------------------------------------------
+# LLDB ATTACH
+# ----------------------------------------------------------------------------
+
+lldb
+
+process attach --name SpiritualGiftsSurvey
+
+bt

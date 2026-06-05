@@ -35,12 +35,28 @@
 	<key>CFBundleName</key>
 	<string>Gift Survey</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>7</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>MinimumOSVersion</key>
 	<string>15.0</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Spiritual Gifts Survey does not access your calendar. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Spiritual Gifts Survey does not access your contacts. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Spiritual Gifts Survey does not record audio. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Spiritual Gifts Survey does not access your music library. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Spiritual Gifts Survey does not integrate with Siri. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Spiritual Gifts Survey does not use your location. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Spiritual Gifts Survey does not use your location. This permission is only requested if required by a third-party library used by the application.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Spiritual Gifts Survey does not use Bluetooth. This permission is only requested if required by a third-party library used by the application.</string>
 </dict>
 </plist>
