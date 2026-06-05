@@ -26,7 +26,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.1</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -48,15 +48,18 @@
     <AndroidLinkMode Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">SdkOnly</AndroidLinkMode>
   </PropertyGroup>
 
-  <!-- Workaround: iOS 26.5 + MAUI 10.0.20 startup crash in _UISceneInterfaceProtectionClientComponent.
-       With SdkOnly trimming, the linker strips ObjC class/protocol registrations in Microsoft.iOS.dll
-       that the Mono GC bridge needs to keep UIWindowScene wrapper objects alive long enough for iOS 26's
-       Swift @Observable trait system to access them at scene startup.
-       Preserving Microsoft.iOS.dll as a trim root fixes the crash while keeping IPA size reasonable.
-       Remove this block once a MAUI workload update resolves the underlying issue. -->
-  <ItemGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
-    <TrimmerRootAssembly Include="Microsoft.iOS" />
-  </ItemGroup>
+  <!-- iOS 26.5 + MAUI 10.0.x startup crash workaround: UseInterpreter changes the Mono GC bridge's
+       object tracking behavior so UIWindowScene wrapper objects stay alive through iOS 26's new
+       Swift @Observable scene initialization. Using SdkOnly (not None) keeps builds fast and IPA
+       size reasonable. Remove once a MAUI workload update resolves the underlying ObjC bridge issue. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <UseInterpreter>True</UseInterpreter>
+  </PropertyGroup>
+
+  <!-- Workaround: IBTool does not create its manifest output directory before writing to it -->
+  <Target Name="CreateIBToolManifestDir" BeforeTargets="IBTool" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <MakeDir Directories="$(IntermediateOutputPath)ibtool-manifests" />
+  </Target>
 
   <!-- Exclude test project files from compilation -->
   <ItemGroup>
@@ -132,12 +135,12 @@
 
 
   <ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="14.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.23.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
