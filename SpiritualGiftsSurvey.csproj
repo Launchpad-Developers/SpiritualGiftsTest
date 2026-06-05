@@ -36,6 +36,11 @@
     
 	</PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-ios|AnyCPU'">
+    <CreatePackage>false</CreatePackage>
+    <MtouchLink>SdkOnly</MtouchLink>
+  </PropertyGroup>
+
   <!-- Trimming Configuration for Release Builds -->
   <!-- See: docs/release-safe-patterns.md -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -50,13 +55,16 @@
        1. Fixes the iOS 26 _UISceneInterfaceProtectionClientComponent startup crash (different
           GC bridge object tracking path keeps UIWindowScene wrappers alive)
        2. Dramatically reduces build time (no AOT = no multi-minute compile per DLL)
-       3. Keeps IPA size reasonable (~30-35MB vs 80MB with full AOT + no linking)
+       3. Keeps IPA size reasonable (~25MB vs 80MB with full AOT + no linking)
        MtouchLink=None avoids the linker overhead that adds time without meaningful size benefit
        when the app assembly is already interpreted (not AOT'd).
+       CreatePackage=false skips IPA creation on dotnet build; use dotnet publish or -p:BuildIpa=true
+       to produce the IPA explicitly.
        Remove UseInterpreter once a MAUI workload update resolves the underlying ObjC bridge issue. -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
     <UseInterpreter>True</UseInterpreter>
     <MtouchLink>None</MtouchLink>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
   <!-- Workaround: IBTool does not create its manifest output directory before writing to it -->
