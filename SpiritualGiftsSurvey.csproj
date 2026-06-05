@@ -48,6 +48,16 @@
     <AndroidLinkMode Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">SdkOnly</AndroidLinkMode>
   </PropertyGroup>
 
+  <!-- Workaround: iOS 26.5 + MAUI 10.0.20 startup crash in _UISceneInterfaceProtectionClientComponent.
+       With SdkOnly trimming, the linker strips ObjC class/protocol registrations in Microsoft.iOS.dll
+       that the Mono GC bridge needs to keep UIWindowScene wrapper objects alive long enough for iOS 26's
+       Swift @Observable trait system to access them at scene startup.
+       Preserving Microsoft.iOS.dll as a trim root fixes the crash while keeping IPA size reasonable.
+       Remove this block once a MAUI workload update resolves the underlying issue. -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <TrimmerRootAssembly Include="Microsoft.iOS" />
+  </ItemGroup>
+
   <!-- Exclude test project files from compilation -->
   <ItemGroup>
     <Compile Remove="SpiritualGiftsSurvey.Tests\**\*.cs" />
