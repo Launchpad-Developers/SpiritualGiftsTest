@@ -41,19 +41,22 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
       <PublishTrimmed>true</PublishTrimmed>
 
-      <!-- Re-enable linker -->
+      <!-- Android: Use SdkOnly linking (preserves app assembly) -->
       <MtouchLink>SdkOnly</MtouchLink>
-    
-    <!-- Android: Use SdkOnly linking (preserves app assembly) -->
-    <AndroidLinkMode Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">SdkOnly</AndroidLinkMode>
+      <AndroidLinkMode Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">SdkOnly</AndroidLinkMode>
   </PropertyGroup>
 
-  <!-- iOS 26.5 + MAUI 10.0.x startup crash workaround: UseInterpreter changes the Mono GC bridge's
-       object tracking behavior so UIWindowScene wrapper objects stay alive through iOS 26's new
-       Swift @Observable scene initialization. Using SdkOnly (not None) keeps builds fast and IPA
-       size reasonable. Remove once a MAUI workload update resolves the underlying ObjC bridge issue. -->
+  <!-- iOS Release: UseInterpreter skips AOT compilation of the app assembly, which:
+       1. Fixes the iOS 26 _UISceneInterfaceProtectionClientComponent startup crash (different
+          GC bridge object tracking path keeps UIWindowScene wrappers alive)
+       2. Dramatically reduces build time (no AOT = no multi-minute compile per DLL)
+       3. Keeps IPA size reasonable (~30-35MB vs 80MB with full AOT + no linking)
+       MtouchLink=None avoids the linker overhead that adds time without meaningful size benefit
+       when the app assembly is already interpreted (not AOT'd).
+       Remove UseInterpreter once a MAUI workload update resolves the underlying ObjC bridge issue. -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
     <UseInterpreter>True</UseInterpreter>
+    <MtouchLink>None</MtouchLink>
   </PropertyGroup>
 
   <!-- Workaround: IBTool does not create its manifest output directory before writing to it -->
